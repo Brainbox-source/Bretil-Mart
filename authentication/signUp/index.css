@@ -1,0 +1,103 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+margin: 100px;
+float: right;
+font-family: 'AEONIK', sans-serif;
+display: flex;
+justify-content: center;
+align-items: center;
+height: 100vh;
+background-color: #f3f3f3;
+/* background-image: none; */
+background-size: cover;
+background-position: center;
+}
+
+.form-container {
+background-color: rgba(0, 0, 0, 0.8);
+color: white;
+padding: 20px 30px;
+border-radius: 10px;
+width: 400px;
+box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.form-container h1 {
+font-size: 24px;
+margin-bottom: 20px;
+text-align: center;
+}
+
+.form-group {
+margin-bottom: 15px;
+}
+
+.form-group label {
+display: block;
+font-size: 14px;
+margin-bottom: 5px;
+}
+
+.form-group input {
+width: 100%;
+padding: 10px;
+font-size: 14px;
+border: 1px solid #ccc;
+border-radius: 5px;
+}
+
+.form-group input[type="checkbox"] {
+display: inline-block;
+width: auto;
+margin-right: 10px;
+}
+
+.form-group a {
+color: #00bcd4;
+text-decoration: none;
+}
+
+.form-group a:hover {
+text-decoration: underline;
+}
+
+.btn {
+background-color: #00bcd4;
+color: white;
+padding: 10px;
+font-size: 16px;
+border: none;
+border-radius: 5px;
+width: 100%;
+cursor: pointer;
+}
+
+.btn:hover {
+background-color: #0097a7;
+}
+
+.alternative {
+text-align: center;
+margin-top: 20px;
+}
+
+.google-btn {
+background-image: url(google.svg);
+background-color: none;
+color: black;
+border: 1px solid #ccc;
+padding: 10px;
+width: 100%;
+border-radius: 5px;
+font-size: 16px;
+cursor: pointer;
+}
+
+/* .google-btn:hover {
+background-color: #f3f3f3;
+} */
