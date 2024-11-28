@@ -63,8 +63,11 @@ document.getElementById("signupForm").addEventListener('submit', function(event)
     console.log('Last Name:', lastName);
     console.log('Phone:', phone);
     // Avoid logging passwords in production:
-    alert('user created');
-    window.location.href =  '../../public/index.html'
+
+    setTimeout(()=>{
+      window.location.href =  '../../public/index.html'
+
+    }, 8000)
   });
   
   // Email validation function
