@@ -1,14 +1,117 @@
 <!DOCTYPE html>
 <html lang="en">
 
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Bretil Mart</title>
-  </head>
+<head>
+  <!-- Meta tags for character encoding and responsive design -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <body>
-    <h1>Welcome to Bretil Mart</h1>
-  </body>
+  <!-- Title of the page as seen in the browser tab -->
+  <title>Login - Bretil Mart. Delivering The Future</title>
+
+  <!-- Favicon link to display the logo on the browser tab -->
+  <link rel="icon" href="logo.png"> <!-- Link to the title icon -->
+
+  <!-- Link to bootdrtapcdn - fontawesome -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <!-- Link to external stylesheet for more visual appeal -->
+  <link rel="stylesheet" href="styles.css">
+
+  <!-- External JavaScript file for handling form authentication -->
+  <script src="script.js" type="module" defer></script>
+</head>
+
+<body>
+  <main>
+    <!-- Container for the log In Images -->
+    <div class="deliveryPicsContainer">
+      <div class="slideShowContainer">
+        <div class="mySlides fade">
+          <img src="delivery-man-giving-groceries-order-customer1.png" class="slideShowImg" alt="">
+          <img src="delivery-man-giving-groceries2.jpg" class="slideShowImg" alt="">
+          <img src="delivery-man-giving-groceries3.jpg" class="slideShowImg" alt="">
+          <img src="delivery-man-giving-groceries4.jpg" class="slideShowImg" alt="">
+          <img src="delivery-man-giving-groceries5.jpg" class="slideShowImg" alt="">
+          <img src="delivery-man-giving-groceries6.jpg" class="slideShowImg" alt="">
+        </div>
+      </div>
+    </div>
+
+    <!-- Main container for the log In page -->
+    <div class="loginContainer">
+
+      <!-- Section for displaying a welcome message and logo -->
+      <div class="welcomeBackContainer">
+        <img src="logo.png" class="bertilLogoImg" alt="Logo"> <!-- Logo image for the website -->
+        <h1 class="welcomeBackHeading">Welcome back!</h1> <!-- Heading to greet returning users -->
+        <p class="logInParagraph">Log In to your account.</p> <!-- Instruction text for logging in -->
+      </div>
+
+      <!-- Form container for the login credentials -->
+      <form id="loginForm">
+        <div class="logInCredentials">
+            <div class="inputField emailAndPassword">
+                <label for="email">Email</label>
+                <br>
+                <input type="email" id="email" name="email" placeholder="Email address" required>
+                <i class="fa fa-envelope-o"></i>
+            </div>         
+    
+            <div class="inputField emailAndPassword">
+                <label for="password">Password</label>
+                <br>
+                <input type="password" id="password" name="password" placeholder="Password" required>
+                <i class="fa fa-key" aria-hidden="true"></i>
+                <span id="togglePassword" class="eye-icon"><i class="fa fa-eye-slash" aria-hidden="true"></i></span>
+            </div>
+        </div>
+    
+        <!-- Loading indicator container -->
+        <div id="loading" class="loadingIndicator">
+            <div class="spinner"></div>
+        </div>
+    
+        <div class="accountOptions">
+            <div class="inputField rememberMe">
+                <input type="checkbox" id="remember" name="remember">
+                <label for="remember">Remember me</label>
+            </div>
+    
+            <div class="forgotPassword">
+                <a href="../authentication/forgetPassword/index.html" class="forgotPasswordLink">Forgot password?</a>
+            </div>
+        </div>
+    
+        <button type="submit" class="loginBtn">Log In</button>
+    
+        <div class="createAnAccountContainer">
+            <p class="dontHaveAnAccount">Don't have an account? <a href="../authentication/signUp/index.html" class="signUpLink">Sign Up</a></p>
+        </div>
+    
+        <div class="alternativeLogin">
+            <div class="orOption">
+                <hr><span>OR</span><hr>
+            </div>
+            <button type="button" id="btn">
+                <img src="google.svg" alt="Google Login"> Continue with Google
+            </button>
+        </div>
+    </form> 
+    
+      <!-- Error message container -->
+    <div id="errorMessageContainer" class="error-message-container" style="display: none;">
+      <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+      <span id="errorMessage"></span>
+    </div>
+
+    <div id="googleErrorMessageContainer" class="google-error-message-container" style="display: none;">
+      <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+      <span id="googleErrorMessage"></span>
+    </div>
+
+    </div>
+  </main>
+</body>
 
 </html>

@@ -1,0 +1,261 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'AEONIK', sans-serif;
+    background-color: #dcdcdc29;
+}
+
+main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.deliveryPicsContainer {
+    width: 64%;
+    border: 1px solid darkgreen;
+    text-align: center;
+    place-content: center;
+    height: 100vh;
+    background: linear-gradient(180deg, #003700, #e37d00);
+}
+
+/* Container for the slides */
+.slideShowContainer {
+    position: relative;
+    width: 80%;
+    margin: auto;
+    overflow: hidden;
+}
+
+/* The container for the images, no need for flex here */
+.mySlides {
+    position: relative;
+    width: 100%;
+    height: 60vh; /* Optional: Adjust the height as per your needs */
+}
+
+/* All images in the slideshow */
+.slideShowImg {
+    width: 100%;
+    display: block;
+    position: absolute; /* Stack the images on top of each other */
+    top: 0; /* Align the images at the top of the container */
+    left: 0; /* Align the images to the left */
+    opacity: 0; /* Initially hide all images */
+    transition: opacity 2s ease-in-out; /* Smooth fade transition */
+    border-radius: 2em;
+}
+
+
+.loginContainer {
+    width: 45%;
+    padding: 3%;
+    margin-top: -4.5%;
+}
+
+.welcomeBackContainer {
+    margin: 6% 0;
+    line-height: 1.4;
+}
+
+.bertilLogoImg {
+    width: 20%;
+    margin: 2% 0;
+}
+
+.welcomeBackHeading {
+    font-size: 2em;
+    font-weight: 800;
+}
+
+.logInParagraph {
+    font-size: 0.85em;
+    color: #0000005c;
+    font-weight: 600;
+}
+
+.emailAndPassword {
+    position: relative;
+}
+
+.fa-envelope-o, .fa-key {
+    position: absolute;
+    left: 0.8em;
+    top: 2.1em;
+    font-size: 1.2em;
+    color: darkorange;
+}
+
+.eye-icon {
+    position: absolute;
+    right: 0.8em;
+    top: 2.1em;
+    font-size: 1.2em;
+    color: darkorange;
+}
+
+label:nth-child(1) {
+    color: #000000cc;
+    font-size: 0.95em;
+}
+
+#email, #password {
+    width: 100%;
+    height: 6vh;
+    margin: 0.8em 0 1.2em 0;
+    border-radius: 0.5em;
+    outline: none;
+    border: 1px solid #00000077;
+    padding: 0 3.6em;
+}
+
+#email::placeholder, #password::placeholder {
+    font-size: 0.92em;
+    color: #0000005c;
+    font-weight: 600;
+}
+
+#remember[type="checkbox"] {      
+    cursor: pointer;
+    accent-color: darkgreen;
+}
+
+.accountOptions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0.3em 0;
+}
+
+a {
+    text-decoration: none;
+}
+
+.forgotPasswordLink {
+    color: #005700;
+    font-weight: 700;
+}
+
+.loginBtn {
+    width: 100%;
+    height: 5vh;
+    border-radius: 0.5em;
+    border: none;
+    background-color: darkorange;
+    color: darkgreen;
+    font-size: 1.05em;
+    font-weight: 700;
+    margin: 1.2em 0;
+    cursor: pointer;
+}
+
+.createAnAccountContainer {
+    text-align: center;
+}
+
+.dontHaveAnAccount {
+    color: #0000005c;
+    font-weight: 600;
+}
+
+.signUpLink {
+    color: #005700;
+    font-weight: 700;
+}
+
+.orOption {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #00000040;
+    gap: 1em;
+    margin: 0.8em 0;
+    font-size: 0.9em;
+}
+
+hr {
+    width: 100%;
+}
+
+#btn {
+    display: flex;
+    align-items: center;
+    margin: auto;
+    gap: 0.5em;
+    background-color: #fff;
+    padding: 0.5em 1em;
+    border: 1px solid #00000040;
+    border-radius: 0.35em;
+    font-size: 0.93em;
+    cursor: pointer;
+}
+
+/* Loading Indicator */
+.loadingIndicator {
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    z-index: 1000;
+    backdrop-filter: blur(0.1em);
+    background-color: #00000027;
+    width: 100%;
+    height: 100vh;
+    place-content: center;
+    align-items: center;
+}
+
+.loadingIndicator .spinner {
+    border: 4px solid darkgreen;
+    border-top: 4px solid darkorange;
+    border-radius: 50%;
+    width: 3.5em;
+    height: 3.5em;
+    animation: spin 1s linear infinite;
+}
+
+/* Animation for the spinner */
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Disable the button when loading */
+.loginBtn.loading {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+/* styling to display an error for invalid credentials  */
+.error-message-container, .google-error-message-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #b52e31; /* Red color for error */
+    font-size: 0.8em;
+    font-weight: 600;
+    margin-top: 1em;
+    padding: 1em 0;
+    background-color: #fdd;
+    border-radius: 0.5em;
+    border: 1px solid #b52e31;
+    width: 100%;
+    text-align: center;
+}
+
+.error-message-container i {
+    margin-right: 0.4em;
+    font-size: 1.3em;
+}
+
+.google-error-message-container i {
+    margin-right: 0.4em;
+    font-size: 1.3em;   
+}
