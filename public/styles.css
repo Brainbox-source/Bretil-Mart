@@ -243,11 +243,7 @@ hr {
     color: #b52e31; /* Red color for error */
     font-size: 0.8em;
     font-weight: 600;
-    margin-top: 1em;
-    padding: 1em 0;
-    background-color: #fdd;
-    border-radius: 0.5em;
-    border: 1px solid #b52e31;
+    transform: translateY(1em);
     width: 100%;
     text-align: center;
 }

@@ -27,10 +27,17 @@
         font-size: 0.95em;
     }
 
+    /* styling to display an error for invalid credentials  */
+    .error-message-container {
+        transform: translateY(0);
+        margin-top: 1em;
+    }
+
     .google-error-message-container {
         font-size: 0.7em;
         align-items: start;
-        margin-top: 0.9em;
+        transform: translateY(0);
+        margin-top: 1em;
         padding: 0.6em 0.8em;
     }
 
@@ -66,10 +73,15 @@
         height: 43px;
     }
 
+    /* styling to display an error for invalid credentials  */
+    .error-message-container {
+        transform: translateY(1em);
+    }
+
     .google-error-message-container {
         font-size: 0.9em;
         align-items: start;
-        margin-top: 0.9em;
+        transform: translateY(1em);
         padding: 0.6em 0.8em;
     }
 
@@ -95,11 +107,16 @@
         place-content: center;
         background-color: #fffffff3;
     }
+    
+    /* styling to display an error for invalid credentials  */
+    .error-message-container {
+        transform: translateY(1.5em);
+    }
 
     .google-error-message-container {
         font-size: 0.9em;
         align-items: start;
-        margin-top: 0.9em;
+        transform: translateY(1.5em);
         padding: 0.6em 0.8em;
     }
 
@@ -125,10 +142,15 @@
         background-color: #fffffff3;
     }
 
+    /* styling to display an error for invalid credentials  */
+    .error-message-container {
+        transform: translateY(1.5em);
+    }
+
     .google-error-message-container {
         font-size: 0.9em;
         align-items: start;
-        margin-top: 0.9em;
+        transform: translateY(1.5em);
         padding: 0.6em 0.8em;
     }
 
