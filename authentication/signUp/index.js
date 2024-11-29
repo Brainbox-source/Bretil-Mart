@@ -10,7 +10,7 @@ async function loadCountries() {
         const countries = await response.json();
 
         // Clear existing options (if any)
-        countrySelect.innerHTML = '<option value="">Select your country</option>';
+        countrySelect.innerHTML = '<option value="">Country</option>';
 
         countries.forEach(country => {
             const countryName = country.name.common;
@@ -184,5 +184,41 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function hasSpecialCharacter(password) {
         return /[!@#$%^&*(),.?":{}|<>]/.test(password); // Checks if the password contains at least one special character
+    }
+});
+
+let currentSlide = 0; // Define the current slide variable
+
+const slides = document.querySelectorAll('.slideShowImg'); // Get all slide images
+const totalSlides = slides.length; // Get the total number of slides
+
+// Function to change the current slide based on the direction.
+const changeSlide = (direction) => {
+    // Hide the current slide
+    slides[currentSlide].style.opacity = 0;
+    
+    // Update the current slide index based on the direction
+    currentSlide += direction;
+
+    // If we're at the end or beginning of the slides, reset to loop
+    if (currentSlide >= totalSlides) {
+        currentSlide = 0;
+    } else if (currentSlide < 0) {
+        currentSlide = totalSlides - 1;
+    }
+
+    // Show the new current slide by setting opacity to 1
+    slides[currentSlide].style.opacity = 1;
+};
+
+// Automatically slide every 3 seconds
+setInterval(() => changeSlide(1), 3000);
+
+// Initially, set the opacity of all slides to 0 (hidden) except the first one
+slides.forEach((slide, index) => {
+    if (index !== 0) {
+        slide.style.opacity = 0;
+    } else {
+        slide.style.opacity = 1; // Show the first image
     }
 });

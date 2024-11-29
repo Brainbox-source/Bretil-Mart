@@ -5,57 +5,92 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign Up - Bretil Mart, Delivering the Future</title>
     <link rel="stylesheet" href="index.css">
+    <!-- Link to bootdrtapcdn - fontawesome -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="icon" href="logo.png">
     <script src="index.js" type="module" defer></script>
 </head>
 <body>
-    <div class="container">
-        <div class="form-container">
-            <h1>Sign Up</h1>
-            <form id="signupForm">
-                <div class="form-group">
-                    <label for="first-name">First Name</label>
-                    <input type="text" id="first-name" name="first-name" placeholder="Enter your first name" required>
-                </div>
-                <div class="form-group">
-                    <label for="last-name">Last Name</label>
-                    <input type="text" id="last-name" name="last-name" placeholder="Enter your last name" required>
-                </div>
-                <div class="form-group">
-                    <label for="country">Country</label>
-                    <select id="country" name="country" required>
-                        <option value="">Select your country</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="phone">Phone Number</label>
-                    <input type="tel" id="phone" name="phone" placeholder="Enter your phone number" required>
-                </div>
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" id="email" name="email" placeholder="Enter your email" required>
-                </div>
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <input type="password" id="password" name="password" placeholder="Enter your password" required>
-                </div>
-                <div class="form-group">
-                    <label for="confirm-password">Confirm Password</label>
-                    <input type="password" id="confirm-password" name="confirm-password" placeholder="Confirm your password" required>
-                </div>
-                <div class="form-group">
-                    <input type="checkbox" id="terms" name="terms" required>
-                    <label for="terms">I agree to all the <a href="#">terms and conditions</a>.</label>
-                </div>
-                <button type="submit" class="btn">Create Account</button>
-            </form>
-            <div class="alternative">
-                <p>Already have an account? <a href="#">Sign In</a></p>
-                <p>Or sign up with</p>
-                <button class="google-btn" type="submit">
-                    <img src="google.svg" alt=""> Continue with Google
-                </button>
-            </div>
+    <main>
+        <!-- Container for the log In Images -->
+    <div class="deliveryPicsContainer">
+        <div class="slideShowContainer">
+          <div class="mySlides fade">
+            <img src="man-taking-care-home-delivering-groceries_52683-102842.jpg" class="slideShowImg" alt="">
+            <img src="man-taking-care-home-delivering-groceries_52683-102845.jpg" class="slideShowImg" alt="">
+            <img src="man-taking-care-home-delivering-groceries_52683-102840.jpg" class="slideShowImg" alt="">
+            <img src="man-taking-care-home-delivering-groceries_52683-102843.jpg" class="slideShowImg" alt="">
+            <img src="delivery-man-giving-groceries-order-customer_23-2149950064.avif" class="slideShowImg" alt="">
+            <img src="man-taking-care-home-delivering-groceries_52683-10284799.jpg" class="slideShowImg" alt="">
+          </div>
         </div>
     </div>
+
+        <div class="container">
+            <!-- Main container for the log In page -->
+    <div class="loginContainer">
+
+        <!-- Section for displaying a welcome message and logo -->
+        <div class="welcomeBackContainer">
+          <img src="logo.png" class="bertilLogoImg" alt="Logo"> <!-- Logo image for the website -->
+          <h1 class="welcomeBackHeading">Sign Up</h1> <!-- Heading to greet returning users -->
+        </div>
+        
+            <div class="form-container">
+                <form id="signupForm">
+                    <div class="form-group">
+                        <label for="first-name">First Name: </label>
+                        <input type="text" id="first-name" name="first-name" placeholder="Enter your first name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="last-name">Last Name: </label>
+                        <input type="text" id="last-name" name="last-name" placeholder="Enter your last name" required>
+                    </div>
+                    
+                    </div>
+                    <div class="form-group formGroup">
+                        <label for="phone">Phone Number: </label>
+                        <div class="inputContainer">
+                            <input type="tel" id="phone" name="phone" placeholder="Enter your phone number" required>
+                            <select id="country" name="country" required>
+                                <option value="">Country</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group formGroup">
+                        <label for="email">Email: </label>
+                        <div class="inputContainer">
+                            <input type="email" id="email" class="inputField" name="email" placeholder="Enter your email" required>
+                            <i class="fa fa-envelope-o"></i>
+                        </div>
+                    </div>
+                    <div class="form-group formGroup">
+                        <label for="password">Password: </label>
+                        <div class="inputContainer">
+                            <input type="password" id="password" class="inputField" name="password" placeholder="Enter your Password" required>
+                            <i class="fa fa-key" aria-hidden="true"></i>
+                            <span id="togglePassword" class="eye-icon"><i class="fa fa-eye-slash" aria-hidden="true"></i></span>
+                        </div>                       
+                    </div>
+                    <div class="form-group formGroup">
+                        <label for="confirm-password">Confirm Password: </label>
+                        <div class="inputContainer">
+                            <input type="password" id="confirm-password" class="inputField" name="confirm-password" placeholder="Confirm your Password" required>
+                            <i class="fa fa-key" aria-hidden="true"></i>
+                            <span id="togglePassword" class="eye-icon"><i class="fa fa-eye-slash" aria-hidden="true"></i></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <input type="checkbox" id="terms" name="terms" required>
+                        <label for="terms">I agree to all the <a href="terms.html" class="terms">terms and conditions</a>.</label>
+                    </div>
+                    <button type="submit" class="btn">Create Account</button>
+                </form>
+                <div class="alternative">
+                    <p>Already have an account? <a href="../../public/index.html" class="signIn">Sign In</a></p>
+                </div>
+            </div>
+        </div>
+    </main>
 </body>
 </html>
