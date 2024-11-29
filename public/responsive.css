@@ -128,7 +128,7 @@
 @media screen and (min-width: 1101px) and (max-width: 1140px) {
     main {
         display: block;
-        background: linear-gradient(180deg, #e37d00, #003700);
+        background: linear-gradient(180deg, #003700, #e37d00);
     }
 
     .deliveryPicsContainer {
