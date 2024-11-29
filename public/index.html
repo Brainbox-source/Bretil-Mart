@@ -18,6 +18,9 @@
   <!-- Link to external stylesheet for more visual appeal -->
   <link rel="stylesheet" href="styles.css">
 
+  <!-- Link to external stylesheet for responsiveness -->
+  <link rel="stylesheet" href="responsive.css">
+
   <!-- External JavaScript file for handling form authentication -->
   <script src="script.js" type="module" defer></script>
 </head>
@@ -28,12 +31,12 @@
     <div class="deliveryPicsContainer">
       <div class="slideShowContainer">
         <div class="mySlides fade">
-          <img src="delivery-man-giving-groceries-order-customer1.png" class="slideShowImg" alt="">
-          <img src="delivery-man-giving-groceries2.jpg" class="slideShowImg" alt="">
-          <img src="delivery-man-giving-groceries3.jpg" class="slideShowImg" alt="">
-          <img src="delivery-man-giving-groceries4.jpg" class="slideShowImg" alt="">
-          <img src="delivery-man-giving-groceries5.jpg" class="slideShowImg" alt="">
-          <img src="delivery-man-giving-groceries6.jpg" class="slideShowImg" alt="">
+          <img src="man-taking-care-home-delivering-groceries_52683-102842.jpg" class="slideShowImg" alt="">
+          <img src="man-taking-care-home-delivering-groceries_52683-102845.jpg" class="slideShowImg" alt="">
+          <img src="man-taking-care-home-delivering-groceries_52683-102840.jpg" class="slideShowImg" alt="">
+          <img src="man-taking-care-home-delivering-groceries_52683-102843.jpg" class="slideShowImg" alt="">
+          <img src="delivery-man-giving-groceries-order-customer_23-2149950064.avif" class="slideShowImg" alt="">
+          <img src="man-taking-care-home-delivering-groceries_52683-10284799.jpg" class="slideShowImg" alt="">
         </div>
       </div>
     </div>
@@ -53,17 +56,19 @@
         <div class="logInCredentials">
             <div class="inputField emailAndPassword">
                 <label for="email">Email</label>
-                <br>
-                <input type="email" id="email" name="email" placeholder="Email address" required>
-                <i class="fa fa-envelope-o"></i>
-            </div>         
-    
+                <div class="inputContainer">
+                  <input type="email" id="email" name="email" placeholder="Email address" required>
+                  <i class="fa fa-envelope-o"></i>
+                </div>
+            </div> 
+
             <div class="inputField emailAndPassword">
                 <label for="password">Password</label>
-                <br>
-                <input type="password" id="password" name="password" placeholder="Password" required>
-                <i class="fa fa-key" aria-hidden="true"></i>
-                <span id="togglePassword" class="eye-icon"><i class="fa fa-eye-slash" aria-hidden="true"></i></span>
+                <div class="inputContainer">
+                  <input type="password" id="password" name="password" placeholder="Password" required>
+                  <i class="fa fa-key" aria-hidden="true"></i>
+                  <span id="togglePassword" class="eye-icon"><i class="fa fa-eye-slash" aria-hidden="true"></i></span>
+                </div>
             </div>
         </div>
     
@@ -75,7 +80,7 @@
         <div class="accountOptions">
             <div class="inputField rememberMe">
                 <input type="checkbox" id="remember" name="remember">
-                <label for="remember">Remember me</label>
+                <label for="remember" class="rememberMe">Remember me</label>
             </div>
     
             <div class="forgotPassword">

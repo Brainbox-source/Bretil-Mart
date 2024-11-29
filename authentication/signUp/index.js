@@ -67,7 +67,7 @@ document.getElementById("signupForm").addEventListener('submit', function(event)
     setTimeout(()=>{
       window.location.href =  '../../public/index.html'
 
-    }, 8000)
+    }, 6000)
   });
   
   // Email validation function
