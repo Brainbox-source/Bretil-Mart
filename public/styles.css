@@ -89,7 +89,7 @@ main {
 .fa-envelope-o, .fa-key {
     position: absolute;
     left: 0.8em;
-    top: 25%;
+    top: 29%;
     font-size: 1.2em;
     color: darkorange;
 }
@@ -97,7 +97,7 @@ main {
 .eye-icon {
     position: absolute;
     right: 0.8em;
-    top: 25%;
+    top: 29%;
     font-size: 1.2em;
     color: darkorange;
 }

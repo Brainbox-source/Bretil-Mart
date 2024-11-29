@@ -7,10 +7,44 @@
   <title>Forgot Password - Bretil Mart. Delivering the Future</title>
   <link rel="icon" href="logo.png">
   <link rel="stylesheet" href="index.css">
-  <script src="index.js" defer></script>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script src="index.js" type="module" defer></script>
 </head>
 
 <body>
-  
+
+  <main>
+       <!-- Container for the log In Images -->
+    <div class="deliveryPicsContainer">
+      <div class="slideShowContainer">
+        <div class="mySlides fade">
+          <img src="man-taking-care-home-delivering-groceries_52683-102842.jpg" class="slideShowImg" alt="">
+          <img src="man-taking-care-home-delivering-groceries_52683-102845.jpg" class="slideShowImg" alt="">
+          <img src="man-taking-care-home-delivering-groceries_52683-102840.jpg" class="slideShowImg" alt="">
+          <img src="man-taking-care-home-delivering-groceries_52683-102843.jpg" class="slideShowImg" alt="">
+          <img src="delivery-man-giving-groceries-order-customer_23-2149950064.avif" class="slideShowImg" alt="">
+          <img src="man-taking-care-home-delivering-groceries_52683-10284799.jpg" class="slideShowImg" alt="">
+        </div>
+      </div>
+    </div>
+
+      <div class="container">
+        <div class="welcomeBackContainer">
+          <img src="logo.png" class="bertilLogoImg" alt="Logo"> <!-- Logo image for the website -->
+          <h1 class="welcomeBackHeading">Forgot Password?</h1> <!-- Heading to greet returning users -->
+          <p class="logInParagraph">Enter your email to reset your password.</p> <!-- Instruction text for logging in -->
+        </div>
+        <!-- Left Panel for Forgot Password Form -->
+        <div class="left-panel">
+          <form id="forgot-password-form" novalidate>
+            <div class="inputContainer">
+              <input type="email" id="email" name="email" placeholder="Email" required>
+              <i class="fa fa-envelope-o"></i>
+            </div>
+            <button type="submit" class="submit-btn">Submit</button>
+          </form>
+          <a href="../../public/index.html" class="back-link">Back to Login</a>
+        </div> 
+ </main>
 </body>
 </html>
