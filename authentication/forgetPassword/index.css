@@ -56,6 +56,7 @@ main {
     width: 45%;
     padding: 3%;
     margin-top: -4.5%;
+    overflow-y: auto;
 }
 
 .welcomeBackContainer {
@@ -64,7 +65,7 @@ main {
 }
 
 .bertilLogoImg {
-    width: 20%;
+    width: 12.5%;
     margin: 2% 0;
 }
 
@@ -109,7 +110,7 @@ main {
 }
 
 
-.submit-btn {
+.resetPasswordBtn {
     width: 100%;
     padding: 0.6em 0;
     border-radius: 0.5em;
@@ -131,3 +132,64 @@ a {
     text-decoration: none;
 }
 
+/* styling to display an error for invalid credentials  */
+.reset-message-container {
+    display: flex;
+    /* align-items: center; */
+    justify-content: center;
+    color: darkgreen; /* Red color for error */
+    font-size: 0.9em;
+    font-weight: 600;
+    transform: translateY(1.5em);
+    width: 100%;
+    text-align: center;
+    border: 1px solid darkgreen;
+}
+
+.reset-message-container i {
+    transform: translateX(-0.2em);
+    font-size: 1.1em;
+}
+
+#message-container {
+    transform: translateY(1.8em);
+    text-align: center;  
+}
+
+/* Loading Indicator */
+.loadingIndicator {
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    z-index: 1000;
+    backdrop-filter: blur(0.1em);
+    background-color: #00000027;
+    width: 100%;
+    height: 100vh;
+    place-content: center;
+    align-items: center;
+}
+
+.loadingIndicator .spinner {
+    border: 4px solid darkgreen;
+    border-top: 4px solid darkorange;
+    border-radius: 50%;
+    width: 3.5em;
+    height: 3.5em;
+    animation: spin 1s linear infinite;
+}
+
+/* Animation for the spinner */
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Disable the button when loading */
+.resetPasswordBtn.loading {
+    background-color: #ccc;
+    cursor: not-allowed;
+}

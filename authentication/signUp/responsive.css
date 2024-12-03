@@ -1,0 +1,191 @@
+@media screen and (max-width: 320px) {
+    main {
+        display: block;
+        background: linear-gradient(180deg, #e37d00, #003700);
+    }
+
+    .deliveryPicsContainer {
+        display: none;
+    }
+
+    .container {
+        width: 95%;
+        margin: auto;
+        background-color: #fffffff3;
+    }
+
+    .bertilLogoImg {
+        margin: 0 0 5% 0;
+    }
+
+    .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 0.8em;
+    }
+
+    #first-name, #last-name {
+        width: 95%;
+        transform: translateX(0.6em);
+        padding: 0 1em;
+    }
+
+    .formGroup {
+        display: flex;
+        align-items: start;
+    }
+
+    .inputContainer {
+        width: 95%;
+    }
+
+    .checkbox {
+        align-items: start;
+        justify-content: center;
+        flex-direction: row;
+        gap: 0.6em;
+        font-size: 0.8em;
+    }
+
+    /* Loading Indicator */
+    .loadingIndicator {
+        height: 0;
+    }
+
+    #notification-container {
+        position: initial;
+        bottom: 0;
+        text-align: center;
+        width: 95%;
+    }
+}
+
+@media screen and (min-width: 321px) and (max-width: 576px) {
+    main {
+        display: block;
+        background: linear-gradient(180deg, #e37d00, #003700);
+    }
+
+    .deliveryPicsContainer {
+        display: none;
+    }
+
+    .container {
+        width: 95%;
+        margin: auto;
+        background-color: #fffffff3;
+    }
+
+    .bertilLogoImg {
+        margin: 0 0 5% 0;
+    }
+
+    .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 0.8em;
+    }
+
+    select {
+        width: 18%;
+    }
+
+    #first-name, #last-name {
+        width: 95%;
+        transform: translateX(0.6em);
+        padding: 0 1em;
+    }
+
+    .formGroup {
+        display: flex;
+        align-items: start;
+    }
+
+    .inputContainer {
+        width: 95%;
+    }
+
+    .checkbox {
+        align-items: start;
+        justify-content: center;
+        flex-direction: row;
+        gap: 0.6em;
+        font-size: 0.8em;
+    }
+
+    /* Loading Indicator */
+    .loadingIndicator {
+        height: 0;
+    }
+
+    #notification-container {
+        position: initial;
+        bottom: 0;
+        text-align: center;
+        width: 95%;
+    }
+}
+
+@media screen and (min-width: 577px) and (max-width: 1100px) {
+    main {
+        background: linear-gradient(180deg, #003700, #e37d00);
+    }
+
+    .deliveryPicsContainer {
+        display: none;
+    }
+
+    .container {
+        width: 95%;
+        margin: auto;
+        background-color: #fffffff3;
+        width: 75%;
+        place-content: center;
+        height: 100vh;
+    }
+
+    .bertilLogoImg {
+        margin: 0 0 5% 0;
+    }
+
+    .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 0.8em;
+    }
+
+    select {
+        width: 18%;
+    }
+
+    #first-name, #last-name {
+        width: 95%;
+        transform: translateX(0.6em);
+        padding: 0 1em;
+    }
+
+    .formGroup {
+        display: flex;
+        align-items: start;
+    }
+
+    .inputContainer {
+        width: 95%;
+    }
+
+    .checkbox {
+        align-items: start;
+        justify-content: center;
+        flex-direction: row;
+        gap: 0.6em;
+        font-size: 0.8em;
+    }
+
+    #notification-container {
+        position: fixed;
+        bottom: 0;
+        text-align: center;
+        z-index: 1000;
+        width: 75%;
+    }    
+}

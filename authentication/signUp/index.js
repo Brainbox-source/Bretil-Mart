@@ -1,23 +1,86 @@
 import { createUserWithEmailAndPassword, auth, doc, setDoc, db } from "../../firebaseConfig.js";
 
+// Utility function to show messages on the page
+function showMessage(message, isError = false) {
+    const notificationContainer = document.getElementById('notification-container');
+    const messageElement = document.createElement('div');
+    messageElement.classList.add('notification');
+    messageElement.textContent = message;
+
+    if (isError) {
+        messageElement.classList.add('error');
+    } else {
+        messageElement.classList.add('success');
+    }
+
+    notificationContainer.appendChild(messageElement);
+
+    // Remove the message after 10 seconds
+    setTimeout(() => {
+        messageElement.remove();
+    }, 10000);
+}
+
 // Fetch countries and populate the dropdown
 const countrySelect = document.getElementById('country');
 
-// Function to fetch country data and populate the dropdown
+// Utility to fetch data with timeout
+async function fetchWithTimeout(url, options = {}, timeout = 5000) {
+    const controller = new AbortController();
+    const signal = controller.signal;
+
+    const timeoutId = setTimeout(() => controller.abort(), timeout);
+
+    try {
+        const response = await fetch(url, { ...options, signal });
+        clearTimeout(timeoutId);
+        return response;
+    } catch (error) {
+        clearTimeout(timeoutId);
+        throw error;
+    }
+}
+
+// Function to fetch country data with retries
+async function fetchCountryDataWithRetries(url, retries = 3, timeout = 5000) {
+    for (let attempt = 1; attempt <= retries; attempt++) {
+        try {
+            const response = await fetchWithTimeout(url, {}, timeout);
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return await response.json();
+        } catch (error) {
+            console.warn(`Attempt ${attempt} failed:`, error);
+            if (attempt === retries) {
+                throw new Error("Failed to fetch country data after multiple attempts.");
+            }
+        }
+    }
+}
+
+// Function to populate country dropdown
 async function loadCountries() {
     try {
-        const response = await fetch('https://restcountries.com/v3.1/all');
-        const countries = await response.json();
+        const countries = await fetchCountryDataWithRetries('https://restcountries.com/v3.1/all', 3, 7000);
+
+        // Sort countries alphabetically by their common name
+        countries.sort((a, b) => {
+            const nameA = a.name.common.toLowerCase();
+            const nameB = b.name.common.toLowerCase();
+            return nameA.localeCompare(nameB);
+        });
 
         // Clear existing options (if any)
-        countrySelect.innerHTML = '<option value="">Country</option>';
+        countrySelect.innerHTML = '<option value="">Select your country</option>';
 
+        // Populate sorted countries
         countries.forEach(country => {
             const countryName = country.name.common;
-            // Ensure phone code is formatted correctly
-            const phoneCode = country.idd && country.idd.root ? country.idd.root + (country.idd.suffixes ? country.idd.suffixes[0] : '') : '';
-            
-            // Only include countries with a valid phone code
+            const phoneCode = country.idd?.root
+                ? country.idd.root + (country.idd.suffixes ? country.idd.suffixes[0] : '')
+                : '';
+
             if (phoneCode && phoneCode !== '+') {
                 const option = document.createElement('option');
                 option.value = phoneCode.replace('+', ''); // Remove the leading "+" for simplicity
@@ -25,11 +88,18 @@ async function loadCountries() {
                 countrySelect.appendChild(option);
             }
         });
+
+        console.log("✅ Countries loaded and sorted successfully.");
     } catch (error) {
         console.error("Error fetching country data:", error);
-        alert("Could not load country data. Please try again later.");
+        showMessage("❌ Could not load country data. Please refresh the page.", true);
     }
 }
+
+// // Load countries on page load
+// document.addEventListener('DOMContentLoaded', () => {
+//     loadCountries();
+// });
 
 // Call the function to load countries when the page loads
 document.addEventListener('DOMContentLoaded', function() {
@@ -40,20 +110,28 @@ document.addEventListener('DOMContentLoaded', function() {
         // Prevent the default form submission behavior
         event.preventDefault();
 
+        // Show the loading spinner
+        document.getElementById("loading").style.display = "flex"; // Show loading spinner
+        document.querySelector(".btn").classList.add("loading"); // Disable the reset password button
+
         // Get the selected country code and the phone number
         const countryCode = countrySelect.value;
         const phoneNumber = document.getElementById('phone').value;
 
         // Ensure country code and phone number are provided
         if (!countryCode || !phoneNumber) {
-            alert("Please select a country and enter your phone number.");
+            showMessage("❌ Please select a country and enter your phone number.", true);
+            document.getElementById("loading").style.display = "none"; // Hide loading spinner
+            document.querySelector(".btn").classList.remove("loading"); // Enable the button
             return;
         }
 
         // Phone number validation: Ensure it matches the expected pattern for the country code
         const phone = await validatePhoneNumber(phoneNumber, countryCode);
         if (!phone) {
-            alert("Please enter a valid phone number.");
+            showMessage("❌ Please enter a valid phone number.", true);
+            document.getElementById("loading").style.display = "none"; // Hide loading spinner
+            document.querySelector(".btn").classList.remove("loading"); // Enable the button
             return;
         }
 
@@ -66,30 +144,40 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Simple validation for required fields
         if (!email || !password || !confirmPassword || !firstName || !lastName || !phone || !countryCode) {
-            console.error("All fields are required!");
+            showMessage("❌ All fields are required!", true);
+            document.getElementById("loading").style.display = "none"; // Hide loading spinner
+            document.querySelector(".btn").classList.remove("loading"); // Enable the button
             return; // Prevent form submission if any required fields are missing
         }
 
         // Optional: More validation on email and password (e.g., email format, password length)
         if (!validateEmail(email)) {
-            console.error("Please enter a valid email address.");
+            showMessage("❌ Please enter a valid email address.", true);
+            document.getElementById("loading").style.display = "none"; // Hide loading spinner
+            document.querySelector(".btn").classList.remove("loading"); // Enable the button
             return;
         }
 
         if (password.length < 6) {
-            console.error("Password should be at least 6 characters long.");
+            showMessage("❌ Password should be at least 6 characters long.", true);
+            document.getElementById("loading").style.display = "none"; // Hide loading spinner
+            document.querySelector(".btn").classList.remove("loading"); // Enable the button
             return;
         }
 
         // Check if password and confirm password match
         if (password !== confirmPassword) {
-            console.error("Password and confirm password do not match.");
+            showMessage("❌ Password and confirm password do not match.", true);
+            document.getElementById("loading").style.display = "none"; // Hide loading spinner
+            document.querySelector(".btn").classList.remove("loading"); // Enable the button
             return;
         }
 
         // Password Strength Validation: Check for at least one uppercase letter, one special character, and one digit
         if (!hasUppercase(password) || !hasDigit(password) || !hasSpecialCharacter(password)) {
-            alert("Password must contain at least one uppercase letter, one special character, and one digit.");
+            showMessage("❌ Password must contain at least one uppercase letter, one special character, and one digit.", true);
+            document.getElementById("loading").style.display = "none"; // Hide loading spinner
+            document.querySelector(".btn").classList.remove("loading"); // Enable the button
             return;
         }
 
@@ -110,20 +198,21 @@ document.addEventListener('DOMContentLoaded', function() {
 
             console.log("User data saved to Firestore");
 
-            // Optionally, display the form data for debugging (ensure not to log sensitive info like password)
-            console.log('Email:', email);
-            console.log('First Name:', firstName);
-            console.log('Last Name:', lastName);
-            console.log('Phone:', phone);
-
             // Redirect to the specified page after successful sign-up
-            window.location.href = '../../public/index.html';
+            showMessage("✅ Account created successfully!", false);
+            setTimeout(() => {
+                window.location.href = '../../public/index.html';
+            }, 2000);
 
         } catch (error) {
             const errorCode = error.code;
             const errorMessage = error.message;
             console.error("Error signing up: ", errorCode, errorMessage);
-            alert("There was an error creating your account. Please try again.");
+            showMessage("❌ There was an error creating your account. Please try again.", true);
+        } finally {
+            // Hide the loading spinner after the process is complete
+            document.getElementById("loading").style.display = "none"; // Hide loading spinner
+            document.querySelector(".btn").classList.remove("loading"); // Enable the button
         }
     });
 
@@ -137,7 +226,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Check if the phone number exceeds the expected length
         if (cleanedPhone.length > maxPhoneLength) {
-            alert(`Phone number cannot have more than ${maxPhoneLength} digits.`);
+            showMessage(`❌ Phone number cannot have more than ${maxPhoneLength} digits.`, true);
             return null;
         }
 
@@ -147,7 +236,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Validate if the phone number is in the correct format (e.g., +1XXXXXXXXXX)
         const phoneRegex = /^\+?\d{1,4}\d{10}$/; // Allow a country code and 10-digit number
         if (!phoneRegex.test(phone)) {
-            alert("Invalid phone number format.");
+            showMessage("❌ Invalid phone number format.", true);
             return null;
         }
 
@@ -170,20 +259,20 @@ document.addEventListener('DOMContentLoaded', function() {
     // Email validation function
     function validateEmail(email) {
         const re = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-        return re.test(String(email).toLowerCase());
+        return re.test(email);
     }
 
-    // Password validation functions
-    function hasUppercase(password) {
-        return /[A-Z]/.test(password); // Checks if the password contains at least one uppercase letter
+    // Password strength validators
+    function hasUppercase(str) {
+        return /[A-Z]/.test(str);
     }
 
-    function hasDigit(password) {
-        return /\d/.test(password); // Checks if the password contains at least one digit
+    function hasDigit(str) {
+        return /\d/.test(str);
     }
 
-    function hasSpecialCharacter(password) {
-        return /[!@#$%^&*(),.?":{}|<>]/.test(password); // Checks if the password contains at least one special character
+    function hasSpecialCharacter(str) {
+        return /[!@#$%^&*(),.?":{}|<>]/.test(str);
     }
 });
 
@@ -211,14 +300,50 @@ const changeSlide = (direction) => {
     slides[currentSlide].style.opacity = 1;
 };
 
-// Automatically slide every 3 seconds
 setInterval(() => changeSlide(1), 3000);
 
-// Initially, set the opacity of all slides to 0 (hidden) except the first one
 slides.forEach((slide, index) => {
     if (index !== 0) {
         slide.style.opacity = 0;
     } else {
         slide.style.opacity = 1; // Show the first image
     }
+});
+
+const passwordField = document.getElementById('password');
+const togglePassword = document.getElementById('togglePassword');
+
+// Toggle password visibility
+togglePassword.addEventListener('click', () => {
+    const type = passwordField.type === 'password' ? 'text' : 'password';
+    passwordField.type = type;
+    const icon = type === 'password' ? 'fa-eye-slash' : 'fa-eye';
+    togglePassword.innerHTML = `<i class="fa ${icon}" aria-hidden="true"></i>`;
+});
+
+const confirmPasswordField = document.getElementById('confirm-password');
+const toggleConfirmPassword = document.getElementById('toggleConPassword');
+
+// Toggle confirm password visibility
+toggleConfirmPassword.addEventListener('click', () => {
+    const currentType = confirmPasswordField.type === 'password' ? 'text' : 'password';
+    confirmPasswordField.type = currentType;
+    const iconClass = currentType === 'password' ? 'fa-eye-slash' : 'fa-eye';
+    toggleConfirmPassword.innerHTML = `<i class="fa ${iconClass}" aria-hidden="true"></i>`;
+});
+
+window.addEventListener('load', () => {
+    const initialIconClass = confirmPasswordField.type === 'password' ? 'fa-eye-slash' : 'fa-eye';
+    toggleConfirmPassword.innerHTML = `<i class="fa ${initialIconClass}" aria-hidden="true"></i>`;
+});
+
+const inputs = document.querySelectorAll('input');
+inputs.forEach(input => {
+    input.addEventListener('focus', () => {
+        input.style.borderColor = '#fba100';
+    });
+
+    input.addEventListener('blur', () => {
+        input.style.borderColor = '#000';
+    });
 });

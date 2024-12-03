@@ -1,0 +1,212 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --GREEN: #003a00;
+    --ALTERNATEGREEN: darkgreen;
+    --FONT-SIZE: ;
+    --FONT-WEIGHT: ;
+}
+
+body {
+    font-family: 'AEONIK', sans-serif;
+    background-color: #dcdcdc29;
+}
+
+a {
+    text-decoration: none;
+}
+
+.advertisement {
+    background-color: var(--GREEN);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.8%;
+    padding: 0.75% 0;
+    color: #fff;
+    font-size: 0.8em;
+    font-weight: 700;
+}
+
+.mainDashboard {
+    width: 90%;
+    /* border: 1px solid #000; */
+    margin: auto;
+}
+
+.primaryHeader {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5em 0;
+}
+
+.headerLogoAndLocationCon {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    gap: 2.3em;
+    /* border: 1px solid #f00; */
+    width: 20%;
+}
+
+.bretilMartLogo {
+    /* border: 1px solid #000; */
+    width: 80px;
+    height: 80px;
+}
+
+.locationCon {
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+    line-height: 1.4;
+    /* border: 1px solid purple; */
+}
+
+.locationParagraph {
+    color: var(--ALTERNATEGREEN);
+    font-size: 0.72em;
+    font-weight: 500;
+}
+
+.locationAbuDhabi {
+    font-size: 1.3em;
+    color: var(--GREEN);
+    font-weight: 700;
+}
+
+.headerSearchCon {
+    /* border: 1px solid #0f0; */
+    width: 70%;
+    border-radius: 2em;
+}
+
+#searchForm {
+    position: relative;
+}
+
+#searchInput {
+    height: 45px;
+    width: 100%;
+    border-radius: 2em;
+    border: none;
+    outline: none;
+    background-color: #dcdcdc98;
+    padding: 0 3.2em;
+    color: #000000a0;
+}
+
+#searchInput::placeholder {
+    color: gray;
+}
+
+.searchBtn {
+    position: absolute;
+    left: 2%;
+    top: 30%;
+    border: none;
+    background-color: #dcdcdc98;
+    border-top-left-radius: 2em;
+    border-bottom-left-radius: 2em;
+}
+
+.fa-search {
+    color: gray;
+}
+
+.headerCartandProfileCon {
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    gap: 0.8em;
+    /* border: 1px solid #00f; */
+    width: 10%;
+}
+
+.cartCon {
+    background-color: var(--ALTERNATEGREEN);
+    position: relative;
+    border-radius: 50px;
+    padding: 0.5em;
+}
+
+.profile {
+    background-color: darkorange;
+    border-radius: 50px;
+    padding: 0.5em 0.6em;
+    border: none;
+    cursor: pointer;
+}
+
+.profileBtnCon {
+    border-radius: 50px;
+}
+
+.fa-shopping-basket {
+    color: #fff;
+}
+
+.zero {
+    position: absolute;
+    left: 50%;
+    top: 10%;
+    background-color: darkorange;
+    color: #fff;
+    font-weight: 700;
+    padding: 0.05em 0.3em;
+    border-radius: 50px;
+    font-size: 0.8em;
+}
+
+.headerNavigationCon {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.3em 0;
+}
+
+.headerNavigation  ul {
+    display: flex;
+    gap: 1.5em;
+}
+
+.headerNavigation ul li {
+    list-style-type: none;
+}
+
+.navLink {
+    color: var(--GREEN);
+    font-weight: 500;
+    font-size: 0.9em;
+}
+
+.utilityLink {
+    color: var(--GREEN);
+    font-weight: 500;
+    font-size: 0.9em;
+    padding: 0.3em 0.8em;
+}
+
+.utilityLink:nth-child(3) {
+    padding: 0.3em 0.8em 0.3em 0.15em;
+    background-color: #913a421a;
+    border-radius: 1em;
+}
+
+.fa-envelope-o {
+    background-color: darkorange;
+    color: #fff;
+    padding: 0.3em;
+    border-radius: 50px;
+}
+
+/* 
+#buttonCon, #buttonCon2{
+    margin: auto;
+    width: 200px;
+} */

@@ -42,17 +42,17 @@ document.getElementById("loginForm").addEventListener("submit", function (event)
 
     // Simple validation for email and password
     if (!email || !password) {
-        alert("Please enter both email and password.");
+        console.error("Please enter both email and password.");
         return;
     }
 
     if (!validateEmail(email)) {
-        alert("Please enter a valid email address.");
+        console.error("Please enter a valid email address.");
         return;
     }
 
     if (password.length < 6) {
-        alert("Password should be at least 6 characters long.");
+        console.error("Password should be at least 6 characters long.");
         return;
     }
 
@@ -95,10 +95,10 @@ document.getElementById("loginForm").addEventListener("submit", function (event)
                 sessionStorage.setItem("loggedInUser", JSON.stringify(userData) );
                 console.log("User data from Firestore:", userData);
 
-                // alert("You have successfully logged in!");
+                //("You have successfully logged in!");
                 window.location.href = "../Home/index.html"; // Redirect to Home
             } else {
-                alert("User data not found in the database.");
+                console.error("User data not found in the database.");
                 // Sign out the user if the data isn't found
                 signOut(authInstance).then(() => {
                     console.log("User signed out due to no matching data.");
@@ -109,7 +109,7 @@ document.getElementById("loginForm").addEventListener("submit", function (event)
         })
         .catch((error) => {
             console.error("Error querying Firestore:", error);
-            alert("Error querying user data. Please try again.");
+            console.error("Error querying user data. Please try again.");
         });
 
     })
@@ -127,22 +127,22 @@ document.getElementById("loginForm").addEventListener("submit", function (event)
         // Display the error message container
         setTimeout(() => {
             errorMessageContainer.style.display = "flex";
-        }, 2100)
+        }, 1100)
 
         setTimeout(() => {
             errorMessageContainer.style.display = "none";
-        }, 5500)
+        }, 6000)
     })   
      
     .finally(() => {
         // Hide loading indicator after the process is done
         setTimeout(() => {
             document.getElementById("loading").style.display = "none";
-        }, 2000)
+        }, 1000)
 
         setTimeout(() => {
             document.querySelector(".loginBtn").classList.remove("loading");
-        }, 2100) // Enable login button again
+        }, 1100) // Enable login button again
     });
 });
 
@@ -182,7 +182,7 @@ document.getElementById("btn").addEventListener("click", function () {
                     })
                     .catch((error) => {
                         console.error("Error saving user data to Firestore:", error);
-                        alert("Error saving user data. Please try again.");
+                        console.error("Error saving user data. Please try again.");
                     });
                 } else {
                     console.log("User already exists in Firestore.");
@@ -198,7 +198,7 @@ document.getElementById("btn").addEventListener("click", function () {
             })
             .catch((error) => {
                 console.error("Error checking Firestore for user:", error);
-                alert("Error checking Firestore. Please try again.");
+                console.error("Error checking Firestore. Please try again.");
             });
 
         // Successful Google login
@@ -264,7 +264,7 @@ inputs.forEach(input => {
     });
 });
 
-
+// image slider
 let currentSlide = 0; // Define the current slide variable
 
 const slides = document.querySelectorAll('.slideShowImg'); // Get all slide images
@@ -299,4 +299,38 @@ slides.forEach((slide, index) => {
     } else {
         slide.style.opacity = 1; // Show the first image
     }
+});
+
+// mobile image slider
+let mobileCurrentSlide = 0; // Define the current slide variable
+const mobileSlides = document.querySelectorAll('.mobileSlideShowImg'); // Get all slide images
+const mobileTotalSlides = mobileSlides.length; // Get the total number of slides
+let slideCount = 0; // Counter to track the number of slides shown
+const sliderContainer = document.querySelector('.mobileDeliveryPicsContainer'); // Slider container element
+
+// Function to change the current slide based on the direction.
+const changeMobileSlide = (direction) => {
+    // Hide the current slide
+    mobileSlides[mobileCurrentSlide].style.opacity = 0;
+    
+    // Update the current slide index based on the direction
+    mobileCurrentSlide = (mobileCurrentSlide + direction + mobileTotalSlides) % mobileTotalSlides;
+
+    // Show the new current slide by setting opacity to 1
+    mobileSlides[mobileCurrentSlide].style.opacity = 1;
+
+    // Increment the slide count and hide the slider if all slides have been shown
+    slideCount++;
+    if (slideCount >= mobileTotalSlides) {
+        clearInterval(autoSlideInterval); // Stop auto-sliding
+        sliderContainer.style.display = 'none'; // Hide the slider
+    }
+};
+
+// Automatically change slide every 4 seconds
+const autoSlideInterval = setInterval(() => changeMobileSlide(1), 2500);
+
+// Initially, set the opacity of all slides to 0 (hidden) except the first one
+mobileSlides.forEach((slide, index) => {
+    slide.style.opacity = index === 0 ? 1 : 0; // Set the first slide as visible
 });

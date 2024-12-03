@@ -5,9 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign Up - Bretil Mart, Delivering the Future</title>
     <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="responsive.css">
     <!-- Link to bootdrtapcdn - fontawesome -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="icon" href="logo.png">
+    <link rel="icon" href="../../public/Blogo2.png">
     <script src="index.js" type="module" defer></script>
 </head>
 <body>
@@ -15,14 +16,14 @@
         <!-- Container for the log In Images -->
     <div class="deliveryPicsContainer">
         <div class="slideShowContainer">
-          <div class="mySlides fade">
-            <img src="man-taking-care-home-delivering-groceries_52683-102842.jpg" class="slideShowImg" alt="">
-            <img src="man-taking-care-home-delivering-groceries_52683-102845.jpg" class="slideShowImg" alt="">
-            <img src="man-taking-care-home-delivering-groceries_52683-102840.jpg" class="slideShowImg" alt="">
-            <img src="man-taking-care-home-delivering-groceries_52683-102843.jpg" class="slideShowImg" alt="">
-            <img src="delivery-man-giving-groceries-order-customer_23-2149950064.avif" class="slideShowImg" alt="">
-            <img src="man-taking-care-home-delivering-groceries_52683-10284799.jpg" class="slideShowImg" alt="">
-          </div>
+            <div class="mySlides fade">
+                <img src="../../public/man-taking-care-home-delivering-groceries_52683-102842.jpg" class="slideShowImg" alt="">
+                <img src="../../public/man-taking-care-home-delivering-groceries_52683-102845.jpg" class="slideShowImg" alt="">
+                <img src="../../public/man-taking-care-home-delivering-groceries_52683-102840.jpg" class="slideShowImg" alt="">
+                <img src="../../public/man-taking-care-home-delivering-groceries_52683-102843.jpg" class="slideShowImg" alt="">
+                <img src="../../public/delivery-man-giving-groceries-order-customer_23-2149950064.avif" class="slideShowImg" alt="">
+                <img src="../../public/man-taking-care-home-delivering-groceries_52683-10284799.jpg" class="slideShowImg" alt="">
+            </div>
         </div>
     </div>
 
@@ -32,7 +33,7 @@
 
         <!-- Section for displaying a welcome message and logo -->
         <div class="welcomeBackContainer">
-          <img src="logo.png" class="bertilLogoImg" alt="Logo"> <!-- Logo image for the website -->
+          <img src="../../public/Blogo2.png" class="bertilLogoImg" alt="Logo"> <!-- Logo image for the website -->
           <h1 class="welcomeBackHeading">Sign Up</h1> <!-- Heading to greet returning users -->
         </div>
         
@@ -53,10 +54,11 @@
                         <div class="inputContainer">
                             <input type="tel" id="phone" name="phone" placeholder="Enter your phone number" required>
                             <select id="country" name="country" required>
-                                <option value="">Country</option>
+                                <option value="">Select your country</option>
                             </select>
                         </div>
                     </div>
+
                     <div class="form-group formGroup">
                         <label for="email">Email: </label>
                         <div class="inputContainer">
@@ -77,10 +79,10 @@
                         <div class="inputContainer">
                             <input type="password" id="confirm-password" class="inputField" name="confirm-password" placeholder="Confirm your Password" required>
                             <i class="fa fa-key" aria-hidden="true"></i>
-                            <span id="togglePassword" class="eye-icon"><i class="fa fa-eye-slash" aria-hidden="true"></i></span>
+                            <span id="toggleConPassword" class="eye-icon"><i class="fa fa-eye-slash" aria-hidden="true"></i></span>
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group checkbox">
                         <input type="checkbox" id="terms" name="terms" required>
                         <label for="terms">I agree to all the <a href="terms.html" class="terms">terms and conditions</a>.</label>
                     </div>
@@ -89,6 +91,13 @@
                 <div class="alternative">
                     <p>Already have an account? <a href="../../public/index.html" class="signIn">Sign In</a></p>
                 </div>
+            </div>
+
+            <div id="notification-container"></div>
+
+                    <!-- Loading indicator container -->
+            <div id="loading" class="loadingIndicator">
+                <div class="spinner"></div>
             </div>
         </div>
     </main>

@@ -10,7 +10,7 @@
   <title>Login - Bretil Mart. Delivering The Future</title>
 
   <!-- Favicon link to display the logo on the browser tab -->
-  <link rel="icon" href="logo.png"> <!-- Link to the title icon -->
+  <link rel="icon" href="Blogo2.png"> <!-- Link to the title icon -->
 
   <!-- Link to bootdrtapcdn - fontawesome -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -41,12 +41,23 @@
       </div>
     </div>
 
+    <!-- Container for the log In Images for mobile screen -->
+    <div class="mobileDeliveryPicsContainer">
+      <div class="mobileSlideShowContainer">
+        <div class="myMobileSlides">
+          <img src="fueling-health.png" class="mobileSlideShowImg active" alt="">
+          <img src="strengthening.png" class="mobileSlideShowImg" alt="">
+          <img src="healthy.png" class="mobileSlideShowImg" alt="">
+        </div>
+      </div>
+    </div>
+
     <!-- Main container for the log In page -->
     <div class="loginContainer">
 
       <!-- Section for displaying a welcome message and logo -->
       <div class="welcomeBackContainer">
-        <img src="logo.png" class="bertilLogoImg" alt="Logo"> <!-- Logo image for the website -->
+        <img src="Blogo2.png" class="bertilLogoImg" alt="Logo"> <!-- Logo image for the website -->
         <h1 class="welcomeBackHeading">Welcome back!</h1> <!-- Heading to greet returning users -->
         <p class="logInParagraph">Log In to your account.</p> <!-- Instruction text for logging in -->
       </div>
@@ -79,7 +90,7 @@
     
         <div class="accountOptions">
             <div class="inputField rememberMe">
-                <input type="checkbox" id="remember" name="remember">
+                <input type="checkbox" id="remember" name="remember" required>
                 <label for="remember" class="rememberMe">Remember me</label>
             </div>
     
@@ -113,7 +124,7 @@
     <div id="googleErrorMessageContainer" class="google-error-message-container" style="display: none;">
       <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
       <span id="googleErrorMessage"></span>
-    </div>
+    </div> 
 
     </div>
   </main>

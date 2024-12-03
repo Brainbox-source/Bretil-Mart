@@ -5,12 +5,38 @@ import { auth, sendPasswordResetEmail } from '../../firebaseConfig.js';
 async function resetPassword(email) {
   try {
     await sendPasswordResetEmail(auth, email);
-    alert('Password reset link sent to ' + email);
+    setTimeout(() => {
+      showMessage('✅ Password reset link sent to ' + email, 'success');
+    }, 300)
   } catch (error) {
     const errorCode = error.code;
     const errorMessage = error.message;
-    alert('Error: ' + errorMessage);  // Show appropriate error message
+    showMessage('Error: ' + errorMessage, 'error');  // Show appropriate error message
   }
+}
+
+// Function to show messages on the page
+function showMessage(message, type) {
+  const messageContainer = document.getElementById('message-container');
+  
+  // Clear any previous messages
+  messageContainer.innerHTML = '';
+
+  // Create a new message element
+  const messageElement = document.createElement('div');
+  messageElement.textContent = message;
+  
+  // Style based on message type (success or error)
+  if (type === 'success') {
+    messageElement.style.color = 'darkgreen';
+    messageElement.style.fontWeight = 'bold';
+  } else if (type === 'error') {
+    messageElement.style.color = '#b52e31';
+    messageElement.style.fontWeight = 'bold';
+  }
+
+  // Append the message to the container
+  messageContainer.appendChild(messageElement);
 }
 
 // Add event listener for reset password form
@@ -22,19 +48,72 @@ document.getElementById('forgot-password-form').addEventListener('submit', async
 
   // Validate if email is empty or not a valid format
   const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  
+  // Show the loading spinner for invalid input
+  document.getElementById("loading").style.display = "flex"; // Show loading spinner
+  document.querySelector(".resetPasswordBtn").classList.add("loading"); // Disable the reset password button
+
+  // If email is invalid, show error message
   if (!email || !emailPattern.test(email)) {
-    console.log('email test failed')
-    alert('Please enter a valid email address.');
-    }else{
-    await resetPassword(email);
-    alert('Please check your email for a password reset link.');
-    document.getElementById('email').value = '';
-  };
-  // Send password reset email using Firebase
-  // Optionally, clear the input field after submission
+    setTimeout(() => {
+      showMessage('❌ Please enter a valid email address.', 'error');
+      
+      // Remove the error message after 10 seconds
+      setTimeout(() => {
+        showMessage('', 'error');  // Clear the error message
+      }, 5000);  // 5 seconds delay
+    }, 2100);  // 2.1 second delay
+
+    // Hide the loading indicator and re-enable the button after a brief period
+    setTimeout(() => {
+      document.getElementById("loading").style.display = "none"; // Hide loading spinner
+      document.querySelector(".resetPasswordBtn").classList.remove("loading"); // Enable button again
+    }, 2000);  // After 2 seconds to show the error message
+  } else {
+    // If the email is valid, proceed with the password reset process
+    setTimeout(async () => {
+      await resetPassword(email);
+      setTimeout(() => {
+        showMessage('✅ Please check your email for a password reset link.', 'success');
+      }, 8000); // Delay to display success message for better UX
+      
+      // Clear the input field after success message
+      document.getElementById('email').value = '';  
+
+      // Remove the success message after 20 seconds
+      setTimeout(() => {
+        showMessage('', 'success');  // Clear the success message
+      }, 20000);  // 20 seconds delay
+
+      // Hide the loading indicator after the process is done
+        document.getElementById("loading").style.display = "none"; // Hide the loading spinner
+
+      // Re-enable the reset password button after the process
+      setTimeout(() => {
+        document.querySelector(".resetPasswordBtn").classList.remove("loading"); // Enable button again
+      }, 200);  // After 0.2 seconds delay to reset button state
+
+    }, 500);  // 0.5 second delay before starting the reset password process
+  }
 });
 
-//SLIDE SHOW
+// Get all input elements on the page
+const inputs = document.querySelectorAll('input');
+
+// Loop through each input and add event listeners for focus and blur
+inputs.forEach(input => {
+    // Change border color when focused
+    input.addEventListener('focus', () => {
+        input.style.borderColor = '#fba100';  // Change the border color to blue on focus
+    });
+
+    // Revert the border color when the input loses focus
+    input.addEventListener('blur', () => {
+        input.style.borderColor = '#000';  // Change the border color back to the default
+    });
+});
+
+// SLIDE SHOW
 let currentSlide = 0; // Define the current slide variable
 
 const slides = document.querySelectorAll('.slideShowImg'); // Get all slide images
