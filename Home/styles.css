@@ -7,8 +7,9 @@
 :root {
     --GREEN: #003a00;
     --ALTERNATEGREEN: darkgreen;
-    --FONT-SIZE: ;
-    --FONT-WEIGHT: ;
+    --CHERRYWOOD: #640d14;
+    --LIGHTCHERRYWOOD: #7D1820;
+    --DARKCHERRYWOOD: #4B0A10;
 }
 
 body {
@@ -51,7 +52,7 @@ a {
     justify-content: start;
     gap: 2.3em;
     /* border: 1px solid #f00; */
-    width: 20%;
+    width: 19%;
 }
 
 .bretilMartLogo {
@@ -72,6 +73,7 @@ a {
     color: var(--ALTERNATEGREEN);
     font-size: 0.72em;
     font-weight: 500;
+    cursor: pointer;
 }
 
 .locationAbuDhabi {
@@ -141,6 +143,36 @@ a {
     padding: 0.5em 0.6em;
     border: none;
     cursor: pointer;
+    position: relative;
+}
+
+.profile[data-tooltip]:hover::after {
+    content: attr(data-tooltip); /* Use data attribute as tooltip content */
+    position: absolute;
+    top: 100%; /* Position tooltip below the button */
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #333;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 5px;
+    white-space: nowrap;
+    font-size: 12px;
+    z-index: 10;
+    pointer-events: none;
+}
+
+.profile[data-tooltip]:hover::before {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 5px;
+    border-style: solid;
+    border-color: #333 transparent transparent transparent;
+    z-index: 10;
+    pointer-events: none;
 }
 
 .profileBtnCon {
@@ -167,7 +199,7 @@ a {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 1.3em 0;
+    padding: 1.5% 0 2.5% 0;
 }
 
 .headerNavigation  ul {
@@ -205,8 +237,135 @@ a {
     border-radius: 50px;
 }
 
-/* 
-#buttonCon, #buttonCon2{
-    margin: auto;
-    width: 200px;
+.heroSection {
+    background: linear-gradient(50deg, var(--DARKCHERRYWOOD), var(--CHERRYWOOD), var(--LIGHTCHERRYWOOD));
+    background-size: 400% 400%;
+    border-radius: 1.8em;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.8em 2em 0 5.5em;
+    animation: gradientMotion 10s ease infinite;
+}
+
+@keyframes gradientMotion {
+    0% {
+    background-position: 0% 50%;
+    }
+    50% {
+    background-position: 100% 50%;
+    }
+    100% {
+    background-position: 0% 50%;
+    }
+}
+
+/* .heroSectionContentCon, .heroSectionImgCon {
+    border: 1px solid #f00;
 } */
+
+.heroSectionContentCon {
+    width: 50%;
+}
+
+.freeDelivery {
+    color: gainsboro;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5em;
+    background-color: #7D1820;
+    border-radius: 2em;
+    padding: 0.3em 0;
+    width: 46%;
+    font-size: 0.9em;
+}
+
+.truck {
+    background-color: #fff;
+    padding: 0.2em;
+    border-radius: 50px;
+}
+
+.heroHeading {
+    font-size: 3.5em;
+    color: #fff;
+    margin: 0.35em 0;
+}
+
+.highlight {
+    color: darkorange;
+}
+
+.serviceDescription {
+    color: gainsboro;
+    font-size: 0.9em;
+    line-height: 1.6;
+}
+
+
+#heroSectionBtnCon {
+    width: 130px;
+    margin: 2em 0 0 0;
+    display: flex;
+}
+
+/* The Modal (background) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    background-color: rgba(0,0,0,0.4); /* Black with opacity */
+}
+
+/* Modal Content */
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+}
+
+/* Close Button */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+        /* Styling the profile button */
+        #profileBtn {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        /* Styling the file input (hidden) */
+        #fileInput {
+            display: none;
+        }
+
+        /* Display profile picture in a circular shape */
+        #profilePic {
+            margin-top: 20px;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+        }

@@ -16,7 +16,7 @@
     <div class="advertisement">
         <p>Get <span style="color: #FFF05A;">30% OFF</span> your first order</p>
         <p><i class="fa fa-star" style="color: #FFF05A;"></i></p>
-        <p>Order now and get it delivered with <span style="color: #FFF05A;">20 minutes</span> across the UAE</p>
+        <p>Order now and get it delivered within <span style="color: #FFF05A;">30 minutes</span> across Nigeria</p>
     </div>
 
     <div class="mainDashboard">
@@ -31,9 +31,7 @@
 
                     <div class="locationCon">
                         <img src="location.svg" alt="">
-                        <a href="" class="locationLink">
-                            <p class="locationParagraph">Delivery to <br> <span class="locationAbuDhabi">Abu Dhabi</span></p>
-                        </a>
+                        <p class="locationParagraph">Delivery to <br> <span class="locationAbuDhabi">Location</span></p>
                     </div>
                 </div>
 
@@ -57,11 +55,38 @@
                     </div>
 
                     <div class="profileBtnCon">
-                        <button id="ProfileBtn" class="profile">
+                        <button id="ProfileBtn" data-tooltip="hello" class="profile">
                             <span>
                                 <img src="profile.svg" alt="">
                             </span>
                         </button>
+
+                        <!-- Modal -->
+                        <div id="myModal" class="modal">
+                            <div class="modal-content">
+                                <div id="emailAndCloseBtn" class="close">
+                                    <span id="getEmail"></span>
+                                    <span id="closeBtn">&times;</span>
+                                </div>
+                                <div>
+                                    <!-- Profile Button -->
+                                    <button id="profileBtn">
+                                        <img src="googleicon.svg" alt="">
+                                    </button>
+
+                                    <!-- Hidden file input (this will open the file explorer) -->
+                                    <input type="file" id="fileInput" accept="image/*" />
+                                
+                                    <!-- Display Profile Picture -->
+                                    <img id="profilePic" src="https://via.placeholder.com/100" alt="Profile Picture">
+
+                                    <p>Hello</p>
+
+                                    <button type="button" id="signOut">Sign Out</button>  
+                                </div>
+                                <a href="#">Terms and Conditions</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -95,13 +120,30 @@
             </div>
         </header>
     
-        <!-- <main></main>
+        <main>
+            <section class="heroSection">
+                <div class="heroSectionContentCon">
+                    <p class="freeDelivery">
+                        <img src="truck.svg" class="truck" alt="">
+                        Get Free Delivery On Your First Order
+                    </p>
+
+                    <h1 class="heroHeading">We deliver <span class="highlight">groceries</span> to your doorstep</h1>
+
+                    <p class="serviceDescription">Get the freshest groceries delivered right to your home. Save time, skip the lines, and enjoy the convenience of quick, efficient delivery.</p>
+
+                    <div id="heroSectionBtnCon"></div>
+                </div>
+
+                <div class="heroSectionImgCon">
+                    <img src="man-holding-basket.png" style="margin-bottom: -1.1%;" alt="">
+                </div>
+            </section>
+        </main>
     
-        <footer></footer> -->
+        <!-- <footer></footer> -->
     </div>
 
-    <!-- <div id="buttonCon"></div>
-    <div id="buttonCon2"><i class="fa fa-arrow-right"></i></div> -->
-
+    <!-- <div id="buttonCon"></div> -->
 </body>
 </html>

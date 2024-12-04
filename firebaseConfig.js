@@ -6,7 +6,8 @@ import {
           signInWithEmailAndPassword, 
           sendPasswordResetEmail 
         } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js";
-import { getFirestore, doc, setDoc, collection, addDoc } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js";
+import { getFirestore, doc, setDoc, collection, addDoc, getDocs, updateDoc, deleteDoc, query, where, getDoc } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js";
+
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -29,6 +30,9 @@ const analytics = getAnalytics(app);
 const db = getFirestore(app);
 const auth = getAuth(app);
 
+
+;
+
 export {
   auth,
   createUserWithEmailAndPassword, 
@@ -38,5 +42,11 @@ export {
   setDoc, 
   collection, 
   addDoc,
-  sendPasswordResetEmail
+  sendPasswordResetEmail,
+  getDocs,
+  updateDoc,
+  deleteDoc,
+  query, 
+  where ,
+  getDoc
 }
