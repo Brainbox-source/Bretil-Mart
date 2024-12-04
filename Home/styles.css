@@ -35,7 +35,7 @@ a {
 
 .mainDashboard {
     width: 90%;
-    /* border: 1px solid #000; */
+    border: 1px solid #000;
     margin: auto;
 }
 
@@ -312,31 +312,38 @@ a {
 
 /* The Modal (background) */
 .modal {
-    display: none; /* Hidden by default */
+    /* display: none; Hidden by default */
     position: fixed; /* Stay in place */
     z-index: 1; /* Sit on top */
-    left: 0;
-    top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    background-color: rgba(0,0,0,0.4); /* Black with opacity */
+    border: 1px solid #f00;
+    right: 5%;
+    top: 15%;
+    width: 26%;
+    border-radius: 2em;
+    background-color: gainsboro;
+    padding: 0.3em 1.5em;
+    /* color: ; */
+    /* float: right; */
 }
 
 /* Modal Content */
-.modal-content {
-    background-color: #fefefe;
-    margin: 15% auto;
+/* .modal-content {
+    background-color: gainsboro;
+    margin: 8% ;
     padding: 20px;
     border: 1px solid #888;
-    width: 80%;
-}
+    width: 40%;
+    right: 0;
+    float: right;
+    border-radius: 2em;
+} */
 
 /* Close Button */
 .close {
-    color: #aaa;
+    color: #000000b2;
     float: right;
-    font-size: 28px;
-    font-weight: bold;
+    font-size: 2.5em;
+    font-weight: lighter;
 }
 
 .close:hover,
@@ -346,26 +353,26 @@ a {
     cursor: pointer;
 }
 
-        /* Styling the profile button */
-        #profileBtn {
-            padding: 10px 20px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            cursor: pointer;
-            font-size: 16px;
-        }
+/* Styling the profile button */
+#profileBtn {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+}
 
-        /* Styling the file input (hidden) */
-        #fileInput {
-            display: none;
-        }
+/* Styling the file input (hidden) */
+#fileInput {
+    display: none;
+}
 
-        /* Display profile picture in a circular shape */
-        #profilePic {
-            margin-top: 20px;
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            object-fit: cover;
-        }
+/* Display profile picture in a circular shape */
+#profilePic {
+    margin-top: 20px;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+}
