@@ -1,18 +1,25 @@
-import button from "../components/button.js";
-import { getItems } from "../apiCalls/products.js";
-
-// DOM elements
+// DOM Elements
 const heroSectionBtnCon = document.getElementById('heroSectionBtnCon');
 const locationParagraph = document.querySelector(".locationAbuDhabi");
+const modal = document.getElementById("myModal");
+const profileBtn = document.getElementById("ProfileBtn");
+const closeBtn = document.getElementById("closeBtn");
+const changeProfileBtn = document.getElementById("changeProfileBtn");
+const fileInput = document.getElementById("fileInput");
+const profilePic = document.getElementById("profilePic");
+const emailElement = document.getElementById("getEmail");
+const nameElement = document.getElementById("userName");
 
 // Adding "Shop Now" button to the hero section
+import button from "../components/button.js";
 heroSectionBtnCon.appendChild(button("Shop Now", 'darkorange', 'white', 'yes'));
 
 // Fetching products securely and logging them to the console
+import { getItems } from "../apiCalls/products.js";
 getItems()
     .then(products => {
         if (Array.isArray(products)) {
-            console.log(products); // Log the products
+            console.log(products); // Log products
         } else {
             console.error("Unexpected response format.");
         }
@@ -21,14 +28,14 @@ getItems()
         console.error("Error fetching products:", error.message);
     });
 
-// Retrieve the logged-in user's information
+// Retrieve and display logged-in user data
 const loggedInUser = () => {
     const storedUser = sessionStorage.getItem('loggedInUser');
     if (storedUser) {
         try {
             const user = JSON.parse(storedUser);
-            if (user && typeof user.firstName === "string") {
-                return user; // Return valid user object
+            if (user && typeof user.email === "string" && typeof user.firstName === "string") {
+                return user;
             } else {
                 throw new Error("Invalid user data format.");
             }
@@ -44,15 +51,61 @@ const loggedInUser = () => {
 
 const user = loggedInUser();
 if (user) {
-    console.log('User details:', user.firstName); // Log user's first name
-} else {
-    console.log('No user logged in');
+    console.log('User details:', user.email, user.firstName);
+
+    // Display email
+    if (emailElement) {
+        emailElement.textContent = user.email;
+    } else {
+        console.error('Element with id="getEmail" not found.');
+    }
+
+    // Display user's first name with a greeting
+    if (nameElement) {
+        nameElement.innerHTML = `<p>Hi, ${user.firstName}!</p>`;
+    } else {
+        console.error('Element with id="userName" not found.');
+    }
 }
 
-// Safely update the delivery location in the UI
+// Dropdown Animation for Modal
+profileBtn.addEventListener("click", () => {
+    modal.style.display = "flex";
+    modal.classList.add("show");
+});
+
+closeBtn.addEventListener("click", () => {
+    modal.classList.remove("show");
+    setTimeout(() => {
+        modal.style.display = "none";
+    }, 300); // Match animation duration
+});
+
+window.addEventListener("click", (event) => {
+    if (event.target === modal) {
+        modal.classList.remove("show");
+        setTimeout(() => {
+            modal.style.display = "none";
+        }, 300);
+    }
+});
+
+// Profile Picture Upload
+changeProfileBtn.onclick = () => fileInput.click();
+fileInput.onchange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            profilePic.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+    }
+};
+
+// Update delivery location
 function updateDeliveryLocation(location) {
     if (location && typeof location === "string") {
-        // Sanitize location text to prevent XSS
         const sanitizedLocation = location.replace(/</g, "&lt;").replace(/>/g, "&gt;");
         locationParagraph.textContent = sanitizedLocation;
     } else {
@@ -60,7 +113,7 @@ function updateDeliveryLocation(location) {
     }
 }
 
-// Get the user's current location using Geolocation API
+// Detect user's location
 function detectUserLocation() {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
@@ -74,9 +127,9 @@ function detectUserLocation() {
                 updateDeliveryLocation("Location not available");
             },
             {
-                enableHighAccuracy: true, // Improve accuracy
-                timeout: 10000,          // Timeout for location retrieval
-                maximumAge: 300000       // Cache location for 5 minutes
+                enableHighAccuracy: true,
+                timeout: 10000,
+                maximumAge: 300000
             }
         );
     } else {
@@ -85,19 +138,17 @@ function detectUserLocation() {
     }
 }
 
-// Fetch the country name securely using Geolocation DB API
+// Fetch country from coordinates
 async function fetchCountryFromCoordinates(latitude, longitude) {
-    const apiUrl = `https://geolocation-db.com/json/`; // Secure and free API
+    const apiUrl = `https://geolocation-db.com/json/`;
 
     try {
         const response = await fetch(apiUrl);
-
         if (!response.ok) {
             throw new Error(`HTTP error! Status: ${response.status}`);
         }
 
         const data = await response.json();
-
         if (data && data.country_name) {
             console.log("Detected Country:", data.country_name);
             updateDeliveryLocation(data.country_name);
@@ -111,58 +162,5 @@ async function fetchCountryFromCoordinates(latitude, longitude) {
     }
 }
 
-// Detect user's location on page load
+// Initialize location detection on page load
 document.addEventListener("DOMContentLoaded", detectUserLocation);
-
-
-// Profile
-const modal = document.getElementById("myModal");
-
-// Get the button that opens the modal
-const btn = document.getElementById("ProfileBtn");
-
-// Get the <span> element that closes the modal
-const closeBtn = document.getElementById("closeBtn");
-
-// When the user clicks the button, open the modal
-btn.onclick = function() {
-    modal.style.display = "block";
-}
-
-// When the user clicks on <span> (x), close the modal
-closeBtn.onclick = function() {
-    modal.style.display = "none";
-}
-
-// When the user clicks anywhere outside of the modal, close it
-window.onclick = function(event) {
-    if (event.target === modal) {
-        modal.style.display = "none";
-    }
-}
-
-  // Get the profile button, file input, and image element
-  const profileBtn = document.getElementById('profileBtn');
-  const fileInput = document.getElementById('fileInput');
-  const profilePic = document.getElementById('profilePic');
-
-  // Trigger the file input when the profile button is clicked
-  profileBtn.onclick = function() {
-      fileInput.click();  // This will open the file explorer
-  };
-
-  // When the user selects a file, update the profile picture
-  fileInput.onchange = function(event) {
-      const file = event.target.files[0];
-      if (file) {
-          const reader = new FileReader();
-
-          // When the file is loaded, set the profile image source
-          reader.onload = function(e) {
-              profilePic.src = e.target.result;
-          };
-
-          // Read the file as a data URL
-          reader.readAsDataURL(file);
-      }
-  };

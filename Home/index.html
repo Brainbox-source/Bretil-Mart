@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bretil Mart. Delivering The Future</title>
-    <link rel="icon" href="../public/Blogo2.png">
+    <link rel="icon" href="../img/Blogo2.png">
     <link rel="stylesheet" href="styles.css">
       <!-- Link to bootdrtapcdn - fontawesome -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -25,12 +25,12 @@
                 <div class="headerLogoAndLocationCon">
                     <div class="bretilMartCon">
                         <a href="" class="bretilMartLogoLink">
-                            <img src="Blogo.png" class="bretilMartLogo"  alt="">
+                            <img src="../img/Blogo.png" class="bretilMartLogo"  alt="">
                         </a>
                     </div>
 
                     <div class="locationCon">
-                        <img src="location.svg" alt="">
+                        <img src="../img/location.svg" alt="">
                         <p class="locationParagraph">Delivery to <br> <span class="locationAbuDhabi">Location</span></p>
                     </div>
                 </div>
@@ -57,34 +57,33 @@
                     <div class="profileBtnCon">
                         <button id="ProfileBtn" data-tooltip="hello" class="profile">
                             <span>
-                                <img src="profile.svg" alt="">
+                                <img src="../img/profile.svg" alt="">
                             </span>
                         </button>
 
                         <!-- Modal -->
                         <div id="myModal" class="modal">
-                            <div class="modal-content">
-                                <div id="emailAndCloseBtn" class="close">
+                            <div class="modal-content" style="display: flex; flex-direction: column;">
+                                <div id="emailAndCloseBtn">
                                     <span id="getEmail"></span>
-                                    <span id="closeBtn">&times;</span>
+                                    <span id="closeBtn" class="close">&times;</span>
                                 </div>
-                                <div>
+                                <div class="profileContainer">
                                     <!-- Profile Button -->
-                                    <button id="profileBtn">
-                                        <img src="googleicon.svg" alt="">
+                                    <button id="changeProfileBtn" class="profile camera">
+                                        <i class="fa fa-camera"></i>
                                     </button>
 
                                     <!-- Hidden file input (this will open the file explorer) -->
                                     <input type="file" id="fileInput" accept="image/*" />
                                 
                                     <!-- Display Profile Picture -->
-                                    <img id="profilePic" src="https://via.placeholder.com/100" alt="Profile Picture">
-
-                                    <p>Hello</p>
-
-                                    <button type="button" id="signOut">Sign Out</button>  
+                                    <img id="profilePic" src="../img/profile.svg" src="" alt="Profile Picture">
                                 </div>
-                                <a href="#">Terms and Conditions</a>
+
+                                <p id="userName"></p>
+
+                                <button type="button" id="signOut">Sign Out</button>
                             </div>
                         </div>
                     </div>
@@ -136,7 +135,63 @@
                 </div>
 
                 <div class="heroSectionImgCon">
-                    <img src="man-holding-basket.png" style="margin-bottom: -1.1%;" alt="">
+                    <img src="../img/man-holding-basket.png" style="margin-bottom: -1.1%;" alt="">
+                </div>
+            </section>
+
+            <section class="searchByCategoriesSection">
+                <div class="searchCategoryCon">
+                    <h2>Shop by categories</h2>
+
+                    <a href="">All Categories</a>
+                </div>
+
+                <div>
+                    <a href="">
+                        <img src="../img/Blogo.png" alt="">
+                    </a>
+                    <a href="">
+                        <img src="../img/Blogo.png" alt="">
+                    </a>
+                    <a href="">
+                        <img src="../img/Blogo.png" alt="">
+                    </a>
+                    <a href="">
+                        <img src="../img/Blogo.png" alt="">
+                    </a>
+                    <a href="">
+                        <img src="../img/Blogo.png" alt="">
+                    </a>
+                    <a href="">
+                        <img src="../img/Blogo.png" alt="">
+                    </a>
+                    <a href="">
+                        <img src="../img/Blogo.png" alt="">
+                    </a>
+                    <a href="">
+                        <img src="../img/Blogo.png" alt="">
+                    </a>
+                    <a href="">
+                        <img src="../img/Blogo.png" alt="">
+                    </a>
+                    <a href="">
+                        <img src="../img/Blogo.png" alt="">
+                    </a>
+                    <a href="">
+                        <img src="../img/Blogo.png" alt="">
+                    </a>
+                    <a href="">
+                        <img src="../img/Blogo.png" alt="">
+                    </a>
+                    <a href="">
+                        <img src="../img/Blogo.png" alt="">
+                    </a>
+                    <a href="">
+                        <img src="../img/Blogo.png" alt="">
+                    </a>
+                    <a href="">
+                        <img src="../img/Blogo.png" alt="">
+                    </a>
                 </div>
             </section>
         </main>
@@ -147,3 +202,54 @@
     <!-- <div id="buttonCon"></div> -->
 </body>
 </html>
+
+
+
+
+
+<!-- <h1>Upload Picture to Backend</h1>
+
+Form to upload an image
+<form id="uploadForm">
+    <label for="fileInput">Choose a picture:</label>
+    <input type="file" id="fileInput" accept="image/*" required />
+    <button type="button" id="uploadBtn">Upload</button>
+</form>
+
+Status Message
+<div id="status"></div>
+
+<script>
+    const uploadBtn = document.getElementById('uploadBtn');
+    const fileInput = document.getElementById('fileInput');
+    const statusDiv = document.getElementById('status');
+
+    // Event listener for the upload button
+    uploadBtn.addEventListener('click', async () => {
+        const file = fileInput.files[0];
+        if (!file) {
+            statusDiv.textContent = 'Please select a file.';
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append('image', file);
+
+        try {
+            // Replace 'YOUR_BACKEND_API_URL' with the backend endpoint URL
+            const response = await fetch('https://dropbox-2.onrender.com/api/files/upload', {
+                method: 'POST',
+                body: formData,
+            });
+
+            if (response.ok) {
+                const result = await response.json();
+                statusDiv.textContent = `Upload successful! Server Response: ${JSON.stringify(result)}`;
+            } else {
+                statusDiv.textContent = `Upload failed: ${response.statusText}`;
+            }
+        } catch (error) {
+            statusDiv.textContent = `Error: ${error.message}`;
+        }
+    });
+</script> -->

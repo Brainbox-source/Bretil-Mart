@@ -22,7 +22,22 @@ main {
     text-align: center;
     place-content: center;
     height: 100vh;
-    background: linear-gradient(180deg, #003700, #e37d00);
+    background: linear-gradient(50deg, #003700, #e37d00);
+    background-size: 400% 400%;
+    animation: gradientMotion 10s ease infinite;
+}
+
+
+@keyframes gradientMotion {
+    0% {
+    background-position: 0% 50%;
+    }
+    50% {
+    background-position: 100% 50%;
+    }
+    100% {
+    background-position: 0% 50%;
+    }
 }
 
 /* Container for the slides */

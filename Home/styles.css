@@ -35,7 +35,7 @@ a {
 
 .mainDashboard {
     width: 90%;
-    border: 1px solid #000;
+    /* border: 1px solid #000; */
     margin: auto;
 }
 
@@ -312,18 +312,19 @@ a {
 
 /* The Modal (background) */
 .modal {
-    /* display: none; Hidden by default */
+    display: none;
     position: fixed; /* Stay in place */
     z-index: 1; /* Sit on top */
-    border: 1px solid #f00;
+    border: 1px solid rgba(255, 140, 0, 0.177);
     right: 5%;
-    top: 15%;
-    width: 26%;
-    border-radius: 2em;
-    background-color: gainsboro;
-    padding: 0.3em 1.5em;
+    top: 17.7%;
+    /* width: 30%; */
+    border-radius: 1em;
+    background-color: #ffffff;
+    padding: 0.3em 0.4em 1.2em 0.4em;
     /* color: ; */
     /* float: right; */
+    animation: none;
 }
 
 /* Modal Content */
@@ -338,29 +339,72 @@ a {
     border-radius: 2em;
 } */
 
+/* Animation for dropdown */
+@keyframes dropdown {
+    from {
+        opacity: 0;
+        transform: translateY(-30%);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Modal content animation */
+#myModal.show .modal-content {
+    animation: dropdown 0.3s ease-out;
+}
+
+#emailAndCloseBtn {
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    /* border: 1px solid green; */
+    width: 300px;
+}
+
+#getEmail {
+    font-size: 1em;
+    color: #000;
+    margin: auto;
+}
+
 /* Close Button */
 .close {
-    color: #000000b2;
-    float: right;
+    color: #000;
     font-size: 2.5em;
-    font-weight: lighter;
+    border-radius: 50px;
+    padding: 0 0.25em;
+    transition: all 0.2s ease-in-out;
 }
 
 .close:hover,
 .close:focus {
-    color: black;
-    text-decoration: none;
+    background-color: rgba(220, 220, 220, 0.397);
     cursor: pointer;
 }
 
-/* Styling the profile button */
-#profileBtn {
-    padding: 10px 20px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    cursor: pointer;
-    font-size: 16px;
+.profileContainer {
+    position: relative;
+    /* border: 1px solid #0f0; */
+    width: 25%;
+    margin: auto;
+}
+
+#changeProfileBtn {
+    position: absolute;
+    right: -20%;
+    bottom: 0;
+}
+
+.camera {
+    background-color: rgba(220, 220, 220, 0.866);
+}
+
+.camera:hover {
+    background-color: gainsboro;
+    color: darkorange;
 }
 
 /* Styling the file input (hidden) */
@@ -370,9 +414,28 @@ a {
 
 /* Display profile picture in a circular shape */
 #profilePic {
-    margin-top: 20px;
+    margin-top: 10px;
     width: 100px;
     height: 100px;
     border-radius: 50%;
     object-fit: cover;
+    border: 1px solid darkorange;
+}
+
+#userName {
+    font-size: 1.4em;
+    text-align: center;
+    margin: 0.5em 0;
+}
+
+#signOut {
+    background-color: darkorange;
+    border: none;
+    padding: 0.5em 0;
+    width: 50%;
+    margin: auto;
+    font-size: 1em;
+    font-weight: 700;
+    border-radius: 2em;
+    cursor: pointer;
 }
