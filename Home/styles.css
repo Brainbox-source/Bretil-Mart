@@ -272,12 +272,10 @@ a {
     color: gainsboro;
     display: flex;
     align-items: center;
-    justify-content: center;
     gap: 0.5em;
-    background-color: #7D1820;
     border-radius: 2em;
     padding: 0.3em 0;
-    width: 46%;
+    width: 60%;
     font-size: 0.9em;
 }
 
@@ -438,4 +436,98 @@ a {
     font-weight: 700;
     border-radius: 2em;
     cursor: pointer;
+}
+
+.searchByCategoriesSection {
+    margin: 5em 0;
+}
+
+.searchCategoriesCon {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 2em;
+}
+
+.shopCategoriesHeading {
+    color: var(--GREEN);
+    font-weight: 800;
+}
+
+.allCategories {
+    color: darkorange;
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+    font-weight: 700;
+}
+
+.searchCatogoriesCardsCon {
+    display: flex;
+    gap: 0.8em;
+    overflow-x: auto;
+    cursor: pointer;
+    scrollbar-width: none;
+}
+
+.searchCatogoriesCardsCon::-webkit-scrollbar {
+    display: none;
+}
+
+.searchCatogoriesCard {
+    background-color: var(--GREEN);
+    color: gainsboro;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    border-radius: 1em;
+    /* border: 1px solid #f00; */
+}
+
+.searchCatogoriesCard:nth-child(2) {
+    background-color: purple;
+}
+
+.searchCatogoriesCard:nth-child(4) {
+    background-color: var(--LIGHTCHERRYWOOD);
+}
+
+.searchCatogoriesCard:nth-child(5) {
+    background-color: purple;
+}
+
+.searchCatogoriesCard:nth-child(6) {
+    background-color: var(--LIGHTCHERRYWOOD);
+}
+
+.searchCatogoriesCard:nth-child(7) {
+    background-color: var(--ALTERNATEGREEN);
+}
+
+.searchCatogoriesCard:nth-child(8) {
+    background-color: var(--CHERRYWOOD);
+}
+
+.searchCatogoriesCard:nth-child(9) {
+    background-color: var(--ALTERNATEGREEN);
+}
+
+.searchContent {
+    margin: 0.2em 0 1em 0;
+    line-height: 1.5;
+    text-align: center;
+}
+
+.brand {
+    font-size: 1.1em;
+}
+
+.market {
+    font-size: 0.9em;
+}
+
+.brandPic {
+    width: 210px;
+    height: 200px;
 }

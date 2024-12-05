@@ -69,7 +69,8 @@ if (user) {
 }
 
 // Dropdown Animation for Modal
-profileBtn.addEventListener("click", () => {
+profileBtn.addEventListener("click", (event) => {
+    event.stopPropagation(); // Prevent modal close if clicking the profile button
     modal.style.display = "flex";
     modal.classList.add("show");
 });
@@ -82,7 +83,8 @@ closeBtn.addEventListener("click", () => {
 });
 
 window.addEventListener("click", (event) => {
-    if (event.target === modal) {
+    // Close modal if clicked outside of the modal or trigger button
+    if (event.target === modal || !modal.contains(event.target)) {
         modal.classList.remove("show");
         setTimeout(() => {
             modal.style.display = "none";
@@ -164,3 +166,42 @@ async function fetchCountryFromCoordinates(latitude, longitude) {
 
 // Initialize location detection on page load
 document.addEventListener("DOMContentLoaded", detectUserLocation);
+
+// automatic scrolling for searchCatogoriesCardsCon
+document.addEventListener("DOMContentLoaded", () => {
+    const container = document.querySelector(".searchCatogoriesCardsCon");
+    const scrollSpeed = 1; // Pixels to scroll per tick
+    let scrollInterval; // Variable to hold the scroll interval
+
+    // Duplicate the content for seamless scrolling
+    const duplicateContent = () => {
+        container.innerHTML += container.innerHTML;
+    };
+
+    // Start auto-scrolling
+    const startScrolling = () => {
+        scrollInterval = setInterval(() => {
+            container.scrollLeft += scrollSpeed;
+
+            // Reset the scroll position seamlessly when reaching halfway
+            if (container.scrollLeft >= container.scrollWidth / 2) {
+                container.scrollLeft = 0;
+            }
+        }, 15); // Adjust the interval for smoothness
+    };
+
+    // Stop scrolling on hover
+    const stopScrolling = () => {
+        clearInterval(scrollInterval);
+    };
+
+    // Duplicate the content on page load
+    duplicateContent();
+
+    // Start auto-scrolling
+    startScrolling();
+
+    // Add hover listeners
+    container.addEventListener("mouseenter", stopScrolling);
+    container.addEventListener("mouseleave", startScrolling);
+});
