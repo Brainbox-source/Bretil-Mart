@@ -1,4 +1,6 @@
 import { createUserWithEmailAndPassword, auth, doc, setDoc, db } from "../../firebaseConfig.js";
+import modal from "../../components/modal.js";
+
 
 // Utility function to show messages on the page
 function showMessage(message, isError = false) {
@@ -315,6 +317,10 @@ const togglePassword = document.getElementById('togglePassword');
 
 // Toggle password visibility
 togglePassword.addEventListener('click', () => {
+
+// Add event listener to open modal when the button is clicked
+document.getElementById('openModalBtn').onclick = openProfileModal;
+
     const type = passwordField.type === 'password' ? 'text' : 'password';
     passwordField.type = type;
     const icon = type === 'password' ? 'fa-eye-slash' : 'fa-eye';
@@ -326,6 +332,7 @@ const toggleConfirmPassword = document.getElementById('toggleConPassword');
 
 // Toggle confirm password visibility
 toggleConfirmPassword.addEventListener('click', () => {
+    
     const currentType = confirmPasswordField.type === 'password' ? 'text' : 'password';
     confirmPasswordField.type = currentType;
     const iconClass = currentType === 'password' ? 'fa-eye-slash' : 'fa-eye';

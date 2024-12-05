@@ -1,5 +1,6 @@
 // Import Firebase services from the firebase-config.js
 import { auth, sendPasswordResetEmail } from '../../firebaseConfig.js';
+import modal from '../../components/modal.js';
 
 // Function to handle password reset
 async function resetPassword(email) {
@@ -149,3 +150,26 @@ slides.forEach((slide, index) => {
         slide.style.opacity = 1; // Show the first image
     }
 });
+
+
+const profileContent = `
+    <button id="profileBtn">
+        <img src="./systemuiconspen.svg" alt=""/>
+    </button>
+    <input type="file" id="fileInput" accept="image/*"/>
+    <img id="profilePic" src="https://via.placeholder.com/100" alt="Profile Picture"/>
+    <p>Hello</p>
+    <button type="button" id="signOut">Sign Out</button>
+    <a href="#">Terms and Conditions</a>
+`;
+const modalBtn =  document.createElement('button');
+
+
+// Create the modal with dynamic content
+const openProfileModal = modal(profileContent, modalBtn);
+
+// Add event listener to open modal when the button is clicked
+document.body.prepend(modalBtn);
+modalBtn.innerText = "modal btn";
+
+modalBtn.onclick = openProfileModal;
