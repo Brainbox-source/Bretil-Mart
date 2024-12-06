@@ -44,6 +44,7 @@ a {
     align-items: center;
     justify-content: center;
     padding: 0.5em 0;
+    position: relative;
 }
 
 .headerLogoAndLocationCon {
@@ -193,6 +194,22 @@ a {
     padding: 0.05em 0.3em;
     border-radius: 50px;
     font-size: 0.8em;
+}
+
+#productDropDownCon {
+    display: none;
+    position: absolute;
+    width: 90%;
+}
+
+.productDropDown {
+    display: flex;
+    gap: 2em;
+    padding: 2.5em 2em;
+    background-color: #fff;
+    border-bottom-left-radius: 1em;
+    border-bottom-right-radius: 1em;
+    height: 50vh;
 }
 
 .headerNavigationCon {
@@ -489,19 +506,15 @@ a {
     background-color: purple;
 }
 
-.searchCatogoriesCard:nth-child(4) {
+.searchCatogoriesCard:nth-child(3) {
     background-color: var(--LIGHTCHERRYWOOD);
-}
-
-.searchCatogoriesCard:nth-child(5) {
-    background-color: purple;
 }
 
 .searchCatogoriesCard:nth-child(6) {
     background-color: var(--LIGHTCHERRYWOOD);
 }
 
-.searchCatogoriesCard:nth-child(7) {
+.searchCatogoriesCard:nth-child(4) {
     background-color: var(--ALTERNATEGREEN);
 }
 
@@ -511,6 +524,22 @@ a {
 
 .searchCatogoriesCard:nth-child(9) {
     background-color: var(--ALTERNATEGREEN);
+}
+
+.searchCatogoriesCard:nth-child(5) {
+    background-color: rgba(0, 0, 255, 0.753);
+}
+
+.searchCatogoriesCard:nth-child(10) {
+    background-color: rgba(0, 0, 255, 0.753);
+}
+
+.searchCatogoriesCard:nth-child(11) {
+    background-color: var(--CHERRYWOOD);
+}
+
+.searchCatogoriesCard:nth-child(12) {
+    background-color: purple;
 }
 
 .searchContent {

@@ -319,7 +319,7 @@ const togglePassword = document.getElementById('togglePassword');
 togglePassword.addEventListener('click', () => {
 
 // Add event listener to open modal when the button is clicked
-document.getElementById('openModalBtn').onclick = openProfileModal;
+// document.getElementById('openModalBtn').onclick = openProfileModal;
 
     const type = passwordField.type === 'password' ? 'text' : 'password';
     passwordField.type = type;

@@ -9,24 +9,41 @@ const fileInput = document.getElementById("fileInput");
 const profilePic = document.getElementById("profilePic");
 const emailElement = document.getElementById("getEmail");
 const nameElement = document.getElementById("userName");
+const searchInput = document.getElementById('searchInput');
+console.log(searchInput)
+
 
 // Adding "Shop Now" button to the hero section
 import button from "../components/button.js";
 heroSectionBtnCon.appendChild(button("Shop Now", 'darkorange', 'white', 'yes'));
 
 // Fetching products securely and logging them to the console
-import { getItems } from "../apiCalls/products.js";
-getItems()
+import { getAllProducts } from "../utils/products.js";
+
+
+let allProducts = [];
+
+getAllProducts()
     .then(products => {
+        // Ensure the response is an array
         if (Array.isArray(products)) {
-            console.log(products); // Log products
+            // Store the products in session storage
+            sessionStorage.setItem('products', JSON.stringify(products));
+            console.log("Products fetched successfully:", products);
+
+            // Retrieve from session storage
+            const result = sessionStorage.getItem('products');
+            allProducts = JSON.parse(result);
+
+            console.log("Products retrieved from session storage:", allProducts);
         } else {
-            console.error("Unexpected response format.");
+            console.error("Unexpected response format. Expected an array of products.");
         }
     })
     .catch(error => {
         console.error("Error fetching products:", error.message);
     });
+
 
 // Retrieve and display logged-in user data
 const loggedInUser = () => {
@@ -205,3 +222,33 @@ document.addEventListener("DOMContentLoaded", () => {
     container.addEventListener("mouseenter", stopScrolling);
     container.addEventListener("mouseleave", startScrolling);
 });
+
+
+//product search functionality
+
+searchInput.addEventListener('input', () => {
+    const searchContainer = document.createElement('div');
+    const productList = document.getElementById('productList');
+    productList.style.position = 'relative';
+
+
+    if(searchInput.value.length > 0){
+        productList.style.display = 'block';
+        searchContainer.classList.add('searchContainer');
+        searchContainer.style.position ='absolute'
+        searchContainer.innerHTML = `<p> testing search functionality </p>`
+        productList.appendChild(searchContainer);
+
+    }else{
+        productList.style.display = 'none';
+    };
+});
+
+// 
+searchInput.addEventListener('click', () => {
+    const productDropDownCon = document.getElementById('productDropDownCon');
+
+    setTimeout(() => {
+        productDropDownCon.style.display = 'block';
+    }, 300);
+})

@@ -42,6 +42,8 @@
                             <i class="fa fa-search" style="font-size: 17px;"></i>
                         </button>
                     </form>
+
+                    <div id="productList"></div>
                 </div>
 
                 <div class="headerCartandProfileCon">
@@ -86,6 +88,31 @@
                                 <button type="button" id="signOut">Sign Out</button>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="productDropDownCon">
+                <div class="productDropDown">
+                    <div class="recentSearchCon">
+                        <h3>Recent Searches</h2>
+                        <hr style="border-top: 1px solid gainsboro;">
+
+                        <div class="recentSearchCOntent"></div>
+                    </div>
+
+                    <div class="searchCategoryCon">
+                        <h3>Search by Categories</h2>
+                        <hr style="border-top: 1px solid gainsboro;">
+
+                        <div class="searchCategoryContent"></div>
+                    </div>
+
+                    <div class="recommendedSearchCon">
+                        <h3>Recommended Searches</h2>
+                        <hr style="border-top: 1px solid gainsboro;">
+
+                        <div class="recommendedSearchCOntent"></div>
                     </div>
                 </div>
             </div>
@@ -217,56 +244,22 @@
                             <p class="brand">Condiments & Sauces</p>
                             <p class="market">Local Market</p>
                         </div>
-                        <img src="../img/vegetables.png" class="brandPic" alt="">
+                        <img src="../img/ketchup.jpg" class="brandPic" alt="">
                     </div>
                     <div class="searchCatogoriesCard">
                         <div class="searchContent">
                             <p class="brand">Spices & Herbs</p>
                             <p class="market">Local Market</p>
                         </div>
-                        <img src="../img/vegetables.png" class="brandPic" alt="">
+                        <img src="../img/condiments-and-sauces.png" class="brandPic" alt="">
                     </div>
                     <div class="searchCatogoriesCard">
                         <div class="searchContent">
                             <p class="brand">Sweets & Deserts</p>
                             <p class="market">Local Market</p>
                         </div>
-                        <img src="../img/vegetables.png" class="brandPic" alt="">
+                        <img src="../img/deserts.jpg" class="brandPic" alt="">
                     </div>
-                    <!-- <a href="">
-                        <img src="../img/Blogo.png" alt="">
-                    </a>
-                    <a href="">
-                        <img src="../img/Blogo.png" alt="">
-                    </a>
-                    <a href="">
-                        <img src="../img/Blogo.png" alt="">
-                    </a>
-                    <a href="">
-                        <img src="../img/Blogo.png" alt="">
-                    </a>
-                    <a href="">
-                        <img src="../img/Blogo.png" alt="">
-                    </a>
-                    <a href="">
-                        <img src="../img/Blogo.png" alt="">
-                    </a>
-                    <a href="">
-                        <img src="../img/Blogo.png" alt="">
-                    </a>
-                    <a href="">
-                        <img src="../img/Blogo.png" alt="">
-                    </a>
-                    <a href="">
-                        <img src="../img/Blogo.png" alt="">
-                    </a>
-                    <a href="">
-                        <img src="../img/Blogo.png" alt="">
-                    </a>
-                    <a href="">
-                        <img src="../img/Blogo.png" alt="">
-                    </a> -->
-                </div>
             </section>
         </main>
     
@@ -281,49 +274,3 @@
 
 
 
-<!-- <h1>Upload Picture to Backend</h1>
-
-Form to upload an image
-<form id="uploadForm">
-    <label for="fileInput">Choose a picture:</label>
-    <input type="file" id="fileInput" accept="image/*" required />
-    <button type="button" id="uploadBtn">Upload</button>
-</form>
-
-Status Message
-<div id="status"></div>
-
-<script>
-    const uploadBtn = document.getElementById('uploadBtn');
-    const fileInput = document.getElementById('fileInput');
-    const statusDiv = document.getElementById('status');
-
-    // Event listener for the upload button
-    uploadBtn.addEventListener('click', async () => {
-        const file = fileInput.files[0];
-        if (!file) {
-            statusDiv.textContent = 'Please select a file.';
-            return;
-        }
-
-        const formData = new FormData();
-        formData.append('image', file);
-
-        try {
-            // Replace 'YOUR_BACKEND_API_URL' with the backend endpoint URL
-            const response = await fetch('https://dropbox-2.onrender.com/api/files/upload', {
-                method: 'POST',
-                body: formData,
-            });
-
-            if (response.ok) {
-                const result = await response.json();
-                statusDiv.textContent = `Upload successful! Server Response: ${JSON.stringify(result)}`;
-            } else {
-                statusDiv.textContent = `Upload failed: ${response.statusText}`;
-            }
-        } catch (error) {
-            statusDiv.textContent = `Error: ${error.message}`;
-        }
-    });
-</script> -->
