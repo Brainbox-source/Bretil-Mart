@@ -485,6 +485,7 @@ a {
     overflow-x: auto;
     cursor: pointer;
     scrollbar-width: none;
+    border: none;
 }
 
 .searchCatogoriesCardsCon::-webkit-scrollbar {
@@ -498,7 +499,8 @@ a {
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    border-radius: 1em;
+    border-top-left-radius: 1em;
+    border-top-right-radius: 1em;
     /* border: 1px solid #f00; */
 }
 
@@ -510,7 +512,15 @@ a {
     background-color: var(--LIGHTCHERRYWOOD);
 }
 
+.searchCatogoriesCard:nth-child(15) {
+    background-color: var(--LIGHTCHERRYWOOD);
+}
+
 .searchCatogoriesCard:nth-child(6) {
+    background-color: var(--LIGHTCHERRYWOOD);
+}
+
+.searchCatogoriesCard:nth-child(18) {
     background-color: var(--LIGHTCHERRYWOOD);
 }
 
@@ -518,7 +528,15 @@ a {
     background-color: var(--ALTERNATEGREEN);
 }
 
+.searchCatogoriesCard:nth-child(16) {
+    background-color: var(--ALTERNATEGREEN);
+}
+
 .searchCatogoriesCard:nth-child(8) {
+    background-color: var(--CHERRYWOOD);
+}
+
+.searchCatogoriesCard:nth-child(20) {
     background-color: var(--CHERRYWOOD);
 }
 
@@ -526,7 +544,15 @@ a {
     background-color: var(--ALTERNATEGREEN);
 }
 
+.searchCatogoriesCard:nth-child(21) {
+    background-color: var(--ALTERNATEGREEN);
+}
+
 .searchCatogoriesCard:nth-child(5) {
+    background-color: rgba(0, 0, 255, 0.753);
+}
+
+.searchCatogoriesCard:nth-child(22) {
     background-color: rgba(0, 0, 255, 0.753);
 }
 
@@ -534,11 +560,27 @@ a {
     background-color: rgba(0, 0, 255, 0.753);
 }
 
+.searchCatogoriesCard:nth-child(17) {
+    background-color: rgba(0, 0, 255, 0.753);
+}
+
 .searchCatogoriesCard:nth-child(11) {
     background-color: var(--CHERRYWOOD);
 }
 
+.searchCatogoriesCard:nth-child(23) {
+    background-color: var(--CHERRYWOOD);
+}
+
 .searchCatogoriesCard:nth-child(12) {
+    background-color: purple;
+}
+
+.searchCatogoriesCard:nth-child(14) {
+    background-color: purple;
+}
+
+.searchCatogoriesCard:nth-child(24) {
     background-color: purple;
 }
 
