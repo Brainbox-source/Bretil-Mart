@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .stock-container {
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+        }
+
+        .progress-bar {
+            display: flex;
+            gap: 2px; /* Space between blocks */
+        }
+
+        .block {
+            width: 8px;
+            border-radius: 0.1em;
+            height: 15px;
+            background-color: gainsboro; /* Default for empty blocks */
+        }
+
+        .block.filled {
+            background-color: rgb(7, 227, 7); /* Filled blocks to indicate stock */
+        }
+        
+        .quantity {
+            color: orange; /* Style the available quantity text */
+            font-weight: bold;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="stock-container">
+        <p>A limited quantity of this product is left</p>
+        <div class="progress-bar"></div>
+
+        <p class="quantity">Available only: <span id="stock-value"></span></p>
+    </div>
+      
+    <script>
+        const totalBlocks = 20; // Total blocks representing full stock
+        const availableStock = 30; // Current stock in kg
+        const maxStock = 100; // Example max capacity in kg
+
+        // Calculate the percentage of filled blocks
+        const percentageFilled = Math.round((availableStock / maxStock) * totalBlocks);
+
+        // Create the progress bar dynamically
+        const progressBar = document.querySelector('.progress-bar');
+
+        for (let i = 0; i < totalBlocks; i++) {
+        const block = document.createElement('div');
+        block.classList.add('block');
+        if (i < percentageFilled) {
+            block.classList.add('filled');
+        }
+        progressBar.appendChild(block);
+        }
+
+        // Update the text display
+        document.getElementById('stock-value').textContent = `${availableStock}kg`;
+
+    </script>
+</body>
+</html>

@@ -1,5 +1,8 @@
 // DOM Elements
 const heroSectionBtnCon = document.getElementById('heroSectionBtnCon');
+const organicFoodBtnCon =  document.getElementById('organicFoodBtnCon');
+const hurryUpBtnCon = document.getElementById('hurryUpBtnCon');
+const percentBtn = document.getElementById('percentBtn');
 const locationParagraph = document.querySelector(".locationAbuDhabi");
 const modal = document.getElementById("myModal");
 const profileBtn = document.getElementById("ProfileBtn");
@@ -16,6 +19,18 @@ console.log(searchInput)
 // Adding "Shop Now" button to the hero section
 import button from "../components/button.js";
 heroSectionBtnCon.appendChild(button("Shop Now", 'darkorange', 'white', 'yes'));
+
+// Adding "Shop Now" button to the organic food section
+import secondButton from "../components/button.js";
+organicFoodBtnCon.appendChild(secondButton("Shop Now", '#fff', 'darkgreen', 'yes'));
+
+// Adding "Shop Now" button to the hurry up section
+import thirdButton from "../components/button.js";
+hurryUpBtnCon.appendChild(thirdButton("Shop Now", '#fff', 'darkgreen', 'yes'))
+
+// Adding the percent button
+// import percentbutton from "../components/percentage.js";
+// percentBtn.appendChild(percentbutton('15% OFF', 'darkorange', '#fff'));
 
 // Fetching products securely and logging them to the console
 import { getAllProducts } from "../utils/products.js";
@@ -143,7 +158,7 @@ function detectUserLocation() {
             },
             (error) => {
                 console.error("Error getting location:", error.message);
-                updateDeliveryLocation("Location not available");
+                updateDeliveryLocation("Location");
             },
             {
                 enableHighAccuracy: true,

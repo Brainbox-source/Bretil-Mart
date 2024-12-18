@@ -14,7 +14,13 @@
 
 body {
     font-family: 'AEONIK', sans-serif;
-    background-color: #dcdcdc29;
+    background-color: #fff;
+}
+
+header {
+    position: sticky;
+    top: 0;
+    background-color: #fff;
 }
 
 a {
@@ -34,7 +40,7 @@ a {
 }
 
 .mainDashboard {
-    width: 90%;
+    width: 90vw;
     /* border: 1px solid #000; */
     margin: auto;
 }
@@ -199,7 +205,7 @@ a {
 #productDropDownCon {
     display: none;
     position: absolute;
-    width: 90%;
+    width: 100%;
 }
 
 .productDropDown {
@@ -320,7 +326,7 @@ a {
 
 
 #heroSectionBtnCon {
-    width: 130px;
+    width: 150px;
     margin: 2em 0 0 0;
     display: flex;
 }
@@ -328,11 +334,11 @@ a {
 /* The Modal (background) */
 .modal {
     display: none;
-    position: fixed; /* Stay in place */
+    /* position: fixed; Stay in place */
     z-index: 1; /* Sit on top */
     border: 1px solid rgba(255, 140, 0, 0.177);
-    right: 5%;
-    top: 17.7%;
+    right: 0;
+    /* top: 17.7%; */
     /* width: 30%; */
     border-radius: 1em;
     background-color: #ffffff;
@@ -340,6 +346,7 @@ a {
     /* color: ; */
     /* float: right; */
     animation: none;
+    position: absolute;
 }
 
 /* Modal Content */
@@ -466,12 +473,14 @@ a {
     margin-bottom: 2em;
 }
 
-.shopCategoriesHeading {
+.shopCategoriesHeading,
+.limitedProductsHeading {
     color: var(--GREEN);
     font-weight: 800;
 }
 
-.allCategories {
+.allCategories,
+.viewAll {
     color: darkorange;
     display: flex;
     align-items: center;
@@ -485,7 +494,7 @@ a {
     overflow-x: auto;
     cursor: pointer;
     scrollbar-width: none;
-    border: none;
+    border: 1px solid #dcdcdc29;
 }
 
 .searchCatogoriesCardsCon::-webkit-scrollbar {
@@ -601,4 +610,156 @@ a {
 .brandPic {
     width: 210px;
     height: 200px;
+}
+
+/* .productCon {
+    background-color: grey;
+    border-radius: 0.5em;
+    height: 50vh;
+} */
+
+.organicFoodCon {
+    background: linear-gradient(50deg, var(--GREEN), var(--ALTERNATEGREEN), rgb(1, 143, 1), rgb(2, 88, 2), yellowgreen);
+    background-size: 400% 400%;
+    color: #fff;
+    display: flex;
+    /* align-items: ; */
+    padding-left: 3em;
+    padding-top: 11em;
+    border-radius: 1.5em;
+    animation: organicFoodGradientMotion 15s ease infinite;
+    /* width: 70%; */
+}
+
+@keyframes organicFoodGradientMotion {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+.organicFoodContentCon {
+    /* border: 1px solid #f00; */
+    margin-top: -7em;
+    margin-right: -5.5em;
+}
+
+.organicFoodParagraph {
+    font-size: 0.9em;
+    margin-bottom: 1em;
+}
+
+.organicFoodHeading {
+    font-size: 1.8em;
+}
+
+.fifteenPercentOff, .organicGroceries {
+    color: #FFF05A;
+}
+
+.pepperImg {
+    /* border: 1px solid #f00; */
+    width: 550px;
+    margin-bottom: -1%;
+    border-bottom-right-radius: 1.5em;
+}
+
+#organicFoodBtnCon {
+    width: 160px;
+    margin: 2em 0 0 0;
+    display: flex;
+}
+
+.bigOffer {
+    background-color: darkorange;
+    border-radius: 1.5em;
+    width: 40%;
+    text-align: center;
+    padding-top: 3em;
+}
+
+.bigOfferContentCon {
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+}
+
+.bigOfferHeading {
+    font-size: 4em;
+    color: #FFF05A;
+}
+
+.bigOfferParagraph {
+    font-size: 1.6em;
+    color: #FFF05A;
+}
+
+.giftImg2 {
+    display: none;
+} 
+
+.hurryUpCon {
+    background: linear-gradient(50deg, var(--CHERRYWOOD), var(--DARKCHERRYWOOD), var(--LIGHTCHERRYWOOD));
+    background-size: 400% 400%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 1.5em;
+    padding-left: 3em;
+    /* padding-top: 2em; */
+    animation: hurryUpGradientMotion 15s ease infinite;
+}
+
+@keyframes hurryUpGradientMotion {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+.hurryUpParagraph {
+    color: #efdf2d;
+    font-size: 0.9em;
+    margin-bottom: 1em;
+}
+
+.hurryUpContentCon {
+    margin: 3em 0;
+}
+
+.hurryUpHeading {
+    color: #fff;
+    line-height: 1.5;
+    font-size: 1.46em;
+    /* margin: 0 0.5em 0 0; */
+}
+
+#hurryUpBtnCon {
+    width: 160px;
+    margin: 2em 0 0 0;
+    display: flex;
+}
+
+.beefImg {
+    width: 100%;
+    border-bottom-right-radius: 1.5em;
+    margin-bottom: -1.2%;
+    /* border: 1px solid #0f0; */
+}
+
+/* scrollbar */
+::-webkit-scrollbar {
+    width: 0px;
 }

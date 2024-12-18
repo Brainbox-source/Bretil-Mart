@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>File Upload to Dropbox</title>
+</head>
+<body>
+
+  <h1>Upload Files to Dropbox</h1>
+
+  <form id="uploadForm">
+    <input type="file" name="files" id="files" multiple />
+    <button type="submit">Upload</button>
+  </form>
+
+  <div id="message"></div>
+  <div id="fileLinks"></div>
+
+  <script>
+    const form = document.getElementById('uploadForm');
+    const messageDiv = document.getElementById('message');
+    const fileLinksDiv = document.getElementById('fileLinks');
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+
+      // Clear any previous messages or links
+      messageDiv.innerHTML = '';
+      fileLinksDiv.innerHTML = '';
+
+      const formData = new FormData();
+      const files = document.getElementById('files').files;
+      
+      // Append all selected files to the FormData object
+      for (const file of files) {
+        formData.append('files', file);
+      }
+
+      try {
+        // Send the FormData to the backend API
+        const response = await fetch('http://localhost:5000/api/files/upload', {
+          method: 'POST',
+          body: formData,
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+          messageDiv.innerHTML = 'Files uploaded successfully!';
+          // Display the file URLs
+          data.urls.forEach(url => {
+            const linkElement = document.createElement('a');
+            linkElement.href = url;
+            linkElement.target = '_blank';
+            linkElement.textContent = 'Download file';
+            fileLinksDiv.appendChild(linkElement);
+            fileLinksDiv.appendChild(document.createElement('br'));
+          });
+        } else {
+          messageDiv.innerHTML = `Error: ${data.error}`;
+        }
+      } catch (error) {
+        console.error('Error uploading files:', error);
+        messageDiv.innerHTML = 'There was an error uploading the files. Please try again.';
+      }
+    });
+  </script>
+
+</body>
+</html>

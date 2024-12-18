@@ -1,0 +1,36 @@
+@media screen and (min-width: 1180px) and (max-width: 1366px) {
+    .mainDashboard {
+        width: 95vw;
+    }
+
+    .headerLogoAndLocationCon {
+        width: 19.9%;
+    }
+
+    .organicFoodCon {
+        align-items: start;
+        padding-top: 13.5em;
+    }
+    
+    .organicFoodContentCon {
+        margin-top: -10em;
+        margin-right: -5.5em;
+    }
+
+    .pepperImg {
+        width: 460px;
+    }
+
+    .giftImg {
+        display: none;
+    }
+
+    .giftImg2 {
+        display: block;
+        margin: auto;
+    }
+
+    /* .hurryUpHeading {
+        font-size: 1em;
+    } */
+}
