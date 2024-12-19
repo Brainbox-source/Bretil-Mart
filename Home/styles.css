@@ -336,11 +336,12 @@ a {
     display: none;
     /* position: fixed; Stay in place */
     z-index: 1; /* Sit on top */
-    border: 1px solid rgba(255, 140, 0, 0.177);
+    border: 1px solid rgba(220, 220, 220, 0.504);
     right: 0;
     /* top: 17.7%; */
     /* width: 30%; */
-    border-radius: 1em;
+    border-bottom-right-radius: 1em;
+    border-bottom-left-radius: 1em;
     background-color: #ffffff;
     padding: 0.3em 0.4em 1.2em 0.4em;
     /* color: ; */
@@ -610,6 +611,7 @@ a {
 .brandPic {
     width: 210px;
     height: 200px;
+    margin-bottom: -1%;
 }
 
 /* .productCon {
@@ -753,10 +755,67 @@ a {
 }
 
 .beefImg {
-    width: 100%;
+    width: 375px;
     border-bottom-right-radius: 1.5em;
     margin-bottom: -1.2%;
     /* border: 1px solid #0f0; */
+}
+
+.grabTheOfferCon {
+    background: linear-gradient(#efdf2d, #FFF05A, red, green);
+    border-radius: 1.5em;
+    background-size: 400% 400%;
+    display: flex;
+    align-items: center;
+    animation: grabTheOfferGradientMotion 10s ease infinite;
+}
+
+@keyframes grabTheOfferGradientMotion {
+    0% {
+    background-position: 0% 50%;
+    }
+    50% {
+    background-position: 100% 50%;
+    }
+    100% {
+    background-position: 0% 50%;
+    }
+}
+
+.appleImg {
+    width: 500px;
+    /* border: 1px solid #f00; */
+    border-bottom-left-radius: 1.5em;
+    margin-bottom: -16%;
+}
+
+.grabTheOfferContentCon {
+    /* border: 1px solid #f00; */
+    padding-right: 2.2em;
+    /* width: 200px; */
+}
+
+.granTheOfferHeading {
+    font-size: 2.5em;
+    color: var(--LIGHTCHERRYWOOD);
+    margin-bottom: 0.3em;
+}
+
+.percentage {
+    font-size: 0.5em;
+    margin-left: -6%;
+}
+
+.offerParagraph {
+    font-weight: 600;
+    font-size: 1.19em;
+    margin-bottom: 0.8em;
+}
+
+.grabTheOfferLink, .arrow-right {
+    color: #000;
+    padding-bottom: 0.15em;
+    /* text-decoration: underline; */
 }
 
 /* scrollbar */

@@ -1,71 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>File Upload to Dropbox</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test File Upload</title>
 </head>
 <body>
+    <h1>Test File Upload to Backend</h1>
 
-  <h1>Upload Files to Dropbox</h1>
+    <!-- Form to upload multiple files -->
+    <form id="uploadForm">
+        <label for="fileInput">Choose files:</label>
+        <input type="file" id="fileInput" multiple required />
+        <button type="button" id="uploadBtn">Upload</button>
+    </form>
 
-  <form id="uploadForm">
-    <input type="file" name="files" id="files" multiple />
-    <button type="submit">Upload</button>
-  </form>
+    <!-- Status Message -->
+    <div id="status"></div>
 
-  <div id="message"></div>
-  <div id="fileLinks"></div>
+    <script>
+        const uploadBtn = document.getElementById('uploadBtn');
+        const fileInput = document.getElementById('fileInput');
+        const statusDiv = document.getElementById('status');
 
-  <script>
-    const form = document.getElementById('uploadForm');
-    const messageDiv = document.getElementById('message');
-    const fileLinksDiv = document.getElementById('fileLinks');
+        // Event listener for the upload button
+        uploadBtn.addEventListener('click', async (e) => {
+          e.preventDefault();
+            const files = fileInput.files;
 
-    form.addEventListener('submit', async (event) => {
-      event.preventDefault();
+            // Clear previous status messages
+            statusDiv.textContent = '';
 
-      // Clear any previous messages or links
-      messageDiv.innerHTML = '';
-      fileLinksDiv.innerHTML = '';
+            if (!files.length) {
+                statusDiv.textContent = 'Please select at least one file.';
+                return;
+            }
 
-      const formData = new FormData();
-      const files = document.getElementById('files').files;
-      
-      // Append all selected files to the FormData object
-      for (const file of files) {
-        formData.append('files', file);
-      }
+            const formData = new FormData();
+            
+            // Append all selected files with the field name 'files' to the FormData
+            for (let i = 0; i < files.length; i++) {
+                formData.append('files', files[i]);
+            }
 
-      try {
-        // Send the FormData to the backend API
-        const response = await fetch('http://localhost:5000/api/files/upload', {
-          method: 'POST',
-          body: formData,
+            try {
+                // Replace the URL below with your backend endpoint
+                const response = await fetch('http://localhost:5000/api/files/upload', {
+                    method: 'POST',
+                    body: formData,
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+                    statusDiv.textContent = `Upload successful! File URLs: ${result.urls.join(', ')}`;
+                } else {
+                    const errorText = await response.text();
+                    statusDiv.textContent = `Upload failed: ${response.status} ${errorText}`;
+                }
+            } catch (error) {
+                statusDiv.textContent = `Error: ${error.message}`;
+            }
         });
-
-        const data = await response.json();
-
-        if (response.ok) {
-          messageDiv.innerHTML = 'Files uploaded successfully!';
-          // Display the file URLs
-          data.urls.forEach(url => {
-            const linkElement = document.createElement('a');
-            linkElement.href = url;
-            linkElement.target = '_blank';
-            linkElement.textContent = 'Download file';
-            fileLinksDiv.appendChild(linkElement);
-            fileLinksDiv.appendChild(document.createElement('br'));
-          });
-        } else {
-          messageDiv.innerHTML = `Error: ${data.error}`;
-        }
-      } catch (error) {
-        console.error('Error uploading files:', error);
-        messageDiv.innerHTML = 'There was an error uploading the files. Please try again.';
-      }
-    });
-  </script>
-
+    </script>
 </body>
 </html>

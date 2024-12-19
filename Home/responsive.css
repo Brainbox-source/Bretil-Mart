@@ -1,10 +1,11 @@
 @media screen and (min-width: 1180px) and (max-width: 1366px) {
     .mainDashboard {
         width: 95vw;
+        /* border: 1px solid #000; */
     }
 
     .headerLogoAndLocationCon {
-        width: 19.9%;
+        width: 20%;
     }
 
     .organicFoodCon {
@@ -33,4 +34,14 @@
     /* .hurryUpHeading {
         font-size: 1em;
     } */
+
+    .beefImg {
+        width: 305px;
+        margin-bottom: -1.3%;
+    }
+
+    .appleImg {
+        width: 410px;
+        margin-bottom: -16.5%;
+    }
 }

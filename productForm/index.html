@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bretil Mart Product Form</title>
+    <link rel="icon" href="../img/Blogo2.png">
+    <style>
+        /* style.css */
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        form {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            background-color: #f9f9f9;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        input, select, button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 12px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            background-color: #fba100;
+            color: white;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #df8f03;
+        }
+
+        input[type="file"] {
+            padding: 5px;
+        }
+
+        select {
+            padding: 10px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Product Information Form</h1>
+
+    <!-- Form that submits data to the backend -->
+    <form id="productForm" action="/submit-product" method="POST" enctype="multipart/form-data">
+        <label for="images">Product Images:</label>
+        <input type="file" id="images" name="images[]" accept="image/*" multiple required>
+        <br><br>
+
+        <label for="productName">Product Name:</label>
+        <input type="text" id="productName" name="productName" required>
+        <br><br>
+
+        <label for="category">Category:</label>
+        <select id="category" name="category" required>
+            <option value="product category" selected disabled>Select product category</option>
+            <option value="fresh produce">Fresh Produce</option>
+            <option value="baked goods">Baked Goods</option>
+            <option value="diary products">Diary Products</option>
+            <option value="meat & seafood">Meat & Seafood</option>
+            <option value="canned goods">Canned Goods</option>
+            <option value="frozen foods">Frozen Foods</option>
+            <option value="grains & pasta">Grains & Pasta</option>
+            <option value="snacks">Snacks</option>
+            <option value="beverages">Beverages</option>
+            <option value="condiments & sauces">Condiments & Sauces</option>
+            <option value="spices & herbs">Spices & Herbs</option>
+            <option value="sweets & deserts">Sweets & Deserts</option>
+        </select>
+        <br><br>
+
+        <label for="price">Price ($):</label>
+        <input type="number" id="price" name="price" step="0.01" required>
+        <br><br>
+
+        <label for="rating">Rating (1 to 5):</label>
+        <input type="number" id="rating" name="rating" min="1" max="5" required>
+        <br><br>
+
+        <label for="quantity">Quantity Left:</label>
+        <input type="number" id="quantity" name="quantity" min="1" required>
+        <br><br>
+
+        <label for="color">Color:</label>
+        <input type="text" id="color" name="color" required>
+        <br><br>
+
+        <label for="brand">Brand:</label>
+        <input type="text" id="brand" name="brand" required>
+        <br><br>
+
+        <button type="submit">Submit Product</button>
+    </form>
+
+    <!-- <script>
+        const express = require('express');
+        const multer = require('multer');
+        const app = express();
+        const port = 3000;
+
+        // Set up multer for file uploads
+        const upload = multer({ dest: 'uploads/' });
+
+        app.use(express.urlencoded({ extended: true }));
+        app.use(express.json());
+
+        app.post('/submit-product', upload.array('images'), (req, res) => {
+        const { productName, category, price, rating, quantity, color, brand } = req.body;
+        const images = req.files; // An array of uploaded images
+
+        console.log('Product Name:', productName);
+        console.log('Category:', category);
+        console.log('Price:', price);
+        console.log('Rating:', rating);
+        console.log('Quantity:', quantity);
+        console.log('Color:', color);
+        console.log('Brand:', brand);
+        console.log('Images:', images);
+
+        // Here you can process the data and store it in your database or perform other actions
+
+        res.send('Product submitted successfully!');
+        });
+
+        app.listen(port, () => {
+        console.log(`Server running at http://localhost:${port}`);
+        });
+    </script> -->
+</body>
+</html>

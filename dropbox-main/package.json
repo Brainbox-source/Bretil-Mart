@@ -15,8 +15,10 @@
     "dotenv": "^16.4.6",
     "dropbox": "^10.34.0",
     "express": "^4.21.1",
+    "isomorphic-fetch": "^3.0.0",
     "mongoose": "^8.8.3",
     "multer": "^1.4.5-lts.1",
-    "nodemon": "^3.1.7"
+    "nodemon": "^3.1.7",
+    "uuid": "^11.0.3"
   }
 }

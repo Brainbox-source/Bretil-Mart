@@ -4,53 +4,58 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+
+    <style>
+        /* Hide content initially */
+        .content {
+            opacity: 0;
+            transform: translateY(50px);  /* You can also use other transforms like scale */
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        /* Visible class to trigger reveal */
+            .content.visible {
+            opacity: 1;
+            transform: translateY(0); /* Reset transform to original position */
+        }
+    </style>
 </head>
 <body>
-    <h1>Upload Picture to Backend</h1>
-
-Form to upload an image
-<form id="uploadForm">
-    <label for="fileInput">Choose a picture:</label>
-    <input type="file" id="fileInput" accept="image/*" required />
-    <button type="button" id="uploadBtn">Upload</button>
-</form>
-
-<!-- Status Message -->
-<div id="status"></div>
-
-<script>
-    const uploadBtn = document.getElementById('uploadBtn');
-    const fileInput = document.getElementById('fileInput');
-    const statusDiv = document.getElementById('status');
-
-    // Event listener for the upload button
-    uploadBtn.addEventListener('click', async () => {
-        const file = fileInput.files[0];
-        if (!file) {
-            statusDiv.textContent = 'Please select a file.';
-            return;
-        }
-
-        const formData = new FormData();
-        formData.append('image', file);
-
-        try {
-            // Replace 'YOUR_BACKEND_API_URL' with the backend endpoint URL
-            const response = await fetch('https://dropbox-2.onrender.com/api/files/upload', {
-                method: 'POST',
-                body: formData,
-            });
-
-            if (response.ok) {
-                const result = await response.json();
-                statusDiv.textContent = `Upload successful! Server Response: ${JSON.stringify(result)}`;
-            } else {
-                statusDiv.textContent = `Upload failed: ${response.statusText}`;
+    <div class="content">
+        <h2>Heading</h2>
+        <p>Some content that will appear smoothly on scroll.</p>
+      </div>
+      
+      <div class="content">
+        <h2>Another Heading</h2>
+        <p>More content that will appear smoothly.</p>
+      </div>
+      
+      <script>
+            // Function to check if an element is in the viewport
+            function isInViewport(element) {
+            const rect = element.getBoundingClientRect();
+            return rect.top >= 0 && rect.bottom <= window.innerHeight;
             }
-        } catch (error) {
-            statusDiv.textContent = `Error: ${error.message}`;
-        }
-    });
-</script>
+
+            // Select all content elements you want to animate
+            const contentElements = document.querySelectorAll('.content');
+
+            // Function to handle scroll event
+            function handleScroll() {
+            contentElements.forEach(element => {
+                if (isInViewport(element)) {
+                element.classList.add('visible');
+                }
+            });
+            }
+
+            // Run the function initially in case elements are already in view
+            handleScroll();
+
+            // Add event listener to scroll event
+            window.addEventListener('scroll', handleScroll);
+
+      </script>
 </body>
 </html>

@@ -30,6 +30,7 @@ const saveTokens = async (accessToken, expiresAt) => {
 // Refresh the access token
 const refreshAccessToken = async () => {
     const refreshToken = process.env.DROPBOX_REFRESH_TOKEN;
+    console.log(refreshAccessToken);
 
     if (!refreshToken) {
         throw new Error('Refresh token not found in environment variables');
