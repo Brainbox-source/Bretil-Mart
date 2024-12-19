@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bretil-Mart Cart</title>
+  <link rel="stylesheet" href="cart.css">
+</head>
+<body>
+  <div class="header">
+    <h1>Bretil-Mart Cart</h1>
+  </div>
+
+  <!-- Cart Icon -->
+  <div id="cart-icon" style="cursor:pointer; padding: 10px; background-color: #4CAF50; color: white; border-radius: 5px;">
+    Cart
+  </div>
+
+  <div class="cart-container">
+    <div class="cart-header">
+      <h2>Bretil-Mart Shopping Cart</h2>
+      <p id="cart-total">Total: ₦0.00</p>
+    </div>
+    <div class="empty-cart" id="empty-cart-message">
+      <p>Your shopping cart is empty</p>
+      <button class="btn btn-primary" onclick="startShopping()">Start Shopping</button>
+    </div>
+    <div class="cart-items" id="cart-items" style="display:none;">
+      <ul id="cart-list"></ul>
+    </div>
+    <div class="explore">
+      <h3>Explore Picks</h3>
+      <div class="explore-images">
+        <img src="https://via.placeholder.com/100" alt="Item 1" onclick="addItemToCart('Item 1', 25)">
+        <img src="https://via.placeholder.com/100" alt="Item 2" onclick="addItemToCart('Item 2', 30)">
+        <img src="https://via.placeholder.com/100" alt="Item 3" onclick="addItemToCart('Item 3', 20)">
+      </div>
+    </div>
+    <div class="order-summary">
+      <p>Item availability and pricing are not guaranteed until payment is final.</p>
+      <p><strong>Safe Payment Options:</strong> Visa, MasterCard, etc.</p>
+    </div>
+    <div class="checkout">
+      <button class="btn btn-primary" onclick="checkout()">Checkout</button>
+    </div>
+  </div>
+
+  <!-- Modal for Cart Preview -->
+  <div id="cartModal" class="modal" style="display:none;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Shopping Cart</h3>
+        <button class="close-btn" onclick="closeModal()">Close</button>
+      </div>
+      <div id="modal-cart-items" class="cart-items">
+        <ul id="modal-cart-list"></ul>
+        <p id="modal-cart-total">Total: ₦0.00</p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary" onclick="checkout()">Proceed to Checkout</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="cart.js"></script>
+</body>
+</html>
