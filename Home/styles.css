@@ -618,11 +618,42 @@ a {
     margin-bottom: -0.5%;
 }
 
+#limitedProcuctsQuantity {
+    border: 1px solid #efdf2d;
+    margin-bottom: 5em;
+}
+
 /* .productCon {
     background-color: grey;
     border-radius: 0.5em;
     height: 50vh;
 } */
+
+.product-card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    margin: 15px;
+    text-align: center;
+    width: 200px;
+}
+
+.product-card img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
+
+.product-card h3 {
+    font-size: 18px;
+    margin: 10px 0;
+}
+
+.product-card p {
+    font-size: 14px;
+    color: #555;
+}
+
 
 .organicFoodCon {
     background: linear-gradient(50deg, var(--GREEN), var(--ALTERNATEGREEN), rgb(1, 143, 1), rgb(2, 88, 2), yellowgreen);

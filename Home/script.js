@@ -47,8 +47,66 @@ startShoppingBtnCon.appendChild(startShoppingButton("Start Shopping", '#fff', 'd
 // Fetching products securely and logging them to the console
 import { getAllProducts } from "../utils/products.js";
 
-
 let allProducts = [];
+
+// Function to fetch and display the products with quantity less than 50
+function displayLowStockProducts() {
+    // Retrieve products from sessionStorage
+    const products = JSON.parse(sessionStorage.getItem('products')) || [];
+
+    // Filter products with quantity less than 50
+    const lowStockProducts = products.filter(product => product.quantity < 50);
+
+    // Take the first 4 products if available
+    const productsToDisplay = lowStockProducts.slice(0, 4);
+
+    // Get the container where the products will be displayed
+    const productContainer = document.getElementById('lowStockProductsContainer');
+
+    // Check if the container exists
+    if (productContainer) {
+        // Clear any existing content in the container
+        productContainer.innerHTML = '';
+
+        // Loop through the products to display
+        productsToDisplay.forEach(product => {
+            // Create a product card
+            const productCard = document.createElement('div');
+            productCard.classList.add('product-card');
+
+            // Product picture
+            const productImage = document.createElement('img');
+            productImage.src = product.pictures[0]; // Assuming the first image is the main one
+            // productImage.alt = product.productName;
+            productCard.appendChild(productImage);
+
+            // Product name (Brand and Product Name)
+            const productName = document.createElement('h3');
+            productName.textContent = `${product.brand}`;
+            productCard.appendChild(productName);
+
+            // Product price
+            const productPrice = document.createElement('p');
+            productPrice.textContent = `${product.price}`;
+            productCard.appendChild(productPrice);
+
+            // Product rating
+            const productRating = document.createElement('p');
+            productRating.textContent = `${product.rating} stars`;
+            productCard.appendChild(productRating);
+
+            // Product quantity
+            const productQuantity = document.createElement('p');
+            productQuantity.textContent = `Available only: ${product.quantity}pc`;
+            productCard.appendChild(productQuantity);
+
+            // Append the product card to the container
+            productContainer.appendChild(productCard);
+        });
+    } else {
+        console.error('Product container (id="lowStockProductsContainer") not found.');
+    }
+}
 
 getAllProducts()
     .then(products => {
@@ -63,6 +121,9 @@ getAllProducts()
             allProducts = JSON.parse(result);
 
             console.log("Products retrieved from session storage:", allProducts);
+
+            // Display the low stock products
+            displayLowStockProducts();
         } else {
             console.error("Unexpected response format. Expected an array of products.");
         }
@@ -70,7 +131,6 @@ getAllProducts()
     .catch(error => {
         console.error("Error fetching products:", error.message);
     });
-
 
 // Retrieve and display logged-in user data
 const loggedInUser = () => {
@@ -341,7 +401,7 @@ searchInput.addEventListener('click', () => {
     setTimeout(() => {
         productDropDownCon.style.display = 'block';
         headerSearchCon.style.width = '100%';
-        headerSearchCon.style.marginTop = '1.6em';
+        headerSearchCon.style.marginTop = '1.4em';
         headerLogoAndLocationCon.style.display = 'none';
         headerCartandProfileCon.style.display = 'none';
     }, 100);
