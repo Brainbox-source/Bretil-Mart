@@ -1,336 +1,177 @@
-// Importing all the necessary functions
-import { getAuth, signInWithPopup, signInWithEmailAndPassword, GoogleAuthProvider, signOut } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js";
-import { doc, getDoc, setDoc, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js";
-import { auth, db } from "../firebaseConfig.js";
+// Importing necessary Firebase functions
+import { 
+    getAuth, signInWithPopup, signInWithEmailAndPassword, GoogleAuthProvider, signOut 
+} from "https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js";
+import { 
+    doc, getDoc, setDoc, collection, query, where, getDocs 
+} from "https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js";
+import { auth, db } from "../firebaseConfig.js"; // Firebase configuration file
 
-// Check if user is already authenticated and fetch the "Remember Me" status
+// Handle Authentication State
 auth.onAuthStateChanged((user) => {
     if (user) {
-        // User is signed in, check the "Remember Me" flag in Firestore
         const userDocRef = doc(db, "users", user.uid);
         getDoc(userDocRef)
             .then((docSnapshot) => {
                 if (docSnapshot.exists()) {
                     const userData = docSnapshot.data();
-                    console.log("User data:", userData);  // Log user data to see if rememberMe is set
                     if (userData.rememberMe) {
                         console.log("User is remembered. Redirecting to Home.");
-                        window.location.href = "../Home/index.html";  // Redirect to Home
-                    } else {
-                        console.log("User is not remembered.");
+                        window.location.href = "../Home/index.html";
                     }
-                } else {
-                    console.log("No user data found in Firestore.");
                 }
             })
-            .catch((error) => {
-                console.error("Error fetching user data:", error);
-            });
+            .catch((error) => console.error("Error fetching user data:", error));
     } else {
         console.log("No user signed in.");
     }
 });
 
+// Login Form Submission Handler
+document.getElementById("loginForm").addEventListener("submit", (event) => {
+    event.preventDefault();
 
-// Handle the login form submission
-document.getElementById("loginForm").addEventListener("submit", function (event) {
-    event.preventDefault(); // Prevent the default form submission
-
-    const email = document.getElementById("email").value;
+    const email = document.getElementById("email").value.trim().toLowerCase();
     const password = document.getElementById("password").value;
-    const rememberMe = document.getElementById("remember").checked; // Get "Remember Me" value
+    const rememberMe = document.getElementById("remember").checked;
 
-    // Simple validation for email and password
-    if (!email || !password) {
-        console.error("Please enter both email and password.");
+    // Simple validation
+    if (!validateEmail(email) || password.length < 6) {
+        showErrorMessage("Invalid credentials. Please try again.");
         return;
     }
 
-    if (!validateEmail(email)) {
-        console.error("Please enter a valid email address.");
-        return;
-    }
+    toggleLoading(true);
 
-    if (password.length < 6) {
-        console.error("Password should be at least 6 characters long.");
-        return;
-    }
+    // Authenticate the user
+    signInWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+            const user = userCredential.user;
+            const userDocRef = doc(db, "users", user.uid);
 
-    // Show loading indicator
-    document.getElementById("loading").style.display = "flex";
-    document.querySelector(".loginBtn").classList.add("loading"); // Disable login button
-
-    const authInstance = getAuth();
-
-    // Sanitize email by trimming spaces and converting to lowercase
-    const sanitizedEmail = email.trim().toLowerCase();
-
-    // Sign in with Firebase Authentication
-    signInWithEmailAndPassword(authInstance, sanitizedEmail, password)
-    .then((userCredential) => {
-        const user = userCredential.user;
-        console.log("User signed in:", user);
-
-        // Store "Remember Me" status in Firestore
-        const userDocRef = doc(db, "users", user.uid);
-        setDoc(userDocRef, {
-            rememberMe: rememberMe // Store the "Remember Me" state in Firestore
-        }, { merge: true }) // Use merge to only update the rememberMe field without overwriting the entire user data
-        .then(() => {
-            console.log("Remember Me status saved to Firestore");
+            // Update Firestore with the "Remember Me" state
+            return setDoc(userDocRef, { rememberMe }, { merge: true })
+                .then(() => userDocRef);
         })
-        .catch((error) => {
-            console.error("Error saving Remember Me status to Firestore:", error);
-        });
-
-        // Fetch user data from Firestore
-        const userCollectionRef = collection(db, "users");
-        const emailQuery = query(userCollectionRef, where("email", "==", sanitizedEmail));
-
-        getDocs(emailQuery)
-        .then((querySnapshot) => {
-            if (!querySnapshot.empty) {
-                const userDoc = querySnapshot.docs[0];
+        .then((userDocRef) => getDoc(userDocRef))
+        .then((userDoc) => {
+            if (userDoc.exists()) {
                 const userData = userDoc.data();
-                sessionStorage.setItem("loggedInUser", JSON.stringify(userData) );
-                console.log("User data from Firestore:", userData);
-
-                //("You have successfully logged in!");
-                window.location.href = "../Home/index.html"; // Redirect to Home
+                sessionStorage.setItem("loggedInUser", JSON.stringify(userData));
+                window.location.href = "../Home/index.html";
             } else {
-                console.error("User data not found in the database.");
-                // Sign out the user if the data isn't found
-                signOut(authInstance).then(() => {
-                    console.log("User signed out due to no matching data.");
-                }).catch((error) => {
-                    console.error("Error signing out:", error);
-                });
+                throw new Error("User data not found in Firestore.");
             }
         })
         .catch((error) => {
-            console.error("Error querying Firestore:", error);
-            console.error("Error querying user data. Please try again.");
-        });
-
-    })
-
-    .catch((error) => {
-        console.error("Error during sign-in: ", error.code, error.message);
-    
-        // Get the error message container and set its text
-        const errorMessageContainer = document.getElementById("errorMessageContainer");
-        const errorMessage = document.getElementById("errorMessage");
-    
-        // Set the error message to be shown on the page
-        errorMessage.textContent = "Invalid credentials. Please try again.";
-    
-        // Display the error message container
-        setTimeout(() => {
-            errorMessageContainer.style.display = "flex";
-        }, 1100)
-
-        setTimeout(() => {
-            errorMessageContainer.style.display = "none";
-        }, 6000)
-    })   
-     
-    .finally(() => {
-        // Hide loading indicator after the process is done
-        setTimeout(() => {
-            document.getElementById("loading").style.display = "none";
-        }, 1000)
-
-        setTimeout(() => {
-            document.querySelector(".loginBtn").classList.remove("loading");
-        }, 1100) // Enable login button again
-    });
+            console.error("Error during login:", error.message);
+            showErrorMessage("Login failed. Please try again.");
+        })
+        .finally(() => toggleLoading(false));
 });
 
-// Helper function to validate email format
+// Google Login Handler
+document.getElementById("btn").addEventListener("click", () => {
+    const provider = new GoogleAuthProvider();
+
+    signInWithPopup(auth, provider)
+        .then((result) => {
+            const user = result.user;
+            const userDocRef = doc(db, "users", user.uid);
+
+            return getDoc(userDocRef)
+                .then((docSnapshot) => {
+                    if (!docSnapshot.exists()) {
+                        return setDoc(userDocRef, {
+                            firstName: user.displayName.split(" ")[0],
+                            lastName: user.displayName.split(" ")[1] || "",
+                            email: user.email,
+                            phone: "",
+                            userId: user.uid,
+                            rememberMe: true
+                        });
+                    }
+                });
+        })
+        .then(() => {
+            window.location.href = "../Home/index.html";
+        })
+        .catch((error) => {
+            console.error("Google login error:", error.message);
+            showErrorMessage("An error occurred during Google login. Please try again.");
+        });
+});
+
+// Helper Function: Validate Email
 function validateEmail(email) {
     const re = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     return re.test(String(email).toLowerCase());
 }
 
-// Handle Google login
-document.getElementById("btn").addEventListener("click", function () {
-    const provider = new GoogleAuthProvider();
+// Helper Function: Show Error Message
+function showErrorMessage(message) {
+    const errorMessageContainer = document.getElementById("errorMessageContainer");
+    const errorMessage = document.getElementById("errorMessage");
+    errorMessage.textContent = message;
+    errorMessageContainer.style.display = "flex";
 
-    signInWithPopup(auth, provider)
-    .then((result) => {
-        const user = result.user;
-        console.log("Google user signed in:", user);
+    setTimeout(() => errorMessageContainer.style.display = "none", 6000);
+}
 
-        // Reference to the Firestore document for the user
-        const userDocRef = doc(db, "users", user.uid);
+// Helper Function: Toggle Loading State
+function toggleLoading(isLoading) {
+    const loadingIndicator = document.getElementById("loading");
+    const loginButton = document.querySelector(".loginBtn");
 
-        // Check if the user exists in Firestore
-        getDoc(userDocRef)
-            .then((docSnapshot) => {
-                if (!docSnapshot.exists()) {
-                    // If the user does not exist, create a new document with user data
-                    setDoc(userDocRef, {
-                        firstName: user.displayName.split(" ")[0],
-                        lastName: user.displayName.split(" ")[1] || "",
-                        email: user.email,
-                        phone: "",
-                        userId: user.uid,
-                        rememberMe: true // Automatically remember the user after Google login
-                    })
-                    .then(() => {
-                        console.log("User data saved to Firestore with rememberMe");
-                    })
-                    .catch((error) => {
-                        console.error("Error saving user data to Firestore:", error);
-                        console.error("Error saving user data. Please try again.");
-                    });
-                } else {
-                    console.log("User already exists in Firestore.");
-                    // Set rememberMe flag to true if not already
-                    setDoc(userDocRef, { rememberMe: true }, { merge: true })
-                    .then(() => {
-                        console.log("Remember Me flag set to true for existing user.");
-                    })
-                    .catch((error) => {
-                        console.error("Error updating user data in Firestore:", error);
-                    });
-                }
-            })
-            .catch((error) => {
-                console.error("Error checking Firestore for user:", error);
-                console.error("Error checking Firestore. Please try again.");
-            });
-
-        // Successful Google login
-        setTimeout(()=>{
-            window.location.href =  '../Home/index.html' // Redirect to Home
-      
-          }, 6000);
-    })
-    .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.error("Google login error:", errorCode, errorMessage);
-
-        // Handle Firebase Authentication error messages    
-        // Get the error message container and set its text
-        const googleErrorMessageCon = document.getElementById("googleErrorMessageContainer");
-        const googleErrorMsg = document.getElementById("googleErrorMessage");
-    
-        // Set the error message to be shown on the page
-        googleErrorMsg.textContent = "An error occurred during Google login. Please try again.";
-    
-        // Display the error message container
-        setTimeout(() => {
-            googleErrorMessageCon.style.display = "flex";
-        }, 500)
-
-        setTimeout(() => {
-            googleErrorMessageCon.style.display = "none";
-        }, 3000)
-    });
-
-});
-
-
-// Get the password input and eye icon elements
-const passwordField = document.getElementById('password');
-const togglePassword = document.getElementById('togglePassword');
-
-// Add an event listener for the click event on the eye icon
-togglePassword.addEventListener('click', () => {
-    // Check the current type of the input field and toggle it
-    const type = passwordField.type === 'password' ? 'text' : 'password';
-    passwordField.type = type;
-
-    // Toggle the eye icon between 'fa-eye' and 'fa-eye-slash'
-    const icon = type === 'password' ? 'fa-eye-slash' : 'fa-eye';
-    togglePassword.innerHTML = `<i class="fa ${icon}" aria-hidden="true"></i>`;
-});
-
-// Get all input elements on the page
-const inputs = document.querySelectorAll('input');
-
-// Loop through each input and add event listeners for focus and blur
-inputs.forEach(input => {
-    // Change border color when focused
-    input.addEventListener('focus', () => {
-        input.style.borderColor = '#fba100';  // Change the border color to blue on focus
-    });
-
-    // Revert the border color when the input loses focus
-    input.addEventListener('blur', () => {
-        input.style.borderColor = '#000';  // Change the border color back to the default
-    });
-});
-
-// image slider
-let currentSlide = 0; // Define the current slide variable
-
-const slides = document.querySelectorAll('.slideShowImg'); // Get all slide images
-const totalSlides = slides.length; // Get the total number of slides
-
-// Function to change the current slide based on the direction.
-const changeSlide = (direction) => {
-    // Hide the current slide
-    slides[currentSlide].style.opacity = 0;
-    
-    // Update the current slide index based on the direction
-    currentSlide += direction;
-
-    // If we're at the end or beginning of the slides, reset to loop
-    if (currentSlide >= totalSlides) {
-        currentSlide = 0;
-    } else if (currentSlide < 0) {
-        currentSlide = totalSlides - 1;
-    }
-
-    // Show the new current slide by setting opacity to 1
-    slides[currentSlide].style.opacity = 1;
-};
-
-// Automatically slide every 3 seconds
-setInterval(() => changeSlide(1), 3000);
-
-// Initially, set the opacity of all slides to 0 (hidden) except the first one
-slides.forEach((slide, index) => {
-    if (index !== 0) {
-        slide.style.opacity = 0;
+    if (isLoading) {
+        loadingIndicator.style.display = "flex";
+        loginButton.classList.add("loading");
     } else {
-        slide.style.opacity = 1; // Show the first image
+        loadingIndicator.style.display = "none";
+        loginButton.classList.remove("loading");
     }
+}
+
+// Password Toggle Visibility
+document.getElementById("togglePassword").addEventListener("click", () => {
+    const passwordField = document.getElementById("password");
+    const isPasswordVisible = passwordField.type === "password";
+    passwordField.type = isPasswordVisible ? "text" : "password";
+
+    const iconClass = isPasswordVisible ? "fa-eye" : "fa-eye-slash";
+    document.getElementById("togglePassword").innerHTML = `<i class="fa ${iconClass}" aria-hidden="true"></i>`;
 });
 
-// mobile image slider
-let mobileCurrentSlide = 0; // Define the current slide variable
-const mobileSlides = document.querySelectorAll('.mobileSlideShowImg'); // Get all slide images
-const mobileTotalSlides = mobileSlides.length; // Get the total number of slides
-let slideCount = 0; // Counter to track the number of slides shown
-const sliderContainer = document.querySelector('.mobileDeliveryPicsContainer'); // Slider container element
-
-// Function to change the current slide based on the direction.
-const changeMobileSlide = (direction) => {
-    // Hide the current slide
-    mobileSlides[mobileCurrentSlide].style.opacity = 0;
-    
-    // Update the current slide index based on the direction
-    mobileCurrentSlide = (mobileCurrentSlide + direction + mobileTotalSlides) % mobileTotalSlides;
-
-    // Show the new current slide by setting opacity to 1
-    mobileSlides[mobileCurrentSlide].style.opacity = 1;
-
-    // Increment the slide count and hide the slider if all slides have been shown
-    slideCount++;
-    if (slideCount >= mobileTotalSlides) {
-        clearInterval(autoSlideInterval); // Stop auto-sliding
-        sliderContainer.style.display = 'none'; // Hide the slider
-    }
-};
-
-// Automatically change slide every 4 seconds
-const autoSlideInterval = setInterval(() => changeMobileSlide(1), 2500);
-
-// Initially, set the opacity of all slides to 0 (hidden) except the first one
-mobileSlides.forEach((slide, index) => {
-    slide.style.opacity = index === 0 ? 1 : 0; // Set the first slide as visible
+// Input Focus Effects
+document.querySelectorAll('input').forEach((input) => {
+    input.addEventListener("focus", () => (input.style.borderColor = "#fba100"));
+    input.addEventListener("blur", () => (input.style.borderColor = "#000"));
 });
+
+// Desktop Image Slider
+setupSlider(".slideShowImg", 3000);
+
+// Mobile Image Slider
+setupSlider(".mobileSlideShowImg", 2500, true);
+
+// Helper Function: Setup Image Slider
+function setupSlider(selector, interval, hideAfterComplete = false) {
+    const slides = document.querySelectorAll(selector);
+    let currentSlide = 0;
+    let slideCount = 0;
+
+    const updateSlide = () => {
+        slides[currentSlide].style.opacity = 0;
+        currentSlide = (currentSlide + 1) % slides.length;
+        slides[currentSlide].style.opacity = 1;
+
+        if (hideAfterComplete && ++slideCount >= slides.length) {
+            clearInterval(autoSlideInterval);
+            document.querySelector(".mobileDeliveryPicsContainer").style.display = "none";
+        }
+    };
+
+    const autoSlideInterval = setInterval(updateSlide, interval);
+
+    slides.forEach((slide, index) => (slide.style.opacity = index === 0 ? 1 : 0));
+}

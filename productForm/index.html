@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bretil Mart Product Form</title>
     <link rel="icon" href="../img/Blogo2.png">
+    <script src="script.js" defer type="module"></script>
     <style>
         /* style.css */
         body {
@@ -65,7 +66,7 @@
     <h1>Product Information Form</h1>
 
     <!-- Form that submits data to the backend -->
-    <form id="productForm" action="/submit-product" method="POST" enctype="multipart/form-data">
+    <form id="productForm" >
         <label for="images">Product Images:</label>
         <input type="file" id="images" name="images[]" accept="image/*" multiple required>
         <br><br>
@@ -96,16 +97,20 @@
         <input type="number" id="price" name="price" step="0.01" required>
         <br><br>
 
-        <label for="rating">Rating (1 to 5):</label>
-        <input type="number" id="rating" name="rating" min="1" max="5" required>
-        <br><br>
-
-        <label for="quantity">Quantity Left:</label>
+        <label for="quantity">Quantity:</label>
         <input type="number" id="quantity" name="quantity" min="1" required>
         <br><br>
 
         <label for="color">Color:</label>
-        <input type="text" id="color" name="color" required>
+        <select id="color" name="color" multiple required>
+            <option value="red">Red</option>
+            <option value="blue">Blue</option>
+            <option value="green">Green</option>
+            <option value="yellow">Yellow</option>
+            <option value="black">Black</option>
+            <option value="white">White</option>
+            <!-- Add more colors as needed -->
+        </select>
         <br><br>
 
         <label for="brand">Brand:</label>
@@ -114,40 +119,5 @@
 
         <button type="submit">Submit Product</button>
     </form>
-
-    <!-- <script>
-        const express = require('express');
-        const multer = require('multer');
-        const app = express();
-        const port = 3000;
-
-        // Set up multer for file uploads
-        const upload = multer({ dest: 'uploads/' });
-
-        app.use(express.urlencoded({ extended: true }));
-        app.use(express.json());
-
-        app.post('/submit-product', upload.array('images'), (req, res) => {
-        const { productName, category, price, rating, quantity, color, brand } = req.body;
-        const images = req.files; // An array of uploaded images
-
-        console.log('Product Name:', productName);
-        console.log('Category:', category);
-        console.log('Price:', price);
-        console.log('Rating:', rating);
-        console.log('Quantity:', quantity);
-        console.log('Color:', color);
-        console.log('Brand:', brand);
-        console.log('Images:', images);
-
-        // Here you can process the data and store it in your database or perform other actions
-
-        res.send('Product submitted successfully!');
-        });
-
-        app.listen(port, () => {
-        console.log(`Server running at http://localhost:${port}`);
-        });
-    </script> -->
 </body>
 </html>

@@ -2,18 +2,22 @@
 const heroSectionBtnCon = document.getElementById('heroSectionBtnCon');
 const organicFoodBtnCon =  document.getElementById('organicFoodBtnCon');
 const hurryUpBtnCon = document.getElementById('hurryUpBtnCon');
-const percentBtn = document.getElementById('percentBtn');
+const cashBackSubscriptionBtnCon = document.getElementById('cashBackSubscriptionBtnCon');
+const startShoppingBtnCon = document.getElementById('startShoppingBtnCon');
+// const percentBtn = document.getElementById('percentBtn');
 const locationParagraph = document.querySelector(".locationAbuDhabi");
 const modal = document.getElementById("myModal");
 const profileBtn = document.getElementById("ProfileBtn");
 const closeBtn = document.getElementById("closeBtn");
+const signOutBtn = document.getElementById("signOutBtn");
 const changeProfileBtn = document.getElementById("changeProfileBtn");
 const fileInput = document.getElementById("fileInput");
 const profilePic = document.getElementById("profilePic");
 const emailElement = document.getElementById("getEmail");
 const nameElement = document.getElementById("userName");
+const faqItems = document.querySelectorAll('.faq-item');
 const searchInput = document.getElementById('searchInput');
-console.log(searchInput)
+console.log(searchInput);
 
 
 // Adding "Shop Now" button to the hero section
@@ -26,7 +30,15 @@ organicFoodBtnCon.appendChild(secondButton("Shop Now", '#fff', 'darkgreen', 'yes
 
 // Adding "Shop Now" button to the hurry up section
 import thirdButton from "../components/button.js";
-hurryUpBtnCon.appendChild(thirdButton("Shop Now", '#fff', 'darkgreen', 'yes'))
+hurryUpBtnCon.appendChild(thirdButton("Shop Now", '#fff', 'darkgreen', 'yes'));
+
+// Adding "Get Subscription" button to the Cash back section
+import cashButton from "../components/button.js";
+cashBackSubscriptionBtnCon.appendChild(cashButton("Get Subscription", 'darkorange', '#fff', 'yes'));
+
+// Adding "Start Shopping" button to the Cash back section
+import startShoppingButton from "../components/button.js";
+startShoppingBtnCon.appendChild(startShoppingButton("Start Shopping", '#fff', 'darkgreen', 'yes'));
 
 // Adding the percent button
 // import percentbutton from "../components/percentage.js";
@@ -123,6 +135,34 @@ window.addEventListener("click", (event) => {
         }, 300);
     }
 });
+
+import { auth, signOut } from "../firebaseConfig.js"; // Ensure correct path to your Firebase config file
+
+// Sign-out logic
+if (signOutBtn) {
+    signOutBtn.addEventListener("click", () => {
+        signOut(auth)
+            .then(() => {
+                // Sign-out successful
+                console.log("User signed out successfully.");
+
+                // Clear session storage
+                sessionStorage.removeItem("loggedInUser");
+                sessionStorage.clear();
+
+                // Redirect to the login page or homepage
+                window.location.href = "../public/index.html"; // Update this path based on your project structure
+            })
+            .catch((error) => {
+                console.error("Error during sign-out:", error.message);
+                alert("An error occurred while signing out. Please try again.");
+            });
+    });
+} else {
+    console.error('Sign-out button (id="signOutBtn") not found. Make sure it is present in the DOM.');
+}
+
+
 
 // Profile Picture Upload
 changeProfileBtn.onclick = () => fileInput.click();
@@ -238,32 +278,89 @@ document.addEventListener("DOMContentLoaded", () => {
     container.addEventListener("mouseleave", startScrolling);
 });
 
-
-//product search functionality
-
+// Product Search Functionality with Click-Away Feature
 searchInput.addEventListener('input', () => {
-    const searchContainer = document.createElement('div');
     const productList = document.getElementById('productList');
-    productList.style.position = 'relative';
+    const searchQuery = searchInput.value.toLowerCase();
+    console.log(productList.value);
 
+    // Retrieve products from sessionStorage
+    const storedProducts = sessionStorage.getItem('products');
+    const products = storedProducts ? JSON.parse(storedProducts) : [];
 
-    if(searchInput.value.length > 0){
+    // Clear previous search results
+    productList.innerHTML = '';
+
+    // Filter products based on the search query
+    const matchingProducts = products.filter(product => product.name.toLowerCase().startsWith(searchQuery));
+
+    if (matchingProducts.length > 0 && searchQuery !== '') {
+        // Display matching products
         productList.style.display = 'block';
-        searchContainer.classList.add('searchContainer');
-        searchContainer.style.position ='absolute'
-        searchContainer.innerHTML = `<p> testing search functionality </p>`
-        productList.appendChild(searchContainer);
 
-    }else{
+        matchingProducts.forEach(product => {
+            const productItem = document.createElement('div');
+            productItem.classList.add('search-result-item');
+            productItem.textContent = product.name;
+            productList.appendChild(productItem);
+
+            // Optional: Add click event to handle product selection
+            productItem.addEventListener('click', () => {
+                alert(`You selected: ${product.name}`);
+                productList.style.display = 'none'; // Hide dropdown after selection
+            });
+        });
+    } else {
         productList.style.display = 'none';
-    };
+    }
 });
 
-// 
+// Hide productList when clicking outside or when searchInput is empty
+document.addEventListener('click', (event) => {
+    const productList = document.getElementById('productList');
+    if (!searchInput.contains(event.target) && !productList.contains(event.target)) {
+        productList.style.display = 'none';
+    }
+});
+
+searchInput.addEventListener('blur', () => {
+    const productList = document.getElementById('productList');
+    if (searchInput.value.trim() === '') {
+        productList.style.display = 'none';
+    }
+});
+
+// Display dropdown when clicking the search input
 searchInput.addEventListener('click', () => {
     const productDropDownCon = document.getElementById('productDropDownCon');
+    const headerSearchCon = document.getElementById('headerSearchCon');
+    const headerLogoAndLocationCon = document.getElementById('headerLogoAndLocationCon');
+    const headerCartandProfileCon = document.getElementById('headerCartandProfileCon');
 
+    // Show dropdown after a slight delay
     setTimeout(() => {
         productDropDownCon.style.display = 'block';
-    }, 300);
-})
+        headerSearchCon.style.width = '100%';
+        headerSearchCon.style.marginTop = '1.6em';
+        headerLogoAndLocationCon.style.display = 'none';
+        headerCartandProfileCon.style.display = 'none';
+    }, 100);
+});
+
+// Close the dropdown when clicking outside
+document.addEventListener('click', (event) => {
+    const productDropDownCon = document.getElementById('productDropDownCon');
+    
+    // If the clicked element is not the search input or inside the dropdown, hide it
+    if (!searchInput.contains(event.target) && !productDropDownCon.contains(event.target)) {
+        productDropDownCon.style.display = 'none';
+    }
+});
+
+
+// FAQ functionality
+faqItems.forEach(item => {
+    item.addEventListener('click', () => {
+        item.classList.toggle('open');
+    });
+});

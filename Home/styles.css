@@ -53,7 +53,7 @@ a {
     position: relative;
 }
 
-.headerLogoAndLocationCon {
+#headerLogoAndLocationCon {
     display: flex;
     align-items: center;
     justify-content: start;
@@ -65,7 +65,7 @@ a {
 .bretilMartLogo {
     /* border: 1px solid #000; */
     width: 80px;
-    height: 80px;
+    /* height: 85px; */
 }
 
 .locationCon {
@@ -89,7 +89,7 @@ a {
     font-weight: 700;
 }
 
-.headerSearchCon {
+#headerSearchCon {
     /* border: 1px solid #0f0; */
     width: 70%;
     border-radius: 2em;
@@ -128,7 +128,7 @@ a {
     color: gray;
 }
 
-.headerCartandProfileCon {
+#headerCartandProfileCon {
     display: flex;
     align-items: center;
     justify-content: end;
@@ -213,9 +213,10 @@ a {
     gap: 2em;
     padding: 2.5em 2em;
     background-color: #fff;
+    border: 1px solid #4B0A10;
     border-bottom-left-radius: 1em;
     border-bottom-right-radius: 1em;
-    height: 50vh;
+    height: 58vh;
 }
 
 .headerNavigationCon {
@@ -451,7 +452,7 @@ a {
     margin: 0.5em 0;
 }
 
-#signOut {
+#signOutBtn {
     background-color: darkorange;
     border: none;
     padding: 0.5em 0;
@@ -475,7 +476,10 @@ a {
 }
 
 .shopCategoriesHeading,
-.limitedProductsHeading {
+.limitedProductsHeading,
+.todayBestDealsHeading,
+.shopByBrandHeading,
+.clientFeedbackHeading {
     color: var(--GREEN);
     font-weight: 800;
 }
@@ -611,7 +615,7 @@ a {
 .brandPic {
     width: 210px;
     height: 200px;
-    margin-bottom: -1%;
+    margin-bottom: -0.5%;
 }
 
 /* .productCon {
@@ -817,6 +821,410 @@ a {
     padding-bottom: 0.15em;
     /* text-decoration: underline; */
 }
+
+.cashBackSubscriptionCon {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 2em 6em 0 4em;
+    background: linear-gradient(#FFF9E6, rgba(255, 192, 203, 0.629));
+    border-radius: 1.5em;
+    background-size: 400% 400%;
+    animation: cashBackSubscriptionGradientMotion 10s ease infinite;
+}
+
+@keyframes cashBackSubscriptionGradientMotion {
+    0% {
+    background-position: 0% 50%;
+    }
+    50% {
+    background-position: 100% 50%;
+    }
+    100% {
+    background-position: 0% 50%;
+    }
+}
+
+.cashBackSubscriptionHeading {
+    color: var(--GREEN);
+    font-size: 2.5em;
+    font-weight: 700;
+    margin-bottom: 0.35em;
+}
+
+.cashBackSubscriptionParagraph {
+    color: var(--ALTERNATEGREEN);
+    font-weight: 700;
+}
+
+#cashBackSubscriptionBtnCon {
+    width: 210px;
+    margin-top: 1.5em;
+}
+
+.cashBagImg {
+    margin-bottom: -0.8%;
+    width: 450px;
+}
+
+.shopByBrandsSection {
+    margin: 3em 0;
+}
+
+.brandsCon {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 0.8em;
+    margin: 1em 0;
+}
+
+.brandsImg{
+    width: 100%;
+    height: 80px;
+    /* border: 1px solid #000; */
+    background-color: rgba(220, 220, 220, 0.384);
+    padding: 1em;
+    border-radius: 0.6em;
+    cursor: pointer;
+}
+
+.deliveryDescriptionCon {
+    display: flex;
+    /* grid-template-columns: repeat(2, 1fr); */
+    gap: 1.6em;
+    margin: 3em 0;
+}
+
+.startShoppingCon {
+    background: linear-gradient(50deg, var(--DARKCHERRYWOOD), var(--CHERRYWOOD), var(--LIGHTCHERRYWOOD));
+    background-size: 400% 400%;
+    border-radius: 0.8em;
+    animation: startShoppingGradientMotion 8s ease infinite;
+    color: #fff;
+    padding: 6em 4em;
+    width: 50%;
+}
+
+@keyframes startShoppingGradientMotion {
+    0% {
+    background-position: 0% 50%;
+    }
+    50% {
+    background-position: 100% 50%;
+    }
+    100% {
+    background-position: 0% 50%;
+    }
+}
+
+.startShoppingHeading {
+    font-size: 2.5em;
+    margin-bottom: 0.4em;
+}
+
+.deliver {
+    color: #FFF05A;
+}
+
+.startShoppingParagraph {
+    color: gainsboro;
+    font-size: 0.9em;
+    line-height: 1.5;
+}
+
+#startShoppingBtnCon {
+    width: 190px;
+    margin-top: 2em;
+}
+
+.branchAndWorkersCon {
+    background: rgb(0, 128, 90);
+    border-radius: 0.8em;
+    color: #fff;
+    padding: 2em;
+    width: 50%;
+}
+
+.branchAndWorkersContent {
+    display: flex;
+    gap: 2em;
+    margin-bottom: -16%;
+}
+
+.thirtyThree,
+.sixteenHundred {
+    font-size: 3.5em;
+}
+
+.map {
+    width: 100%;
+    /* border: 1px solid #000; */
+}
+
+.FAQsSection {
+    margin: 5.5em 0;
+    display: flex;
+    gap: 2.5em;
+    height: 450px;
+    /* border: 1px solid #000; */
+}
+
+.FAQsImgCon {
+    /* border: 1px solid #000; */
+    width: 42%;
+}
+
+.FAQsImg {
+    border-radius: 0.8em;
+}
+
+.FAQsContentCon {
+    width: 58%;
+    /* height: inherit; */
+    overflow-y: scroll;
+    /* border: 1px solid #000; */
+}
+
+.faq-item {
+    margin-bottom: 1.49em;
+    border-bottom: 1px solid gainsboro;
+    padding-bottom: 0.8em;
+    color: var(--GREEN);
+}
+
+.faq-item:last-child {
+    margin-bottom: 0;
+}
+
+.faq-question {
+    font-size: 1.4em;
+    font-weight: bold;
+    /* cursor: pointer; */
+    position: relative;
+    z-index: -1;
+}
+
+.faq-answer {
+    display: none;
+    font-size: 1.1em;
+    margin-top: 0.6em;
+}
+
+.faq-question:after {
+    content: '›';
+    position: absolute;
+    right: 0.6em;
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #333;
+    transform: rotate(90deg);
+}
+
+.faq-item.open .faq-answer {
+    display: block;
+}
+
+.faq-item.open .faq-question:after {
+    content: '›';
+    transform: rotate(270deg);
+}
+
+.clientFeedbackHeading {
+    margin-bottom: 1.5em;
+}
+
+.clientsImgCon {
+    display: flex;
+    gap: 3em;
+    margin-bottom: 2em;
+}
+
+.client-one,
+.client-two{
+    width: 50%;
+    border-radius: 0.8em;
+}
+
+.provisionContentCon {
+    text-align: center;
+    margin: 5em 0 2.5em 0;
+}
+
+.provisionHeading {
+    font-size: 2.5em;
+    color: var(--GREEN);
+    font-weight: 700;
+    margin-bottom: 0.2em;
+}
+
+.bestQuality {
+    color: rgb(255, 124, 2);
+}
+
+.provisionParagraph {
+    color: var(--ALTERNATEGREEN);
+    font-size: 0.9em;
+    font-weight: 600;
+}
+
+.provisionCardsCon {
+    margin-bottom: 8em;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1.5em;
+}
+
+.provisionCard {
+    background-color: rgba(220, 220, 220, 0.366);
+    text-align: center;
+    padding: 2em 0;
+    border-radius: 0.8em;
+}
+
+.cardContent {
+    margin-bottom: 1em;
+    color: var(--GREEN);
+    font-weight: 600;
+    font-size: 1.1em;
+}
+
+.mainFooterCon {
+    /* border: 1px solid #000; */
+    margin: 2em 0;
+    display: flex;
+    /* gap: 1em; */
+}
+
+.footerPaymentCon {
+    /* border: 1px solid #000; */
+    width: 30%;
+}
+
+.footerLogo {
+    margin-bottom: 0.5em;
+}
+
+.efficientDeliveryParagraph {
+    color: var(--ALTERNATEGREEN);
+    font-size: 0.9em;
+    font-weight: 600;
+    margin-bottom: 1.3em;
+}
+
+.paymentParagraph {
+    color: var(--GREEN);
+    font-size: 1.2em;
+    font-weight: 700;
+    margin-bottom: 0.4em;
+}
+
+.paymentImgCon {
+    display: flex;
+    align-items: center;
+    gap: 1em;
+}
+
+.paymentImg {
+    width: 40px;
+    cursor: pointer;
+}
+
+.footerMainLinksCon {
+    /* border: 1px solid #000; */
+    width: 70%;
+    display: flex;
+    gap: 4em;
+}
+
+.footerParagraph {
+    color: var(--ALTERNATEGREEN);
+    margin-bottom: 0.8em;
+    font-size: 1.1em;
+    font-weight: 700;
+}
+
+.footerLinksCon {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.8;
+}
+
+.footerLinks {
+    color: var(--ALTERNATEGREEN);
+}
+
+.footerLinks:last-child {
+    display: flex;
+    line-height: 1.3;
+}
+
+.footerIcon {
+    margin-right: 0.5em;
+}
+
+.footerCopyrightCon {
+    border-top: 1px solid rgba(128, 128, 128, 0.555);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1em 0 1.5em 0;
+}
+
+.copyRight ,
+.termsAndPrivacyLink {
+    color: var(--ALTERNATEGREEN);
+    font-size: 0.9em;
+}
+
+.otherFooterLinksCon,
+.termsAndPrivacyLinkCon {
+    display: flex;
+    align-items: center;
+    gap: 2em;
+}
+
+.gift, .question {
+    color: #ff7c02;
+    margin-right: 0.3em;
+}
+
+.gift {
+    font-size: 100px;
+}
+
+.question {
+    border: 2px solid #ff7c02;
+    padding: 0.2em 0.4em;
+    border-radius: 100px;
+}
+
+.otherFooterLinks {
+    color: var(--ALTERNATEGREEN);
+    font-weight: 600;
+}
+
+#productList {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    width: 100%;
+    max-height: 200px;
+    overflow-y: auto;
+    display: none;
+    z-index: 999;
+}
+
+.search-result-item {
+    padding: 10px;
+    cursor: pointer;
+}
+
+.search-result-item:hover {
+    background-color: gainsboro;
+}
+
 
 /* scrollbar */
 ::-webkit-scrollbar {

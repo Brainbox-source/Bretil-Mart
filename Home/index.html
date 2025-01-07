@@ -23,7 +23,7 @@
     <div class="mainDashboard">
         <header>
             <div class="primaryHeader">
-                <div class="headerLogoAndLocationCon">
+                <div id="headerLogoAndLocationCon">
                     <div class="bretilMartCon">
                         <a href="" class="bretilMartLogoLink">
                             <img src="../img/Blogo.png" class="bretilMartLogo"  alt="">
@@ -36,7 +36,7 @@
                     </div>
                 </div>
 
-                <div class="headerSearchCon">
+                <div id="headerSearchCon">
                     <form id="searchForm">
                         <input type="text" id="searchInput" placeholder="Search your products, Categories or Brands" >
                         <button type="submit" class="searchBtn">
@@ -47,7 +47,7 @@
                     <div id="productList"></div>
                 </div>
 
-                <div class="headerCartandProfileCon">
+                <div id="headerCartandProfileCon">
                     <div class="cartCont">
                         <a href="">
                             <div class="cartCon">
@@ -89,29 +89,29 @@
 
                     <p id="userName"></p>
 
-                    <button type="button" id="signOut">Sign Out</button>
+                    <button type="button" id="signOutBtn">Sign Out</button>
                 </div>
             </div>
 
             <div id="productDropDownCon">
                 <div class="productDropDown">
-                    <div class="recentSearchCon">
-                        <h3>Recent Searches</h2>
-                        <hr style="border-top: 1px solid gainsboro;">
+                    <div class="recentSearchCon" style="width: 18%; border: 1px solid #000;">
+                        <h3>Recent Searches</h3>
+                        <hr style="border-top: 1px solid gainsboro; margin-top: 0.5em;">
 
                         <div class="recentSearchCOntent"></div>
                     </div>
 
-                    <div class="searchCategoryCon">
-                        <h3>Search by Categories</h2>
-                        <hr style="border-top: 1px solid gainsboro;">
+                    <div class="searchCategoryCon" style="width: 18%; border: 1px solid #FFF05A">
+                        <h3>Search by Categories</h3>
+                        <hr style="border-top: 1px solid gainsboro; margin-top: 0.5em;">
 
                         <div class="searchCategoryContent"></div>
                     </div>
 
-                    <div class="recommendedSearchCon">
-                        <h3>Recommended Searches</h2>
-                        <hr style="border-top: 1px solid gainsboro;">
+                    <div class="recommendedSearchCon" style="width: 64%; border: 1px solid #00f">
+                        <h3>Recommended Searches</h3>
+                        <hr style="border-top: 1px solid gainsboro; margin-top: 0.5em;">
 
                         <div class="recommendedSearchCOntent"></div>
                     </div>
@@ -163,7 +163,7 @@
                 </div>
 
                 <div class="heroSectionImgCon">
-                    <img src="../img/man-holding-basket.png" style="margin-bottom: -1.1%;" alt="">
+                    <img src="../img/man-holding-basket.png" width="515px" style="margin-bottom: -0.8%;" alt="">
                 </div>
             </section>
 
@@ -290,7 +290,7 @@
                             </div>
 
                             <div class="organicFoodImg">
-                                <img src="https://www.dl.dropboxusercontent.com/scl/fi/sxswetlq8g1m81iyfn39x/pepper.png?rlkey=w2hq3ynf7t2ee5mczt9n8oy0w&st=q1s2wvl6&dl=0" class="pepperImg" alt="">
+                                <img src="../img/pepper.png" class="pepperImg" alt="">
                             </div>
                         </div>
 
@@ -348,13 +348,309 @@
                 </div>
             </section>
 
+            <section class="todayBestDealsSection">
+                <div class="searchCategoriesCon">
+                    <h2 class="todayBestDealsHeading">Today best deals for you!</h2>
 
+                    <a href="" class="viewAll">View All
+                        <i class="fa fa-arrow-right"></i>
+                    </a>
+                </div>
+
+                <!-- <div></div> -->
+
+                <div class="cashBackSubscriptionCon">
+                    <div class="cashBackSubscriptionContentCon">
+                        <h2 class="cashBackSubscriptionHeading">Get 20% Cash Back <br> All the Time with a <br> Subscription!</h2>
+
+                        <p class="cashBackSubscriptionParagraph">On all grocery shopping.</p>
+
+                        <div id="cashBackSubscriptionBtnCon"></div>
+                    </div>
+
+                    <div class="cashBackSubscriptionImg">
+                        <img src="../img/cashbag.png" class="cashBagImg" alt="">
+                    </div>
+                </div>
+            </section>
+
+            <section class="shopByBrandsSection">
+                <h2 class="shopByBrandHeading">Shop by Brands</h2>
+
+                <div class="brandsCon">
+                    <img src="../img/aash.png" class="brandsImg"  alt="">
+                    <img src="../img/daawat.png" class="brandsImg" alt="">
+                    <img src="../img/suhana.png" class="brandsImg" alt="">
+                    <img src="../img/hal.png" class="brandsImg" alt="">
+                    <img src="../img/coco-bliss.png" class="brandsImg" alt="">
+                    <img src="../img/janvi.png" class="brandsImg" alt="">
+                    <img src="../img/trs.png" class="brandsImg" alt="">
+                    <img src="../img/uphaar.png" class="brandsImg" alt="">
+                    <img src="../img/hali.png" class="brandsImg" alt="">
+                    <img src="../img/ingredion.png" class="brandsImg" alt="">
+                    <img src="../img/IFDA.png" class="brandsImg" alt="">
+                    <img src="../img/griffith.png" class="brandsImg" alt="">
+                </div>
+
+                <div class="deliveryDescriptionCon">
+                    <div class="startShoppingCon">
+                        <div class="startShoppingContentCon">
+                            <h2 class="startShoppingHeading">We <span class="deliver">deliver</span> groceries <br> throughout the <span class="deliver">Nigeria</span></h2>
+    
+                            <p class="startShoppingParagraph">Get the freshest groceries delivered right to your home. Save time, skip <br> the lines, and enjoy the convenience of quick, efficient delivery.</p>
+    
+                            <div id="startShoppingBtnCon"></div>
+                        </div>
+                    </div>
+
+                    <div class="branchAndWorkersCon">
+                        <div class="branchAndWorkersContent">
+                            <div class="branchContent">
+                                <h3 class="thirtyThree">33</h3>
+                                <p>Bretil Mart Shop</p>
+                            </div>
+
+                            <div class="workersContent">
+                                <h3 class="sixteenHundred">1600</h3>
+                                <p>Delivery boys</p>
+                            </div>
+                        </div>
+
+                        <div class="branchAndWorkersMap">
+                            <img src="../img/map.png" class="map" alt="">
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- <section class="bestSellingProductsSection"></section> -->
+
+            <section class="FAQsSection">
+                <div class="FAQsImgCon">
+                    <img src="../img/man-with-vege.png" class="FAQsImg" width="100%" height="100%" alt="">
+                </div>
+
+                <div class="FAQsContentCon">
+                    <div class="faq-item">
+                        <div class="faq-question">Does Bretil Mart offer organic produce?</div>
+                        <div class="faq-answer">
+                            Yes, Bretil Mart offers a selection of organic fruits and vegetables. These items are clearly labeled in the produce section.
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">How do I place an order?</div>
+                        <div class="faq-answer">
+                            To place an order, follow these steps!
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">Is there a minimum order value for delivery?</div>
+                        <div class="faq-answer">
+                            The minimum order value is usually displayed during checkout. If your order doesn't meet the minimum requirement, you may be prompted to add more items to your cart to proceed with the delivery.
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question">Does Bretil Mart offer sustainably sourced seafood?</div>
+                        <div class="faq-answer">
+                            Yes, Bretil Mart is committed to offering sustainably sourced seafood. We partner with suppliers who follow responsible fishing practices to ensure that our seafood is fresh, high-quality, and sourced in ways that protect marine ecosystems.
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question">What is Bretil Mart's return policy for fresh groceries?</div>
+                        <div class="faq-answer">
+                            Bretil Mart strives to provide the freshest and highest-quality groceries to our customers. If you are not satisfied with the quality of any fresh grocery item, you can request a return or replacement.
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">What payment methods do you accept?</div>
+                        <div class="faq-answer">
+                            Bretil Mart accepts a variety of secure payment methods through Paystack, our trusted payment gateway partner.
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question">Do you offer international shipping?</div>
+                        <div class="faq-answer">
+                            Yes, we offer international shipping.
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question">Can I schedule a delivery for a later date?</div>
+                        <div class="faq-answer">
+                            Yes, Bretil Mart allows you to schedule deliveries for a later date and time that suits you.
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="clientFeedbackSection">
+                <h2 class="clientFeedbackHeading">Our Customers Feedback</h2>
+
+                <div class="clientsImgCon">
+                    <img src="../img/client-one.png" class="client-one" alt="">
+                    <img src="../img/client-two.png" class="client-two" alt="">
+                </div>
+            </section>
+
+            <section class="provisionSection">
+                <div class="provisionContentCon">
+                    <h3 class="provisionHeading">We provide the <span class="bestQuality">Best Quality</span> <br> in All of Nigeria</h3>
+
+                    <p class="provisionParagraph">Offering seamless shopping experience since 2024, we provide <br> development, support, and updates.</p>
+                </div>
+
+                <div class="provisionCardsCon">
+                    <div class="provisionCard">
+                        <p class="cardContent">Bretil Mart Gift <br> vouchers</p>
+
+                        <img src="../img/voucher.png" alt="" class="cardImg">
+                    </div>
+
+                    <div class="provisionCard">
+                        <p class="cardContent">Present a <br> Gift Card</p>
+
+                        <img src="../img/gift.png" alt="" class="cardImg">
+                    </div>
+
+                    <div class="provisionCard">
+                        <p class="cardContent">Order and <br> collect</p>
+
+                        <img src="../img/cart.png" alt="" class="cardImg">
+                    </div>
+
+                    <div class="provisionCard">
+                        <p class="cardContent">Pay your <br> tabby invoice</p>
+
+                        <img src="../img/invoice.png" alt="" class="cardImg">
+                    </div>
+
+                    <div class="provisionCard">
+                        <p class="cardContent">Delivery withing <br> 20mins</p>
+
+                        <img src="../img/deliveryBag.png" alt="" class="cardImg">
+                    </div>
+                </div>
+            </section>
         </main>
     
-        <!-- <footer></footer> -->
-    </div>
+        <footer>
+            <div class="mainFooterCon">
+                <div class="footerPaymentCon">
+                    <div class="efficientDeliveryCon">
+                        <img src="../img/Blogo.png" width="30%" class="footerLogo" alt="">
 
-    <!-- <div id="buttonCon"></div> -->
+                        <p class="efficientDeliveryParagraph">Get the freshest groceries delivered right to <br> your home. Quick, efficient delivery to you.</p>
+                    </div>
+
+                    <div class="acceptedPaymentCon">
+                        <p class="paymentParagraph">Our Accepted Payments</p>
+
+                        <div class="paymentImgCon">
+                            <img src="../img/mastercard.png" class="paymentImg" alt="">
+                            <img src="../img/visa.jpeg" class="paymentImg" alt="">
+                            <img src="../img/verve.png" class="paymentImg" alt="">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="footerMainLinksCon">
+                    <div class="footerMainLinks">
+                        <p class="footerParagraph">Department</p>
+
+                        <div class="footerLinksCon">
+                            <a class="footerLinks" href="">Fashion</a>
+                            <a class="footerLinks" href="">Education Product</a>
+                            <a class="footerLinks" href="">Frozen Food</a>
+                            <a class="footerLinks" href="">Beverages</a>
+                            <a class="footerLinks" href="">Beauty Products</a>
+                        </div>
+                    </div>
+
+                    <div class="footerMainLinks">
+                        <p class="footerParagraph">About us</p>
+
+                        <div class="footerLinksCon">
+                            <a class="footerLinks" href="">About Bretil Mart</a>
+                            <a class="footerLinks" href="">Careers</a>
+                            <a class="footerLinks" href="">News & Blog</a>
+                            <a class="footerLinks" href="">Press</a>
+                            <a class="footerLinks" href="">Help Center</a>
+                        </div>
+                    </div>
+
+                    <div class="footerMainLinks">
+                        <p class="footerParagraph">Services</p>
+
+                        <div class="footerLinksCon">
+                            <a class="footerLinks" href="">Gift Card</a>
+                            <a class="footerLinks" href="">Mobile App</a>
+                            <a class="footerLinks" href="">Shipping Delivery</a>
+                            <a class="footerLinks" href="">Order Pickup</a>
+                        </div>
+                    </div>
+
+                    <div class="footerMainLinks">
+                        <p class="footerParagraph">Help</p>
+
+                        <div class="footerLinksCon">
+                            <a class="footerLinks" href="">Shopcart Help</a>
+                            <a class="footerLinks" href="">Returns</a>
+                            <a class="footerLinks" href="">Track Orders</a>
+                            <a class="footerLinks" href="">Contact us</a>
+                        </div>
+                    </div>
+
+                    <div class="footerMainLinks">
+                        <p class="footerParagraph">Contact</p>
+
+                        <div class="footerLinksCon">
+                            <a class="footerLinks" href="tel:07037154085">
+                                <i class="fa fa-phone footerIcon"></i>
+                                07037154085
+                            </a>
+
+                            <a class="footerLinks" href="">
+                                <i class="fa fa-envelope footerIcon"></i>
+                                bretilmart@gmail.com
+                            </a>
+
+                            <a class="footerLinks" href="">
+                                <img src="../img/footer-location.svg" class="footerIcon" alt="">
+                                <p>24, Anishere road, <br> Lagos</p>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footerCopyrightCon">
+                <div class="otherFooterLinksCon">
+                    <a href="" class="otherFooterLinks">
+                        <i class="fa fa-gift gift"></i> Gift Cards
+                    </a>
+
+                    <a href="" class="otherFooterLinks">
+                        <i class="fa fa-question question"></i>Help Center
+                    </a>
+                </div>
+
+                <div class="copyRight">
+                    &copy; All rights reserved by Bretil Mart 2024
+                </div>
+
+                <div class="termsAndPrivacyLinkCon">
+                    <a href="" class="termsAndPrivacyLink">Terms of service</a>
+                    <a href="" class="termsAndPrivacyLink">Privacy Policy</a>
+                </div>
+            </div>
+        </footer>
+    </div>
 </body>
 </html>
 
