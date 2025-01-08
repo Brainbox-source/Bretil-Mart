@@ -111,7 +111,7 @@ function displayLowStockProducts() {
     lowStockProducts.sort((a, b) => a.quantity - b.quantity);  // Sorting by quantity in ascending order
 
     // Take the first 4 products if available
-    const productsToDisplay = lowStockProducts.slice(0, 4);
+    const productsToDisplay = lowStockProducts.slice(0, 1);
 
     // Get the container where the products will be displayed
     const productContainer = document.getElementById('lowStockProductsContainer');
@@ -124,36 +124,36 @@ function displayLowStockProducts() {
         // Loop through the products to display
         productsToDisplay.forEach(product => {
             // Create a product card
-            const productCard = document.createElement('div');
-            productCard.classList.add('product-card');
+            const limitedProductCard = document.createElement('div');
+            limitedProductCard.classList.add('limited-product-card');
 
             // Product picture
             const productImage = document.createElement('img');
             productImage.src = product.pictures[0] || 'default-image.jpg';  // Fallback image
-            productCard.appendChild(productImage);
+            limitedProductCard.appendChild(productImage);
 
             // Product name (Brand and Product Name)
             const productName = document.createElement('h3');
             productName.textContent = `${product.brand} ${product.name}`;
-            productCard.appendChild(productName);
+            limitedProductCard.appendChild(productName);
 
             // Product price
             const productPrice = document.createElement('p');
             productPrice.textContent = `${product.price.toLocaleString()}`;
-            productCard.appendChild(productPrice);
+            limitedProductCard.appendChild(productPrice);
 
             // Product rating
             const productRating = document.createElement('p');
             productRating.textContent = `${product.rating} stars`;
-            productCard.appendChild(productRating);
+            limitedProductCard.appendChild(productRating);
 
             // Product quantity
             const productQuantity = document.createElement('p');
             productQuantity.textContent = `Available only: ${product.quantity}pcs`;
-            productCard.appendChild(productQuantity);
+            limitedProductCard.appendChild(productQuantity);
 
             // Append the product card to the container
-            productContainer.appendChild(productCard);
+            productContainer.appendChild(limitedProductCard);
         });
     } else {
         console.error('Product container (id="lowStockProductsContainer") not found.');
@@ -221,7 +221,6 @@ function displayLowestPriceProducts() {
         console.error('Product container (id="lowestPriceProductsContainer") not found.');
     }
 }
-
 
 // Fetch products and set sessionStorage
 getAllProducts()
@@ -463,7 +462,7 @@ function saveRecentSearch(query) {
     recentSearches.unshift(query);
 
     // Limit to 5 recent searches
-    if (recentSearches.length > 10) {
+    if (recentSearches.length > 20) {
         recentSearches.pop();
     }
 
@@ -509,23 +508,49 @@ function performProductSearch(query) {
     productList.innerHTML = '';
 
     // Filter products based on the query
-    const matchingProducts = products.filter(product => product.name.toLowerCase().startsWith(searchQuery));
+    const matchingProducts = products.filter(product => 
+        product.name.toLowerCase().includes(searchQuery) || 
+        product.brand.toLowerCase().includes(searchQuery)
+    );
 
     if (matchingProducts.length > 0) {
         productList.style.display = 'block';
 
         matchingProducts.forEach(product => {
+            // Create a product card
             const productItem = document.createElement('div');
             productItem.classList.add('search-result-item');
-            productItem.textContent = product.name;
+
+            // Product picture
+            const productImage = document.createElement('img');
+            productImage.src = product.pictures[0] || 'default-image.jpg';  // Fallback image
+            productImage.alt = `${product.brand} image`;
+            productItem.appendChild(productImage);
+
+            // Product details container
+            const productDetailsCon = document.createElement('div');
+            productDetailsCon.classList.add('product-details-con');
+            productItem.appendChild(productDetailsCon);
+
+            // Product brand
+            const productBrand = document.createElement('h3');
+            productBrand.textContent = `${product.brand}`;
+            productDetailsCon.appendChild(productBrand);
+
+            // Product price
+            const productPrice = document.createElement('p');
+            productPrice.textContent = `${product.price}`;
+            productDetailsCon.appendChild(productPrice);
+
+            // Append the product item to the list
             productList.appendChild(productItem);
 
             // Handle product selection
             productItem.addEventListener('click', () => {
-                alert(`You selected: ${product.name}`);
+                alert(`You selected: ${product.brand} - ${product.price}`);
 
                 // Save the selected product to recent searches
-                saveRecentSearch(product.name);
+                saveRecentSearch(product.brand);
 
                 // Hide the dropdown and update recent searches
                 productList.style.display = 'none';
@@ -538,7 +563,6 @@ function performProductSearch(query) {
 }
 
 // Input event listener for search input
-// const searchInput = document.getElementById('searchInput');
 
 searchInput.addEventListener('input', () => {
     const query = searchInput.value;
@@ -557,20 +581,35 @@ document.addEventListener('DOMContentLoaded', () => {
     displayRecentSearches();
 });
 
+const productList = document.getElementById('productList');
 
 // Hide productList when clicking outside or when searchInput is empty
 document.addEventListener('click', (event) => {
-    const productList = document.getElementById('productList');
     if (!searchInput.contains(event.target) && !productList.contains(event.target)) {
         productList.style.display = 'none';
     }
 });
 
-searchInput.addEventListener('blur', () => {
-    const productList = document.getElementById('productList');
+// Listen for input change to show/hide productList and hide productDropDownCon
+searchInput.addEventListener('input', () => {
+    const productDropDown = document.getElementById('productDropDown');
+
     if (searchInput.value.trim() === '') {
         productList.style.display = 'none';
+        productDropDown.style.display = 'block'; // Show dropdown if input is empty
+    } else {
+        productList.style.display = 'block';
+        productDropDown.style.display = 'none'; // Hide dropdown when typing
     }
+});
+
+// Handle blur event to hide productList when searchInput loses focus
+searchInput.addEventListener('blur', () => {
+    setTimeout(() => {
+        if (searchInput.value.trim() === '') {
+            productList.style.display = 'none';
+        }
+    }, 200);  // Timeout to allow click event to register before hiding
 });
 
 // Display dropdown when clicking the search input
@@ -588,7 +627,7 @@ searchInput.addEventListener('click', () => {
         headerSearchCon.style.marginBottom = '1em';
         headerLogoAndLocationCon.style.display = 'none';
         headerCartandProfileCon.style.display = 'none';
-    }, 100);
+    }, 200);
 });
 
 // Close the dropdown when clicking outside

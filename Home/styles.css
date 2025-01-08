@@ -1285,12 +1285,14 @@ a {
     top: 100%;
     left: 0;
     background-color: #fff;
-    border: 1px solid #ccc;
+    /* border: 1px solid #ccc; */
     width: 100%;
-    max-height: 200px;
+    height: 447.5px;
     overflow-y: auto;
     display: none;
     z-index: 999;
+    border-bottom-right-radius: 1em;
+    border-bottom-left-radius: 1em;
 }
 
 #productList .search-result-item {
