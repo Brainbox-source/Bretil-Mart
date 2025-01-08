@@ -8,6 +8,10 @@
         width: 20%;
     }
 
+    .productDropDown {
+        width: 95vw;
+    }
+
     .organicFoodCon {
         align-items: start;
         padding-top: 13.5em;

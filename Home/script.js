@@ -1,4 +1,16 @@
 // DOM Elements
+const freshProduceBtn = document.getElementById('freshProduceBtn');
+const bakedGoodsBtn = document.getElementById('bakedGoodsBtn');
+const diaryProductsBtn = document.getElementById('diaryProductsBtn');
+const meatAndSeafoodBtn = document.getElementById('meatAndSeafoodBtn');
+const cannedGoodsBtn = document.getElementById('cannedGoodsBtn');
+const frozenFoodsBtn = document.getElementById('frozenFoodsBtn');
+const grainsAndPastaBtn = document.getElementById('grainsAndPastaBtn');
+const snacksBtn = document.getElementById('snacksBtn');
+const beveragesBtn = document.getElementById('beveragesBtn');
+const condimentsAndSaucesBtn = document.getElementById('condimentsAndSaucesBtn');
+const spicesAndHerbsBtn = document.getElementById('spicesAndHerbsBtn');
+const sweetsAndDesertsBtn = document.getElementById('sweetsAndDesertsBtn');
 const heroSectionBtnCon = document.getElementById('heroSectionBtnCon');
 const organicFoodBtnCon =  document.getElementById('organicFoodBtnCon');
 const hurryUpBtnCon = document.getElementById('hurryUpBtnCon');
@@ -19,6 +31,42 @@ const faqItems = document.querySelectorAll('.faq-item');
 const searchInput = document.getElementById('searchInput');
 console.log(searchInput);
 
+// // adding the category buttons
+import freshProduce from "../components/button.js";
+freshProduceBtn.appendChild(freshProduce("Fresh Produce", 'darkorange', 'white'));
+
+import bakedGoods from "../components/button.js";
+bakedGoodsBtn.appendChild(bakedGoods("Baked Goods", '#013f01', 'white'));
+
+import diaryProducts from "../components/button.js";
+diaryProductsBtn.appendChild(diaryProducts("Diary Products", 'green', 'white'));
+
+import meatAndSeafood from "../components/button.js";
+meatAndSeafoodBtn.appendChild(meatAndSeafood("Meat and Seafood", '#920b92', 'white'));
+
+import cannedGoods from "../components/button.js";
+cannedGoodsBtn.appendChild(cannedGoods("Canned Goods", '#7D1820', 'white'));
+
+import frozenFoods from "../components/button.js";
+frozenFoodsBtn.appendChild(frozenFoods("Frozen Foods", '#2b2be8', 'white'));
+
+import grainsAndPasta from "../components/button.js";
+grainsAndPastaBtn.appendChild(grainsAndPasta("Grains and Pasta", '#7b7106', 'white'));
+
+import snacks from "../components/button.js";
+snacksBtn.appendChild(snacks("Snacks", '#013f01', 'white'));
+
+import beverages from "../components/button.js";
+beveragesBtn.appendChild(beverages("Beverages", '#920b92', 'white'));
+
+import condimentsAndSauces from "../components/button.js";
+condimentsAndSaucesBtn.appendChild(condimentsAndSauces("Condiments", '#7D1820', 'white'));
+
+import spicesAndHerbs from "../components/button.js";
+spicesAndHerbsBtn.appendChild(spicesAndHerbs("Spices and Herbs", 'green', 'white'));
+
+import sweetsAndDeserts from "../components/button.js";
+sweetsAndDesertsBtn.appendChild(sweetsAndDeserts("Deserts", 'darkorange', 'white'));
 
 // Adding "Shop Now" button to the hero section
 import button from "../components/button.js";
@@ -49,6 +97,8 @@ import { getAllProducts } from "../utils/products.js";
 
 let allProducts = [];
 
+
+
 // Function to fetch and display the products with quantity less than 50
 function displayLowStockProducts() {
     // Retrieve products from sessionStorage
@@ -56,6 +106,9 @@ function displayLowStockProducts() {
 
     // Filter products with quantity less than 50
     const lowStockProducts = products.filter(product => product.quantity < 50);
+
+    // Sort the lowStockProducts if needed (optional)
+    lowStockProducts.sort((a, b) => a.quantity - b.quantity);  // Sorting by quantity in ascending order
 
     // Take the first 4 products if available
     const productsToDisplay = lowStockProducts.slice(0, 4);
@@ -76,18 +129,17 @@ function displayLowStockProducts() {
 
             // Product picture
             const productImage = document.createElement('img');
-            productImage.src = product.pictures[0]; // Assuming the first image is the main one
-            // productImage.alt = product.productName;
+            productImage.src = product.pictures[0] || 'default-image.jpg';  // Fallback image
             productCard.appendChild(productImage);
 
             // Product name (Brand and Product Name)
             const productName = document.createElement('h3');
-            productName.textContent = `${product.brand}`;
+            productName.textContent = `${product.brand} ${product.name}`;
             productCard.appendChild(productName);
 
             // Product price
             const productPrice = document.createElement('p');
-            productPrice.textContent = `${product.price}`;
+            productPrice.textContent = `${product.price.toLocaleString()}`;
             productCard.appendChild(productPrice);
 
             // Product rating
@@ -97,7 +149,7 @@ function displayLowStockProducts() {
 
             // Product quantity
             const productQuantity = document.createElement('p');
-            productQuantity.textContent = `Available only: ${product.quantity}pc`;
+            productQuantity.textContent = `Available only: ${product.quantity}pcs`;
             productCard.appendChild(productQuantity);
 
             // Append the product card to the container
@@ -108,22 +160,83 @@ function displayLowStockProducts() {
     }
 }
 
+function displayLowestPriceProducts() {
+    // Retrieve products from sessionStorage
+    const products = JSON.parse(sessionStorage.getItem('products')) || [];
+
+    // Check if there are products available
+    if (products.length === 0) {
+        console.warn('No products found in sessionStorage.');
+        return;
+    }
+
+    // Helper function to parse price to a number
+    const parsePrice = (price) => parseFloat(price.replace(/,/g, '').replace('₦', ''));
+
+    // Sort products by price in ascending order
+    const sortedProducts = products.sort((a, b) => parsePrice(a.price) - parsePrice(b.price));
+
+    // Get the lowest 6 products
+    const lowestPriceProducts = sortedProducts.slice(0, 6);
+
+    // Get the container where the products will be displayed
+    const productContainer = document.getElementById('lowestPriceProductsContainer');
+
+    // Check if the container exists
+    if (productContainer) {
+        // Clear any existing content in the container
+        productContainer.innerHTML = '';
+
+        // Loop through the lowest price products to display
+        lowestPriceProducts.forEach(product => {
+            // Create a product card
+            const productCard = document.createElement('div');
+            productCard.classList.add('product-card');
+
+            // Product picture
+            const productImage = document.createElement('img');
+            productImage.src = product.pictures[0] || 'default-image.jpg';  // Fallback image
+            productImage.alt = `${product.brand} image`;
+            productCard.appendChild(productImage);
+
+            // Product details container
+            const productDetailsCon = document.createElement('div');
+            productDetailsCon.classList.add('product-details-con');
+            productCard.appendChild(productDetailsCon);
+            
+            // Product name (Brand)
+            const productName = document.createElement('h3');
+            productName.textContent = `${product.brand}`;
+            productDetailsCon.appendChild(productName);
+
+            // Product price
+            const productPrice = document.createElement('p');
+            productPrice.textContent = `${product.price}`;  // Price as a string (no conversion needed here)
+            productDetailsCon.appendChild(productPrice);
+
+            // Append the product card to the container
+            productContainer.appendChild(productCard);
+        });
+    } else {
+        console.error('Product container (id="lowestPriceProductsContainer") not found.');
+    }
+}
+
+
+// Fetch products and set sessionStorage
 getAllProducts()
     .then(products => {
-        // Ensure the response is an array
         if (Array.isArray(products)) {
-            // Store the products in session storage
             sessionStorage.setItem('products', JSON.stringify(products));
             console.log("Products fetched successfully:", products);
 
-            // Retrieve from session storage
             const result = sessionStorage.getItem('products');
             allProducts = JSON.parse(result);
-
             console.log("Products retrieved from session storage:", allProducts);
 
-            // Display the low stock products
+            // Display low stock products and lowest price products
             displayLowStockProducts();
+            displayLowestPriceProducts();
         } else {
             console.error("Unexpected response format. Expected an array of products.");
         }
@@ -339,23 +452,66 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // Product Search Functionality with Click-Away Feature
-searchInput.addEventListener('input', () => {
-    const productList = document.getElementById('productList');
-    const searchQuery = searchInput.value.toLowerCase();
-    console.log(productList.value);
+// Function to save recent searches
+function saveRecentSearch(query) {
+    let recentSearches = JSON.parse(localStorage.getItem('recentSearches')) || [];
 
-    // Retrieve products from sessionStorage
+    // Remove duplicates
+    recentSearches = recentSearches.filter(search => search !== query);
+
+    // Add the new search query to the beginning
+    recentSearches.unshift(query);
+
+    // Limit to 5 recent searches
+    if (recentSearches.length > 10) {
+        recentSearches.pop();
+    }
+
+    // Save to localStorage
+    localStorage.setItem('recentSearches', JSON.stringify(recentSearches));
+}
+
+// Function to display recent searches
+function displayRecentSearches() {
+    const recentSearches = JSON.parse(localStorage.getItem('recentSearches')) || [];
+    const recentSearchesContainer = document.getElementById('recentSearchesContainer');
+
+    if (recentSearchesContainer) {
+        recentSearchesContainer.innerHTML = '';
+
+        // Display recent searches
+        if (recentSearches.length > 0) {
+            recentSearches.forEach(search => {
+                const searchItem = document.createElement('div');
+                searchItem.classList.add('search-result-item');
+                searchItem.textContent = search;
+                recentSearchesContainer.appendChild(searchItem);
+
+                // Click event for recent searches
+                searchItem.addEventListener('click', () => {
+                    searchInput.value = search;
+                    performProductSearch(search);
+                });
+            });
+        }
+    } else {
+        console.error('recentSearchesContainer not found');
+    }
+}
+
+// Function to perform product search
+function performProductSearch(query) {
+    const productList = document.getElementById('productList');
+    const searchQuery = query.toLowerCase();
     const storedProducts = sessionStorage.getItem('products');
     const products = storedProducts ? JSON.parse(storedProducts) : [];
 
-    // Clear previous search results
     productList.innerHTML = '';
 
-    // Filter products based on the search query
+    // Filter products based on the query
     const matchingProducts = products.filter(product => product.name.toLowerCase().startsWith(searchQuery));
 
-    if (matchingProducts.length > 0 && searchQuery !== '') {
-        // Display matching products
+    if (matchingProducts.length > 0) {
         productList.style.display = 'block';
 
         matchingProducts.forEach(product => {
@@ -364,16 +520,43 @@ searchInput.addEventListener('input', () => {
             productItem.textContent = product.name;
             productList.appendChild(productItem);
 
-            // Optional: Add click event to handle product selection
+            // Handle product selection
             productItem.addEventListener('click', () => {
                 alert(`You selected: ${product.name}`);
-                productList.style.display = 'none'; // Hide dropdown after selection
+
+                // Save the selected product to recent searches
+                saveRecentSearch(product.name);
+
+                // Hide the dropdown and update recent searches
+                productList.style.display = 'none';
+                displayRecentSearches();
             });
         });
     } else {
         productList.style.display = 'none';
     }
+}
+
+// Input event listener for search input
+// const searchInput = document.getElementById('searchInput');
+
+searchInput.addEventListener('input', () => {
+    const query = searchInput.value;
+    if (query !== '') {
+        performProductSearch(query);
+    }
 });
+
+// Focus event listener to display recent searches
+searchInput.addEventListener('focus', () => {
+    displayRecentSearches();
+});
+
+// On page load, display recent searches
+document.addEventListener('DOMContentLoaded', () => {
+    displayRecentSearches();
+});
+
 
 // Hide productList when clicking outside or when searchInput is empty
 document.addEventListener('click', (event) => {
@@ -402,6 +585,7 @@ searchInput.addEventListener('click', () => {
         productDropDownCon.style.display = 'block';
         headerSearchCon.style.width = '100%';
         headerSearchCon.style.marginTop = '1.4em';
+        headerSearchCon.style.marginBottom = '1em';
         headerLogoAndLocationCon.style.display = 'none';
         headerCartandProfileCon.style.display = 'none';
     }, 100);
@@ -410,13 +594,25 @@ searchInput.addEventListener('click', () => {
 // Close the dropdown when clicking outside
 document.addEventListener('click', (event) => {
     const productDropDownCon = document.getElementById('productDropDownCon');
-    
-    // If the clicked element is not the search input or inside the dropdown, hide it
-    if (!searchInput.contains(event.target) && !productDropDownCon.contains(event.target)) {
+    const headerSearchCon = document.getElementById('headerSearchCon');
+    const headerLogoAndLocationCon = document.getElementById('headerLogoAndLocationCon');
+    const headerCartandProfileCon = document.getElementById('headerCartandProfileCon');
+
+    // If the clicked element is not the search input, dropdown, or the elements we want to keep visible, hide the dropdown
+    if (
+        !searchInput.contains(event.target) && 
+        !productDropDownCon.contains(event.target) &&
+        !headerSearchCon.contains(event.target) // Prevent closing when clicking inside the search bar area
+    ) {
         productDropDownCon.style.display = 'none';
+
+        // Reset UI to default state
+        headerSearchCon.style.width = '70%'; // Restore the original width of the search container
+        headerSearchCon.style.marginTop = '0'; // Remove the margin
+        headerLogoAndLocationCon.style.display = 'flex'; // Show the header logo and location
+        headerCartandProfileCon.style.display = 'flex'; // Show the cart and profile section
     }
 });
-
 
 // FAQ functionality
 faqItems.forEach(item => {

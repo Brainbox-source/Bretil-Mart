@@ -106,7 +106,7 @@ a {
     border: none;
     outline: none;
     background-color: #dcdcdc98;
-    padding: 0 3.2em;
+    padding: 0 4em;
     color: #000000a0;
 }
 
@@ -205,7 +205,13 @@ a {
 #productDropDownCon {
     display: none;
     position: absolute;
-    width: 100%;
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
+    /* border: 1px solid red; */
+    height: 100vh;
+    backdrop-filter: blur(10px);
+    background-color: #0000007b;
+    /* z-index: 200; */
 }
 
 .productDropDown {
@@ -213,11 +219,42 @@ a {
     gap: 2em;
     padding: 2.5em 2em;
     background-color: #fff;
-    border: 1px solid #4B0A10;
+    /* border: 1px solid #4B0A10; */
     border-bottom-left-radius: 1em;
     border-bottom-right-radius: 1em;
-    height: 58vh;
+    /* height: 58%; */
+    width: 90vw;
+    margin: auto;
 }
+
+.searchCategoryContent {
+    display: flex;
+    flex-direction: column;
+    /* grid-template-columns: repeat(1, 1fr); */
+    gap: 0.7em;
+    margin-top: 1em;
+    border-left: 10px solid #dcdcdc8e;
+    border-right: 10px solid #dcdcdc8e;
+    padding: 0 0.4em;
+    /* border-radius: 0.5em; */
+    max-height: 18.5em;
+    overflow-y: auto;
+}
+
+/* #freshProduceBtn,
+#bakedGoodsBtn,
+#diaryProductsBtn,
+#meatAndSeafoodBtn,
+#cannedGoodsBtn,
+#frozenFoodsBtn,
+#grainsAndPastaBtn,
+#snacksBtn,
+#beveragesBtn,
+#condimentsAndSaucesBtn,
+#spicesAndHerbsBtn,
+#sweetsAndDesertsBtn {
+    width: 50%;
+} */
 
 .headerNavigationCon {
     display: flex;
@@ -630,28 +667,37 @@ a {
 } */
 
 .product-card {
-    border: 1px solid #ddd;
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-evenly;
+    align-items: center;
+    gap: 0.5em;
+    /* border: 1px solid #ddd; */
     border-radius: 8px;
-    padding: 20px;
-    margin: 15px;
+    padding: 0.5em 0.8em;
+    /* margin: 15px; */
     text-align: center;
-    width: 200px;
+    /* width: 200px; */
+    background-color: #dcdcdc4d;
 }
 
 .product-card img {
-    width: 100%;
-    height: auto;
+    width: 45%;
+    height: 85%;
     border-radius: 8px;
+    /* border: 1px solid #ddd; */
 }
 
 .product-card h3 {
-    font-size: 18px;
+    font-size: 0.86em;
+    color: var(--ALTERNATEGREEN);
     margin: 10px 0;
 }
 
 .product-card p {
-    font-size: 14px;
-    color: #555;
+    font-size: 1em;
+    color: var(--GREEN);
+    font-weight: 700;
 }
 
 
@@ -1247,17 +1293,58 @@ a {
     z-index: 999;
 }
 
-.search-result-item {
+#productList .search-result-item {
     padding: 10px;
     cursor: pointer;
 }
 
-.search-result-item:hover {
+#productList .search-result-item:hover {
     background-color: gainsboro;
 }
 
+
+/* Recent searches container */
+#recentSearchesContainer {
+    margin-top: 1em;
+    /* background-color: #fff; */
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 0.5em;
+    max-height: 20em;
+    overflow-y: auto;
+    /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); */
+}
+
+/* Recent search item */
+#recentSearchesContainer .search-result-item {
+    padding: 0.5em;
+    border-radius: 2em;
+    border: 1px solid #ddd;
+    margin-bottom: 1em;
+    text-align: center;
+    font-size: 0.85em;
+    font-weight: 700;
+    color: var(--GREEN);
+    cursor: pointer;
+    transition: all ease-in-out 0.3s;
+}
+
+#recentSearchesContainer .search-result-item:hover {
+    background-color: #eaeaea;
+}
+
+/* Placeholder styling if no recent searches */
+#recentSearchesContainer::before {
+    content: 'Your recent searches!';
+    display: block;
+    text-align: center;
+    color: #aaa;
+    font-size: 14px;
+    margin-bottom: 1em;
+}
 
 /* scrollbar */
 ::-webkit-scrollbar {
     width: 0px;
 }
+

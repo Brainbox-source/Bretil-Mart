@@ -37,12 +37,12 @@
                 </div>
 
                 <div id="headerSearchCon">
-                    <form id="searchForm">
+                    <div id="searchForm">
                         <input type="text" id="searchInput" placeholder="Search your products, Categories or Brands" >
-                        <button type="submit" class="searchBtn">
+                        <span class="searchBtn">
                             <i class="fa fa-search" style="font-size: 17px;"></i>
-                        </button>
-                    </form>
+                        </span>
+                    </div>
 
                     <div id="productList"></div>
                 </div>
@@ -95,25 +95,42 @@
 
             <div id="productDropDownCon">
                 <div class="productDropDown">
-                    <div class="recentSearchCon" style="width: 18%; border: 1px solid #000;">
-                        <h3>Recent Searches</h3>
+                    <div class="recentSearchCon" style="width: 15%;">
+                        <h3 style="color: #013a01;">Recent Searches</h3>
                         <hr style="border-top: 1px solid gainsboro; margin-top: 0.5em;">
 
-                        <div class="recentSearchCOntent"></div>
+                        <!-- <div class="recentSearchCOntent" style="height: 43vh; place-content: center; text-align: center;">
+                            <h3 id="recentSearchHeading" style="color: darkgreen; font-size: 1em; font-weight: 800;">Your Recent Search Would Appear Here!</h3>
+                        </div> -->
+
+                        <div id="recentSearchesContainer"></div>
                     </div>
 
-                    <div class="searchCategoryCon" style="width: 18%; border: 1px solid #FFF05A">
-                        <h3>Search by Categories</h3>
+                    <div class="searchCategoryCon" style="width: 20%;">
+                        <h3 style="color: #013a01;">Search by Categories</h3>
                         <hr style="border-top: 1px solid gainsboro; margin-top: 0.5em;">
 
-                        <div class="searchCategoryContent"></div>
+                        <div class="searchCategoryContent">
+                            <span id="freshProduceBtn"></span>
+                            <span id="bakedGoodsBtn"></span>
+                            <span id="diaryProductsBtn"></span>
+                            <span id="meatAndSeafoodBtn"></span>
+                            <span id="cannedGoodsBtn"></span>
+                            <span id="frozenFoodsBtn"></span>
+                            <span id="grainsAndPastaBtn"></span>
+                            <span id="snacksBtn"></span>
+                            <span id="beveragesBtn"></span>
+                            <span id="condimentsAndSaucesBtn"></span>
+                            <span id="spicesAndHerbsBtn"></span>
+                            <span id="sweetsAndDesertsBtn"></span>
+                        </div>
                     </div>
 
-                    <div class="recommendedSearchCon" style="width: 64%; border: 1px solid #00f">
-                        <h3>Recommended Searches</h3>
+                    <div class="recommendedSearchCon" style="width: 65%;">
+                        <h3 style="color: #013a01;">Recommended Searches</h3>
                         <hr style="border-top: 1px solid gainsboro; margin-top: 0.5em;">
 
-                        <div class="recommendedSearchCOntent"></div>
+                        <div id="lowestPriceProductsContainer" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1em; border: 1px solid #fff; margin-top: 1em; overflow: scroll;"></div>
                     </div>
                 </div>
             </div>
@@ -275,11 +292,9 @@
                 <div id="limitedProcuctsQuantity">
                     <div id="lowStockProductsContainer">
                         <!-- Filtered products with quantity < 50 will be dynamically inserted here -->
+
+                        <!-- <div id="percentBtn"></div> -->
                     </div>
-                    
-                    <!-- <div class="productCon">
-                        <div id="percentBtn"></div>
-                    </div> -->
                 </div>
 
                 <div class="percentageContainer">
