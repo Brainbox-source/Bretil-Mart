@@ -209,12 +209,12 @@ a {
     margin-left: calc(-50vw + 50%);
     /* border: 1px solid red; */
     height: 100vh;
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(5px);
     background-color: #0000007b;
     /* z-index: 200; */
 }
 
-.productDropDown {
+#productDropDown {
     display: flex;
     gap: 2em;
     padding: 2.5em 2em;
@@ -699,7 +699,6 @@ a {
     color: var(--GREEN);
     font-weight: 700;
 }
-
 
 .organicFoodCon {
     background: linear-gradient(50deg, var(--GREEN), var(--ALTERNATEGREEN), rgb(1, 143, 1), rgb(2, 88, 2), yellowgreen);
@@ -1280,28 +1279,82 @@ a {
     font-weight: 600;
 }
 
+#searchProductDropDownCon{
+    border: 5px solid #00f;
+}
+
 #productList {
     position: absolute;
-    top: 100%;
-    left: 0;
+    /* border: 10px solid green; */
+    /* top: 55.6%; */
+    /* left: 0; */
     background-color: #fff;
     /* border: 1px solid #ccc; */
     width: 100%;
-    height: 447.5px;
+    min-height: 446px;
+    max-height: 446.8px;
     overflow-y: auto;
     display: none;
     z-index: 999;
     border-bottom-right-radius: 1em;
     border-bottom-left-radius: 1em;
+    padding: 2.49em 2em 1.5em 2em;
 }
 
-#productList .search-result-item {
-    padding: 10px;
+.product-grid-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1em;
+}
+
+.search-result-item-con {
+    background-color: #f9f9f9;
+    /* border: 1px solid #ddd; */
+    padding: 1em;
+    border-radius: 8px;
+}
+
+.product-search-result-item {
+    padding: 0 0.35em;
+    /* max-height: 150px; */
     cursor: pointer;
+    /* border: 1px solid #0f0; */
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    justify-content: space-evenly;
+    gap: 0.25em;
+    border-radius: 0.5em;
+    background-color: #dcdcdc43;
+    transition: all ease-in-out 0.5s;
 }
 
-#productList .search-result-item:hover {
-    background-color: gainsboro;
+.product-search-result-item:hover {
+    background-color: #dcdcdc84
+}
+
+.product-details-con {
+    text-align: center;
+}
+
+.search-result-item {
+    transition: all ease 0.5s;
+}
+
+.product-search-result-item img {
+    width: 40%;
+}
+
+.product-details-con h3 {
+    font-size: 0.86em;
+    color: var(--ALTERNATEGREEN);
+    margin-bottom: 10px;
+}
+
+.product-details-con p {
+    font-size: 1em;
+    color: var(--GREEN);
+    font-weight: 700;
 }
 
 
@@ -1349,4 +1402,3 @@ a {
 ::-webkit-scrollbar {
     width: 0px;
 }
-

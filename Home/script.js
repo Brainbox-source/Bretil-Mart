@@ -508,22 +508,52 @@ function performProductSearch(query) {
     productList.innerHTML = '';
 
     // Filter products based on the query
-    const matchingProducts = products.filter(product => 
-        product.name.toLowerCase().includes(searchQuery) || 
+    const matchingProducts = products.filter(product =>
+        product.name.toLowerCase().includes(searchQuery) ||
         product.brand.toLowerCase().includes(searchQuery)
     );
 
     if (matchingProducts.length > 0) {
         productList.style.display = 'block';
 
+        // Create the productHeadingCon
+        const productHeadingCon = document.createElement('div');
+        productHeadingCon.classList.add('product-heading-con');
+
+        // Create the h3 element with text and style
+        const productHeading = document.createElement('h3');
+        productHeading.textContent = 'Products';
+        productHeading.style.color = '#013a01';
+
+        // Create the hr element with styles
+        const hr = document.createElement('hr');
+        hr.style.borderTop = '1px solid gainsboro';
+        hr.style.marginTop = '0.5em';
+
+        // Append h3 and hr to the div container
+        productHeadingCon.appendChild(productHeading);
+        productHeadingCon.appendChild(hr);
+
+        // Append the heading container to the product list
+        productList.appendChild(productHeadingCon);
+
+        // Create a container for product items
+        const productGridContainer = document.createElement('div');
+        productGridContainer.classList.add('product-grid-container');
+        productList.appendChild(productGridContainer);
+
         matchingProducts.forEach(product => {
+            // Create a product card Con
+            const productItemCon = document.createElement('div');
+            productItemCon.classList.add('search-result-item-con');
+
             // Create a product card
             const productItem = document.createElement('div');
-            productItem.classList.add('search-result-item');
+            productItem.classList.add('product-search-result-item');
 
             // Product picture
             const productImage = document.createElement('img');
-            productImage.src = product.pictures[0] || 'default-image.jpg';  // Fallback image
+            productImage.src = product.pictures[0] || 'default-image.jpg';
             productImage.alt = `${product.brand} image`;
             productItem.appendChild(productImage);
 
@@ -542,17 +572,16 @@ function performProductSearch(query) {
             productPrice.textContent = `${product.price}`;
             productDetailsCon.appendChild(productPrice);
 
-            // Append the product item to the list
-            productList.appendChild(productItem);
+            // Append the product item to the container
+            productItemCon.appendChild(productItem);
+
+            // Append the product item container to the grid
+            productGridContainer.appendChild(productItemCon);
 
             // Handle product selection
             productItem.addEventListener('click', () => {
                 alert(`You selected: ${product.brand} - ${product.price}`);
-
-                // Save the selected product to recent searches
                 saveRecentSearch(product.brand);
-
-                // Hide the dropdown and update recent searches
                 productList.style.display = 'none';
                 displayRecentSearches();
             });
@@ -561,6 +590,7 @@ function performProductSearch(query) {
         productList.style.display = 'none';
     }
 }
+
 
 // Input event listener for search input
 
@@ -596,9 +626,11 @@ searchInput.addEventListener('input', () => {
 
     if (searchInput.value.trim() === '') {
         productList.style.display = 'none';
-        productDropDown.style.display = 'block'; // Show dropdown if input is empty
+        productDropDown.style.display = 'flex'; // Show dropdown if input is empty
     } else {
-        productList.style.display = 'block';
+        productList.style.display = 'flex';
+        productList.style.flexDirection = 'column';
+        productList.style.gap = '1em';
         productDropDown.style.display = 'none'; // Hide dropdown when typing
     }
 });
