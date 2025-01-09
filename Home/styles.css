@@ -1293,7 +1293,7 @@ a {
     width: 100%;
     min-height: 446px;
     max-height: 446.8px;
-    overflow-y: auto;
+    /* overflow-y: auto; */
     display: none;
     z-index: 999;
     border-bottom-right-radius: 1em;
@@ -1305,6 +1305,8 @@ a {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 1em;
+    /* border: 1px solid #000; */
+    overflow-y: scroll;
 }
 
 .search-result-item-con {
@@ -1326,7 +1328,7 @@ a {
     gap: 0.25em;
     border-radius: 0.5em;
     background-color: #dcdcdc43;
-    transition: all ease-in-out 0.5s;
+    transition: all ease-in-out 0.3s;
 }
 
 .product-search-result-item:hover {
@@ -1342,7 +1344,7 @@ a {
 }
 
 .product-search-result-item img {
-    width: 40%;
+    width: 45%;
 }
 
 .product-details-con h3 {
