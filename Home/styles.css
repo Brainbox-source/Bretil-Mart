@@ -675,7 +675,7 @@ a {
     padding: 20px;
     background-color: rgba(220, 220, 220, 0.077);
     border-radius: 1em;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.66);
+    /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.66); */
     /* z-index: 0; */
 }
 
