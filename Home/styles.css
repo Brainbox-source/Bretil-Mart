@@ -671,9 +671,9 @@ a {
     position: relative;
     /* width: 300px;  Adjust based on your card size */
     /* height: 400px;  Adjust based on your card size */
-    border: 5px solid var(--LIGHTCHERRYWOOD);
+    /* border: 5px solid var(--LIGHTCHERRYWOOD); */
     padding: 20px;
-    background-color: rgba(220, 220, 220, 0.077);
+    background-color: rgba(220, 220, 220, 0.303);
     border-radius: 1em;
     /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.66); */
     /* z-index: 0; */
@@ -714,7 +714,7 @@ a {
     font-size: 1em;
     font-weight: bold;
     color: #fff;
-    background-color: var(--CHERRYWOOD);  /* Optional for contrast */
+    background-color: #7d1820f4;  /* Optional for contrast */
     padding: 8px 14px;
     border-top-left-radius: 1em;
     border-bottom-right-radius: 1em;
