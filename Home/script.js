@@ -16,7 +16,6 @@ const organicFoodBtnCon =  document.getElementById('organicFoodBtnCon');
 const hurryUpBtnCon = document.getElementById('hurryUpBtnCon');
 const cashBackSubscriptionBtnCon = document.getElementById('cashBackSubscriptionBtnCon');
 const startShoppingBtnCon = document.getElementById('startShoppingBtnCon');
-// const percentBtn = document.getElementById('percentBtn');
 const locationParagraph = document.querySelector(".locationAbuDhabi");
 const modal = document.getElementById("myModal");
 const profileBtn = document.getElementById("ProfileBtn");
@@ -88,30 +87,24 @@ cashBackSubscriptionBtnCon.appendChild(cashButton("Get Subscription", 'darkorang
 import startShoppingButton from "../components/button.js";
 startShoppingBtnCon.appendChild(startShoppingButton("Start Shopping", '#fff', 'darkgreen', 'yes'));
 
-// Adding the percent button
-// import percentbutton from "../components/percentage.js";
-// percentBtn.appendChild(percentbutton('15% OFF', 'darkorange', '#fff'));
-
 // Fetching products securely and logging them to the console
 import { getAllProducts } from "../utils/products.js";
 
 let allProducts = [];
 
-
-
-// Function to fetch and display the products with quantity less than 50
+// Function to fetch and display the products with quantity less than 100
 function displayLowStockProducts() {
     // Retrieve products from sessionStorage
     const products = JSON.parse(sessionStorage.getItem('products')) || [];
 
-    // Filter products with quantity less than 50
-    const lowStockProducts = products.filter(product => product.quantity < 50);
+    // Filter products with quantity less than 100
+    const lowStockProducts = products.filter(product => product.quantity < 100);
 
     // Sort the lowStockProducts if needed (optional)
-    lowStockProducts.sort((a, b) => a.quantity - b.quantity);  // Sorting by quantity in ascending order
+    lowStockProducts.sort((a, b) => a.quantity - b.quantity); // Sorting by quantity in ascending order
 
-    // Take the first 4 products if available
-    const productsToDisplay = lowStockProducts.slice(0, 1);
+    // Take the first product if available
+    const productsToDisplay = lowStockProducts.slice(0, 4);
 
     // Get the container where the products will be displayed
     const productContainer = document.getElementById('lowStockProductsContainer');
@@ -121,44 +114,104 @@ function displayLowStockProducts() {
         // Clear any existing content in the container
         productContainer.innerHTML = '';
 
+        // Set the max capacity to 200 pcs
+        const maxQuantity = 200;
+
         // Loop through the products to display
         productsToDisplay.forEach(product => {
             // Create a product card
             const limitedProductCard = document.createElement('div');
             limitedProductCard.classList.add('limited-product-card');
-
+        
+            // Create and add the "Limited" tagline to the top-right corner
+            const tagline = document.createElement('span');
+            tagline.classList.add('tagline');
+            tagline.textContent = 'Limited';  // Tagline text
+            limitedProductCard.appendChild(tagline);
+        
             // Product picture
             const productImage = document.createElement('img');
-            productImage.src = product.pictures[0] || 'default-image.jpg';  // Fallback image
+            productImage.src = product.pictures[0] || 'default-image.jpg'; // Fallback image
             limitedProductCard.appendChild(productImage);
-
+        
             // Product name (Brand and Product Name)
             const productName = document.createElement('h3');
             productName.textContent = `${product.brand} ${product.name}`;
             limitedProductCard.appendChild(productName);
-
+        
+            // Product price and + button container (to align them on the same line)
+            const priceContainer = document.createElement('div');
+            priceContainer.classList.add('price-container');
+        
             // Product price
             const productPrice = document.createElement('p');
+            productPrice.classList.add('price')
             productPrice.textContent = `${product.price.toLocaleString()}`;
-            limitedProductCard.appendChild(productPrice);
-
-            // Product rating
-            const productRating = document.createElement('p');
-            productRating.textContent = `${product.rating} stars`;
-            limitedProductCard.appendChild(productRating);
-
+            priceContainer.appendChild(productPrice);
+        
+            // Add to cart button
+            const addToCartButton = document.createElement('button');
+            addToCartButton.textContent = '+';
+            addToCartButton.classList.add('add-to-cart-button');
+            priceContainer.appendChild(addToCartButton);
+        
+            // Append price container to the card
+            limitedProductCard.appendChild(priceContainer);
+        
+            // Create the <hr> element to separate price from progress bar
+            const limitedHr = document.createElement('hr');
+            limitedHr.style.borderTop = '1px solid gainsboro';
+            limitedHr.style.marginTop = '0.5em';
+            limitedHr.style.marginBottom = '1em';  // Optional spacing between <hr> and progress bar
+            limitedProductCard.appendChild(limitedHr);  // Append <hr> after price
+        
+            // Add the "A limited quantity of this product is left" paragraph above the progress bar
+            const limitedQuantityText = document.createElement('p');
+            limitedQuantityText.textContent = 'A limited quantity of this product is left';
+            limitedQuantityText.style.fontSize = '14px';  // Optional font size adjustment
+            limitedQuantityText.style.color = '#fff';  // Optional color for the text
+            limitedQuantityText.style.marginBottom = '0.5em'
+            limitedProductCard.appendChild(limitedQuantityText);
+        
+            // Create the progress bar dynamically
+            const progressBar = document.createElement('div');
+            progressBar.classList.add('progress-bar');
+        
+            // Calculate the fill percentage based on the max stock (200 pcs)
+            const percentageFilled = Math.round((product.quantity / maxQuantity) * 20); // 20 blocks for the progress bar
+        
+            // Check if the product quantity is less than 100
+            const isLowStock = product.quantity < 100;
+        
+            // Generate the blocks for the progress bar
+            for (let i = 0; i < 20; i++) {
+                const block = document.createElement('div');
+                block.classList.add('block');
+                // If product is in low stock, turn the blocks red
+                if (i < percentageFilled) {
+                    block.classList.add(isLowStock ? 'filled-red' : 'filled');
+                }
+                progressBar.appendChild(block);
+            }
+        
+            // Append the progress bar to the product card
+            limitedProductCard.appendChild(progressBar);
+        
             // Product quantity
             const productQuantity = document.createElement('p');
+            productQuantity.classList.add('quantity')
             productQuantity.textContent = `Available only: ${product.quantity}pcs`;
             limitedProductCard.appendChild(productQuantity);
-
+        
             // Append the product card to the container
             productContainer.appendChild(limitedProductCard);
-        });
+        });        
     } else {
         console.error('Product container (id="lowStockProductsContainer") not found.');
     }
 }
+
+
 
 function displayLowestPriceProducts() {
     // Retrieve products from sessionStorage

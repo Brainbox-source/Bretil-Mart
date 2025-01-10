@@ -42,28 +42,28 @@
     </div>
       
     <script>
-        const totalBlocks = 20; // Total blocks representing full stock
-        const availableStock = 30; // Current stock in kg
-        const maxStock = 100; // Example max capacity in kg
+        const totalBlocks = 20; // Total blocks representing full stock in pieces
+        const availableStock = 30; // Current stock in pieces
+        const maxStock = 100; // Max capacity in pieces
 
         // Calculate the percentage of filled blocks
         const percentageFilled = Math.round((availableStock / maxStock) * totalBlocks);
 
         // Create the progress bar dynamically
         const progressBar = document.querySelector('.progress-bar');
+        progressBar.innerHTML = ''; // Clear previous blocks
 
         for (let i = 0; i < totalBlocks; i++) {
-        const block = document.createElement('div');
-        block.classList.add('block');
-        if (i < percentageFilled) {
-            block.classList.add('filled');
-        }
-        progressBar.appendChild(block);
+            const block = document.createElement('div');
+            block.classList.add('block');
+            if (i < percentageFilled) {
+                block.classList.add('filled');
+            }
+            progressBar.appendChild(block);
         }
 
         // Update the text display
-        document.getElementById('stock-value').textContent = `${availableStock}kg`;
-
+        document.getElementById('stock-value').textContent = `${availableStock} pcs`;
     </script>
 </body>
 </html>

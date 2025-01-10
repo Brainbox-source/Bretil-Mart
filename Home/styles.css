@@ -21,6 +21,7 @@ header {
     position: sticky;
     top: 0;
     background-color: #fff;
+    z-index: 999;
 }
 
 a {
@@ -656,8 +657,114 @@ a {
 }
 
 #limitedProcuctsQuantity {
-    border: 1px solid #efdf2d;
+    /* border: 1px solid #efdf2d; */
     margin-bottom: 5em;
+}
+
+#lowStockProductsContainer {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1em;
+}
+
+.limited-product-card {
+    position: relative;
+    /* width: 300px;  Adjust based on your card size */
+    /* height: 400px;  Adjust based on your card size */
+    border: 5px solid var(--LIGHTCHERRYWOOD);
+    padding: 20px;
+    background-color: rgba(220, 220, 220, 0.077);
+    border-radius: 1em;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.66);
+    /* z-index: 0; */
+}
+
+.limited-product-card img {
+    /* border: 1px solid #fff; */
+    width: 70%;
+    margin: 1.5em 0 1em 0;
+    display: block;  /* Makes the image a block element */
+    margin-left: auto;  /* Centers the image horizontally */
+    margin-right: auto;  /* Centers the image horizontally */
+}
+
+.limited-product-card h3 {
+    color: var(--GREEN);
+    font-weight: 700;
+    font-size: 1.2em;
+}
+
+.limited-product-card .price {
+    font-size: 1.4em;
+    font-weight: 800;
+    color: var(--GREEN);
+}
+
+.limited-product-card .quantity {
+    margin-top: 0.6em;
+    color: var(--GREEN);
+    font-weight: 900;
+    font-size: 0.85em;
+}
+
+.tagline {
+    position: absolute;
+    top: 0;  /* Adjust distance from top */
+    left: 0;  /* Adjust distance from right */
+    font-size: 1em;
+    font-weight: bold;
+    color: #fff;
+    background-color: var(--CHERRYWOOD);  /* Optional for contrast */
+    padding: 8px 14px;
+    border-top-left-radius: 1em;
+    border-bottom-right-radius: 1em;
+    /* text-transform: uppercase; */
+}
+
+/* Style for the price container */
+.price-container {
+    display: flex;
+    align-items: center; /* Aligns price and button vertically */
+    justify-content: space-between; /* Adds space between price and button */
+    margin: 0.8em 0;
+}
+
+/* Style for the add-to-cart button */
+.add-to-cart-button {
+    background-color: darkgreen; /* Dark green background */
+    color: white; /* White text */
+    padding: 10px 15px; /* Padding to make the button bigger */
+    border: none; /* No border */
+    border-radius: 50%; /* Round button */
+    cursor: pointer; /* Pointer cursor on hover */
+    font-size: 18px; /* Font size */
+    transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+}
+
+/* Add hover effect for the button */
+.add-to-cart-button:hover {
+    background-color: rgba(0, 100, 0, 0.838); /* Lighter green on hover */
+}
+
+
+.progress-bar {
+    display: flex;
+    gap: 2px; /* Space between blocks */
+}
+
+.block {
+    width: 100%;
+    border-radius: 0.1em;
+    height: 15px;
+    background-color: gainsboro; /* Default for empty blocks */
+}
+
+.block.filled {
+    background-color: #07e307; /* Filled blocks to indicate stock */
+}
+
+.block.filled-red {
+    background-color: red;  /* Red when in low stock */
 }
 
 /* .productCon {
@@ -1327,7 +1434,7 @@ a {
     justify-content: space-evenly;
     gap: 0.25em;
     border-radius: 0.5em;
-    background-color: #dcdcdc43;
+    /* background-color: #dcdcdc43; */
     transition: all ease-in-out 0.3s;
 }
 

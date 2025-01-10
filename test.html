@@ -1,61 +1,47 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-
-    <style>
-        /* Hide content initially */
-        .content {
-            opacity: 0;
-            transform: translateY(50px);  /* You can also use other transforms like scale */
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+<!-- HTML -->
+<div class="rating">
+    <span class="star" data-value="1">&#9733;</span>
+    <span class="star" data-value="2">&#9733;</span>
+    <span class="star" data-value="3">&#9733;</span>
+    <span class="star" data-value="4">&#9733;</span>
+    <span class="star" data-value="5">&#9733;</span>
+  </div>
+  <p id="average-rating">Average Rating: 4.2</p>
+  
+  <!-- CSS -->
+  <style>
+    .rating .star {
+      font-size: 30px;
+      cursor: pointer;
+      color: #ccc;
+    }
+    .rating .star.selected {
+      color: gold;
+    }
+  </style>
+  
+  <!-- JavaScript -->
+  <script>
+    const stars = document.querySelectorAll('.rating .star');
+    let userRating = 0;
+  
+    stars.forEach(star => {
+      star.addEventListener('click', (e) => {
+        userRating = e.target.dataset.value;
+        updateRatingDisplay(userRating);
+      });
+    });
+  
+    function updateRatingDisplay(rating) {
+      stars.forEach(star => {
+        if (star.dataset.value <= rating) {
+          star.classList.add('selected');
+        } else {
+          star.classList.remove('selected');
         }
-
-        /* Visible class to trigger reveal */
-            .content.visible {
-            opacity: 1;
-            transform: translateY(0); /* Reset transform to original position */
-        }
-    </style>
-</head>
-<body>
-    <div class="content">
-        <h2>Heading</h2>
-        <p>Some content that will appear smoothly on scroll.</p>
-      </div>
-      
-      <div class="content">
-        <h2>Another Heading</h2>
-        <p>More content that will appear smoothly.</p>
-      </div>
-      
-      <script>
-            // Function to check if an element is in the viewport
-            function isInViewport(element) {
-            const rect = element.getBoundingClientRect();
-            return rect.top >= 0 && rect.bottom <= window.innerHeight;
-            }
-
-            // Select all content elements you want to animate
-            const contentElements = document.querySelectorAll('.content');
-
-            // Function to handle scroll event
-            function handleScroll() {
-            contentElements.forEach(element => {
-                if (isInViewport(element)) {
-                element.classList.add('visible');
-                }
-            });
-            }
-
-            // Run the function initially in case elements are already in view
-            handleScroll();
-
-            // Add event listener to scroll event
-            window.addEventListener('scroll', handleScroll);
-
-      </script>
-</body>
-</html>
+      });
+      // Here you'd typically send the rating to your backend for storage
+      document.getElementById('average-rating').textContent = `Average Rating: ${rating}`;
+    }
+  </script>
+  
