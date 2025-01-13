@@ -94,8 +94,11 @@ startShoppingBtnCon.appendChild(startShoppingButton("Start Shopping", '#fff', 'd
 
 // Fetching products securely and logging them to the console
 import { getAllProducts } from "../utils/products.js";
-
+import { displayfunction } from "../PRODUCT/DISPLAYPRODUCT.js";
+displayfunction('0lYUQd2K6zV3wf9Tul5Q');
 let allProducts = [];
+
+
 
 
 

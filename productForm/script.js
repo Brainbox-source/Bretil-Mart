@@ -1,5 +1,6 @@
 import { db, collection, doc, setDoc } from "../firebaseConfig.js";
 
+
 // Listen for the form submission event
 document.getElementById('productForm').addEventListener('submit', async function (event) {
     event.preventDefault(); // Prevent the form from submitting normally
