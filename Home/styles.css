@@ -12,6 +12,10 @@
     --DARKCHERRYWOOD: #4B0A10;
 }
 
+html {
+    overflow-x: scroll;
+}
+
 body {
     font-family: 'AEONIK', sans-serif;
     background-color: #fff;
@@ -743,9 +747,8 @@ a {
 
 /* Add hover effect for the button */
 .add-to-cart-button:hover {
-    background-color: rgba(0, 100, 0, 0.838); /* Lighter green on hover */
+    background-color: #004d00;
 }
-
 
 .progress-bar {
     display: flex;
@@ -1144,6 +1147,183 @@ a {
     /* border: 1px solid #000; */
 }
 
+.best-selling-products-con {
+    /* border: 1px solid #000; */
+    /* height: 450px; */
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5em;
+}
+
+#bestSellingProductsLeftCon ,
+#bestSellingProductsRightCon {
+    /* border: 1px solid red; */
+}
+
+/* Container for the best-selling products */
+#bestSellingProductsLeftCon {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    /* background-color: red; */
+}
+
+/* Best Sale Badge Styling */
+.best-sale-badge {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: #006400;
+    color: white;
+    padding: 8px 14px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    border-top-left-radius: 1em;
+    border-bottom-right-radius: 1em;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Make sure product card is positioned relatively */
+.best-selling-product-card {
+    position: relative;
+    background-color: rgba(220, 220, 220, 0.303);
+    border-radius: 1em;
+    padding: 0.5em 2em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Product image styling */
+.best-selling-product-card img {
+    width: 75%;
+    margin: 1.5em 0 1em 0;
+    display: block;  /* Makes the image a block element */
+    margin-left: auto;  /* Centers the image horizontally */
+    margin-right: auto;  /* Centers the image horizontally */
+}
+
+/* Product details container */
+.best-selling-product-details-con {
+    text-align: center;
+    /* border: 1px solid #000; */
+    width: 100%;
+}
+
+/* Product brand styling */
+.best-selling-product-details-con h3 {
+    font-size: 1rem;
+    color: var(--GREEN);
+    font-weight: 700;
+    margin-bottom: 0.8em;
+}
+
+/* Product price styling */
+.best-selling-product-details-con p {
+    font-size: 0.9rem;
+    font-weight: 800;
+    color: var(--GREEN);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.price-button-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+/* Quantity selector and Add to Cart container */
+/* .quantity-selector-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #fff;
+    border-radius: 0.5em;
+    padding: 5px;
+    margin-top: 0.5em;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 25%;
+} */
+
+.quantity-add-cart-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.8em;
+    margin-top: 1em;
+}
+
+.quantity-selector {
+    display: flex;
+    align-items: center;
+    width: 20%; /* Takes less width compared to Add to Cart button */
+    border: 1px solid #ccc;
+    background-color: var(--ALTERNATEGREEN);
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+/* Minus and Plus buttons */
+/* .quantity-btn {
+    background-color: #ffffff;
+    border: 1px solid #dcdcdc;
+    border-radius: 4px;
+    color: var(--ALTERNATEGREEN);
+    font-size: 18px;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.2s ease;
+} */
+
+.quantity-btn {
+    /* background-color: rgb(255, 81, 0); */
+    border: none;
+    padding: 0.5em;
+    font-size: 1rem;
+    cursor: pointer;
+    flex: 1;
+}
+
+/* Quantity input field */
+.quantity-input {
+    width: 50%;
+    text-align: center;
+    border: none;
+    /* border-radius: 4px; */
+    font-size: 16px;
+    /* padding: 5px; */
+    /* margin: 0 5px; */
+}
+
+/* Add to Cart button */
+.add-to-cart-btn {
+    background-color: #006400;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 80%;
+    /* margin-left: 1em; */
+}
+
+.add-to-cart-btn:hover {
+    background-color: #004d00;
+}
+
 .FAQsSection {
     margin: 5.5em 0;
     display: flex;
@@ -1242,6 +1422,118 @@ a {
 
 .bestQuality {
     color: rgb(255, 124, 2);
+}
+
+#bestDealProductCon {
+    /* border: 1px solid #000; */
+    margin-bottom: 3em;
+}
+
+#productBtns {
+    /* border: 1px solid red; */
+    margin-bottom: 1.5em;
+}
+
+/* General button styling */
+.product-btn {
+  padding: 10px 20px;
+  margin-right: 1em;
+  border: none;
+  border-radius: 5px;
+  background-color: #f0f0f0;
+  color: #333;
+  font-size: 0.8em;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+/* Active button styling */
+.product-btn.active {
+  background-color: darkgreen;
+  color: white;
+  padding: 12px 20px; /* Slightly taller height */
+  font-weight: bold;
+}
+
+#randomProductsContainer {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 15px;
+  /* padding: 20px; */
+}
+
+.item-wrapper {
+    position: relative;
+    padding: 20px;
+    border-radius: 1em;
+    /* background-color: rgba(220, 220, 220, 0.303); */
+    /* box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); */
+    overflow: hidden;
+  }
+
+  .item-box {
+    background-color: rgba(220, 220, 220, 0.303);
+    border-radius: 1em;
+  }
+  
+  /* Styling for the Best Sale tagline */
+  .best-sale-tag {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: #006400;
+    color: white;
+    border-top-left-radius: 1em;
+    border-bottom-right-radius: 1em;
+    font-weight: bold;
+    font-size: 1em;
+    font-weight: bold;
+    padding: 8px 14px;
+  }
+
+.item-box img {
+    /* height: auto; */
+    width: 70%;
+    margin: 1.5em 0 1em 0;
+    display: block;  /* Makes the image a block element */
+    margin-left: auto;  /* Centers the image horizontally */
+    margin-right: auto;  /* Centers the image horizontally */
+}
+
+.item-details-con h3 {
+  color: var(--GREEN);
+  font-weight: 700;
+  font-size: 1.2em;
+}
+
+.item-price-container p {
+  font-size: 1.4em;
+  font-weight: 800;
+  color: var(--GREEN);
+}
+
+/* Flex container for price and button */
+.item-price-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 0;
+}
+
+/* Styling for the + button */
+.add-button {
+  background-color: #006400;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  padding: 10px 15px; /* Padding to make the button bigger */
+  font-size: 18px; /* Font size */
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.add-button:hover {
+  background-color: #004d00;
 }
 
 .provisionParagraph {

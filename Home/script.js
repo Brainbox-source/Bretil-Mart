@@ -100,16 +100,16 @@ function displayLowStockProducts() {
     // Filter products with quantity less than 100
     const lowStockProducts = products.filter(product => product.quantity < 100);
 
-    // Sort the lowStockProducts if needed (optional)
-    lowStockProducts.sort((a, b) => a.quantity - b.quantity); // Sorting by quantity in ascending order
+    // Sort the lowStockProducts by quantity in ascending order
+    lowStockProducts.sort((a, b) => a.quantity - b.quantity);
 
-    // Take the first product if available
-    const productsToDisplay = lowStockProducts.slice(0, 4);
-
-    // Get the container where the products will be displayed
+    // Get the first container where the products will be displayed
     const productContainer = document.getElementById('lowStockProductsContainer');
 
-    // Check if the container exists
+    // Get the second container for the best-selling product
+    const bestSellingContainer = document.getElementById('bestSellingProductsRightCon');
+
+    // Check if the first container exists
     if (productContainer) {
         // Clear any existing content in the container
         productContainer.innerHTML = '';
@@ -117,101 +117,286 @@ function displayLowStockProducts() {
         // Set the max capacity to 200 pcs
         const maxQuantity = 200;
 
-        // Loop through the products to display
+        // Take the first four low-stock products
+        const productsToDisplay = lowStockProducts.slice(0, 4);
+
+        // Loop through the products to display in the first container
         productsToDisplay.forEach(product => {
-            // Create a product card
-            const limitedProductCard = document.createElement('div');
-            limitedProductCard.classList.add('limited-product-card');
-        
-            // Create and add the "Limited" tagline to the top-right corner
-            const tagline = document.createElement('span');
-            tagline.classList.add('tagline');
-            tagline.textContent = 'Limited';  // Tagline text
-            limitedProductCard.appendChild(tagline);
-        
-            // Product picture
-            const productImage = document.createElement('img');
-            productImage.src = product.pictures[0] || 'default-image.jpg'; // Fallback image
-            limitedProductCard.appendChild(productImage);
-        
-            // Product name (Brand and Product Name)
-            const productName = document.createElement('h3');
-            productName.textContent = `${product.brand} ${product.name}`;
-            limitedProductCard.appendChild(productName);
-        
-            // Product price and + button container (to align them on the same line)
-            const priceContainer = document.createElement('div');
-            priceContainer.classList.add('price-container');
-        
-            // Product price
-            const productPrice = document.createElement('p');
-            productPrice.classList.add('price')
-            productPrice.textContent = `${product.price.toLocaleString()}`;
-            priceContainer.appendChild(productPrice);
-        
-            // Add to cart button
-            const addToCartButton = document.createElement('button');
-            addToCartButton.textContent = '+';
-            addToCartButton.classList.add('add-to-cart-button');
-            priceContainer.appendChild(addToCartButton);
-        
-            // Append price container to the card
-            limitedProductCard.appendChild(priceContainer);
-        
-            // Create the <hr> element to separate price from progress bar
-            const limitedHr = document.createElement('hr');
-            limitedHr.style.borderTop = '1px solid gainsboro';
-            limitedHr.style.marginTop = '0.5em';
-            limitedHr.style.marginBottom = '1em';  // Optional spacing between <hr> and progress bar
-            limitedProductCard.appendChild(limitedHr);  // Append <hr> after price
-        
-            // Add the "A limited quantity of this product is left" paragraph above the progress bar
-            const limitedQuantityText = document.createElement('p');
-            limitedQuantityText.textContent = 'A limited quantity of this product is left';
-            limitedQuantityText.style.fontSize = '14px';  // Optional font size adjustment
-            limitedQuantityText.style.color = '#fff';  // Optional color for the text
-            limitedQuantityText.style.marginBottom = '0.5em'
-            limitedProductCard.appendChild(limitedQuantityText);
-        
-            // Create the progress bar dynamically
-            const progressBar = document.createElement('div');
-            progressBar.classList.add('progress-bar');
-        
-            // Calculate the fill percentage based on the max stock (200 pcs)
-            const percentageFilled = Math.round((product.quantity / maxQuantity) * 20); // 20 blocks for the progress bar
-        
-            // Check if the product quantity is less than 100
-            const isLowStock = product.quantity < 100;
-        
-            // Generate the blocks for the progress bar
-            for (let i = 0; i < 20; i++) {
-                const block = document.createElement('div');
-                block.classList.add('block');
-                // If product is in low stock, turn the blocks red
-                if (i < percentageFilled) {
-                    block.classList.add(isLowStock ? 'filled-red' : 'filled');
-                }
-                progressBar.appendChild(block);
-            }
-        
-            // Append the progress bar to the product card
-            limitedProductCard.appendChild(progressBar);
-        
-            // Product quantity
-            const productQuantity = document.createElement('p');
-            productQuantity.classList.add('quantity')
-            productQuantity.textContent = `Available only: ${product.quantity}pcs`;
-            limitedProductCard.appendChild(productQuantity);
-        
-            // Append the product card to the container
+            const limitedProductCard = createProductCard(product, maxQuantity);
             productContainer.appendChild(limitedProductCard);
-        });        
+        });
     } else {
         console.error('Product container (id="lowStockProductsContainer") not found.');
     }
+
+    // Check if the second container exists
+    if (bestSellingContainer) {
+        // Clear any existing content in the container
+        bestSellingContainer.innerHTML = '';
+
+        // Select one random product from the low-stock list if available
+        if (lowStockProducts.length > 0) {
+            const randomProduct = lowStockProducts[Math.floor(Math.random() * lowStockProducts.length)];
+            const limitedProductCard = createProductCard(randomProduct, 200, false); // No + button
+            bestSellingContainer.appendChild(limitedProductCard);
+
+            // Add quantity selector and "Add to Cart" button after the extra hr
+            addQuantitySelectorAndCartButton(limitedProductCard);
+        } else {
+            console.warn('No low-stock products available for the best-selling container.');
+        }
+    } else {
+        console.error('Product container (id="bestSellingProductsRightCon") not found.');
+    }
+}
+
+// Helper function to create a product card
+function createProductCard(product, maxQuantity, showAddToCart = true) {
+    // Create a product card
+    const limitedProductCard = document.createElement('div');
+    limitedProductCard.classList.add('limited-product-card');
+
+    // Create and add the "Limited" tagline to the top-right corner
+    const tagline = document.createElement('span');
+    tagline.classList.add('tagline');
+    tagline.textContent = 'Limited';
+    limitedProductCard.appendChild(tagline);
+
+    // Product picture
+    const productImage = document.createElement('img');
+    productImage.src = product.pictures[0] || 'default-image.jpg';
+    limitedProductCard.appendChild(productImage);
+
+    // Product name (Brand and Product Name)
+    const productName = document.createElement('h3');
+    productName.textContent = `${product.brand}`;
+    limitedProductCard.appendChild(productName);
+
+    // Product price
+    const priceContainer = document.createElement('div');
+    priceContainer.classList.add('price-container');
+    const productPrice = document.createElement('p');
+    productPrice.classList.add('price');
+    productPrice.textContent = `${product.price.toLocaleString()}`;
+    priceContainer.appendChild(productPrice);
+
+    if (showAddToCart) {
+        const addToCartButton = document.createElement('button');
+        addToCartButton.textContent = '+';
+        addToCartButton.classList.add('add-to-cart-button');
+        priceContainer.appendChild(addToCartButton);
+    }
+
+    limitedProductCard.appendChild(priceContainer);
+
+    // Separator hr
+    const limitedHr = document.createElement('hr');
+    limitedHr.style.borderTop = '1px solid gainsboro';
+    limitedHr.style.marginTop = '0.5em';
+    limitedHr.style.marginBottom = '1em';
+    limitedProductCard.appendChild(limitedHr);
+
+    const limitedQuantityText = document.createElement('p');
+    limitedQuantityText.textContent = 'A limited quantity of this product is left';
+    limitedQuantityText.style.fontSize = '14px';
+    limitedQuantityText.style.color = '#999';
+    limitedQuantityText.style.marginBottom = '0.5em';
+    limitedProductCard.appendChild(limitedQuantityText);
+
+    // Progress bar
+    const progressBar = document.createElement('div');
+    progressBar.classList.add('progress-bar');
+    const percentageFilled = Math.round((product.quantity / maxQuantity) * 20);
+
+    for (let i = 0; i < 20; i++) {
+        const block = document.createElement('div');
+        block.classList.add('block');
+        if (i < percentageFilled) {
+            block.classList.add(product.quantity < 100 ? 'filled-red' : 'filled');
+        }
+        progressBar.appendChild(block);
+    }
+
+    limitedProductCard.appendChild(progressBar);
+
+    const productQuantity = document.createElement('p');
+    productQuantity.classList.add('quantity');
+    productQuantity.textContent = `Available only: ${product.quantity}pcs`;
+    limitedProductCard.appendChild(productQuantity);
+
+    // Extra hr for bestSellingProductsRightCon
+    if (!showAddToCart) {
+        const afterQuantityHr = document.createElement('hr');
+        afterQuantityHr.style.borderTop = '1px solid gainsboro';
+        afterQuantityHr.style.marginTop = '0.5em';
+        afterQuantityHr.style.marginBottom = '1em';
+        limitedProductCard.appendChild(afterQuantityHr);
+    }
+
+    return limitedProductCard;
+}
+
+// Helper function to add quantity selector and Add to Cart button
+function addQuantitySelectorAndCartButton(container) {
+    // Create the main container for the quantity selector and add-to-cart button
+    const mainContainer = document.createElement('div');
+    mainContainer.classList.add('quantity-add-cart-container');
+
+    // Quantity selector container
+    const quantityContainer = document.createElement('div');
+    quantityContainer.classList.add('quantity-selector');
+
+    // Minus button
+    const minusButton = document.createElement('button');
+    minusButton.textContent = '-';
+    minusButton.classList.add('quantity-btn');
+    minusButton.addEventListener('click', () => {
+        const quantityInput = quantityContainer.querySelector('.quantity-input');
+        const currentValue = parseInt(quantityInput.value);
+        quantityInput.value = Math.max(1, currentValue - 1);
+    });
+    quantityContainer.appendChild(minusButton);
+
+    // Quantity input
+    const quantityInput = document.createElement('input');
+    quantityInput.type = 'number';
+    quantityInput.value = 1;
+    quantityInput.min = 1;
+    quantityInput.classList.add('quantity-input');
+    quantityContainer.appendChild(quantityInput);
+
+    // Plus button
+    const plusButton = document.createElement('button');
+    plusButton.textContent = '+';
+    plusButton.classList.add('quantity-btn');
+    plusButton.addEventListener('click', () => {
+        const quantityInput = quantityContainer.querySelector('.quantity-input');
+        const currentValue = parseInt(quantityInput.value);
+        quantityInput.value = currentValue + 1;
+    });
+    quantityContainer.appendChild(plusButton);
+
+    // Add to Cart button
+    const addToCartButton = document.createElement('button');
+    addToCartButton.textContent = 'Add to Cart';
+    addToCartButton.classList.add('add-to-cart-btn');
+
+    // Append both containers to the main container
+    mainContainer.appendChild(quantityContainer);
+    mainContainer.appendChild(addToCartButton);
+
+    // Append the main container to the product card
+    container.appendChild(mainContainer);
 }
 
 
+
+// Helper function to display products in a given container
+// function displayLimitedProducts(products, containerId) {
+//     // Get the container where the products will be displayed
+//     const productContainer = document.getElementById(containerId);
+
+//     // Check if the container exists
+//     if (productContainer) {
+//         // Clear any existing content in the container
+//         productContainer.innerHTML = '';
+
+//         // Set the max capacity to 200 pcs
+//         const maxQuantity = 200;
+
+//         // Loop through the products to display
+//         products.forEach(product => {
+//             // Create a product card
+//             const limitedProductCard = document.createElement('div');
+//             limitedProductCard.classList.add('limited-product-card');
+
+//             // Create and add the "Limited" tagline to the top-right corner
+//             const tagline = document.createElement('span');
+//             tagline.classList.add('tagline');
+//             tagline.textContent = 'Limited';  // Tagline text
+//             limitedProductCard.appendChild(tagline);
+
+//             // Product picture
+//             const productImage = document.createElement('img');
+//             productImage.src = product.pictures[0] || 'default-image.jpg'; // Fallback image
+//             limitedProductCard.appendChild(productImage);
+
+//             // Product name (Brand and Product Name)
+//             const productName = document.createElement('h3');
+//             productName.textContent = `${product.brand} ${product.name}`;
+//             limitedProductCard.appendChild(productName);
+
+//             // Product price and + button container (to align them on the same line)
+//             const priceContainer = document.createElement('div');
+//             priceContainer.classList.add('price-container');
+
+//             // Product price
+//             const productPrice = document.createElement('p');
+//             productPrice.classList.add('price');
+//             productPrice.textContent = `${product.price.toLocaleString()}`;
+//             priceContainer.appendChild(productPrice);
+
+//             // Add to cart button
+//             const addToCartButton = document.createElement('button');
+//             addToCartButton.textContent = '+';
+//             addToCartButton.classList.add('add-to-cart-button');
+//             priceContainer.appendChild(addToCartButton);
+
+//             // Append price container to the card
+//             limitedProductCard.appendChild(priceContainer);
+
+//             // Create the <hr> element to separate price from progress bar
+//             const limitedHr = document.createElement('hr');
+//             limitedHr.style.borderTop = '1px solid gainsboro';
+//             limitedHr.style.marginTop = '0.5em';
+//             limitedHr.style.marginBottom = '1em';  // Optional spacing between <hr> and progress bar
+//             limitedProductCard.appendChild(limitedHr);  // Append <hr> after price
+
+//             // Add the "A limited quantity of this product is left" paragraph above the progress bar
+//             const limitedQuantityText = document.createElement('p');
+//             limitedQuantityText.textContent = 'A limited quantity of this product is left';
+//             limitedQuantityText.style.fontSize = '14px';  // Optional font size adjustment
+//             limitedQuantityText.style.color = '#999';  // Optional color for the text
+//             limitedQuantityText.style.marginBottom = '0.5em';
+//             limitedProductCard.appendChild(limitedQuantityText);
+
+//             // Create the progress bar dynamically
+//             const progressBar = document.createElement('div');
+//             progressBar.classList.add('progress-bar');
+
+//             // Calculate the fill percentage based on the max stock (200 pcs)
+//             const percentageFilled = Math.round((product.quantity / maxQuantity) * 20); // 20 blocks for the progress bar
+
+//             // Check if the product quantity is less than 100
+//             const isLowStock = product.quantity < 100;
+
+//             // Generate the blocks for the progress bar
+//             for (let i = 0; i < 20; i++) {
+//                 const block = document.createElement('div');
+//                 block.classList.add('block');
+//                 // If product is in low stock, turn the blocks red
+//                 if (i < percentageFilled) {
+//                     block.classList.add(isLowStock ? 'filled-red' : 'filled');
+//                 }
+//                 progressBar.appendChild(block);
+//             }
+
+//             // Append the progress bar to the product card
+//             limitedProductCard.appendChild(progressBar);
+
+//             // Product quantity
+//             const productQuantity = document.createElement('p');
+//             productQuantity.classList.add('quantity');
+//             productQuantity.textContent = `Available only: ${product.quantity}pcs`;
+//             limitedProductCard.appendChild(productQuantity);
+
+//             // Append the product card to the container
+//             productContainer.appendChild(limitedProductCard);
+//         });
+//     } else {
+//         console.error(`Product container (id="${containerId}") not found.`);
+//     }
+// }
 
 function displayLowestPriceProducts() {
     // Retrieve products from sessionStorage
@@ -737,6 +922,444 @@ document.addEventListener('click', (event) => {
         headerCartandProfileCon.style.display = 'flex'; // Show the cart and profile section
     }
 });
+
+// Get the productBtns container
+const productBtnsContainer = document.getElementById("productBtns");
+
+// Button labels
+const btnLabels = [
+  "All Products",
+  "Fresh Produce",
+  "Grains & Pasta",
+  "Beverages",
+  "Snacks",
+  "Meat & Seafood"
+];
+
+// Create buttons dynamically
+btnLabels.forEach((label, index) => {
+  const btn = document.createElement("button");
+  btn.textContent = label;
+  btn.classList.add("product-btn");
+
+  // Highlight the first button by default
+  if (index === 0) {
+    btn.classList.add("active");
+    displayRandomProducts();
+  }
+
+// Add click event to each button
+btn.addEventListener("click", function () {
+    // Remove active class from all buttons
+    document.querySelectorAll(".product-btn").forEach((button) => {
+      button.classList.remove("active");
+    });
+  
+    // Add active class to the clicked button
+    this.classList.add("active");
+  
+    // Display products based on the button clicked
+    if (label === "All Products") {
+      displayRandomProducts();
+    } else if (label === "Fresh Produce") {
+      displayFreshProduceProducts();
+    } else if (label === "Grains & Pasta") {
+      displayGrainsPastaProducts();
+    } else if (label === "Beverages") {
+      displayBeveragesProducts();
+    } else if (label === "Snacks") {
+      displaySnacksProducts();
+    } else if (label === "Meat & Seafood") {
+      displayMeatSeafoodProducts();
+    }
+  });     
+
+  // Append button to the container
+  productBtnsContainer.appendChild(btn);
+});
+
+// Function to display random products
+function displayRandomProducts() {
+  const products = JSON.parse(sessionStorage.getItem('products')) || [];
+
+  if (products.length === 0) {
+    console.warn('No products found in sessionStorage.');
+    return;
+  }
+
+  const randomProducts = getRandomItems(products, 8);
+  displayProducts(randomProducts, 'Best Sale');
+}
+
+// Function to display random fresh produce products
+function displayFreshProduceProducts() {
+    const products = JSON.parse(sessionStorage.getItem('products')) || [];
+  
+    if (products.length === 0) {
+      console.warn('No products found in sessionStorage.');
+      return;
+    }
+  
+    // Filter for Fresh Produce category and shuffle
+    const freshProduceProducts = products.filter(product => product.category === 'fresh produce');
+    const randomFreshProduce = getRandomItems(freshProduceProducts, 8);
+  
+    // Display the random Fresh Produce products with a custom tagline
+    displayProducts(randomFreshProduce, 'Farm Fresh');
+}
+
+// Function to display random grains & pasta products
+function displayGrainsPastaProducts() {
+    const products = JSON.parse(sessionStorage.getItem('products')) || [];
+  
+    if (products.length === 0) {
+      console.warn('No products found in sessionStorage.');
+      return;
+    }
+  
+    // Filter for Grains & Pasta category and shuffle
+    const grainsPastaProducts = products.filter(product => product.category === 'grains & pasta');
+    const randomGrainsPasta = getRandomItems(grainsPastaProducts, 8);
+  
+    // Display the random Grains & Pasta products with a custom tagline
+    displayProducts(randomGrainsPasta, 'Healthy & Hearty');
+  }
+   
+  // Function to display random beverages products
+function displayBeveragesProducts() {
+    const products = JSON.parse(sessionStorage.getItem('products')) || [];
+  
+    if (products.length === 0) {
+      console.warn('No products found in sessionStorage.');
+      return;
+    }
+  
+    // Filter for Beverages category and shuffle
+    const beveragesProducts = products.filter(product => product.category === 'beverages');
+    const randomBeverages = getRandomItems(beveragesProducts, 8);
+  
+    // Display the random beverages products with a custom tagline
+    displayProducts(randomBeverages, 'Refreshing Deals');
+  }  
+
+  // Function to display random snacks products
+function displaySnacksProducts() {
+    const products = JSON.parse(sessionStorage.getItem('products')) || [];
+  
+    if (products.length === 0) {
+      console.warn('No products found in sessionStorage.');
+      return;
+    }
+  
+    // Filter for Snacks category and shuffle
+    const snacksProducts = products.filter(product => product.category === 'snacks');
+    const randomSnacks = getRandomItems(snacksProducts, 8);
+  
+    // Display the random snacks products with a custom tagline
+    displayProducts(randomSnacks, 'Crunchy Bites');
+  }
+  
+  // Function to display random meat & seafood products
+function displayMeatSeafoodProducts() {
+    const products = JSON.parse(sessionStorage.getItem('products')) || [];
+  
+    if (products.length === 0) {
+      console.warn('No products found in sessionStorage.');
+      return;
+    }
+  
+    // Filter for Meat & Seafood category and shuffle
+    const meatSeafoodProducts = products.filter(product => product.category === 'meat & seafood');
+    const randomMeatSeafood = getRandomItems(meatSeafoodProducts, 8);
+  
+    // Display the random meat & seafood products with a custom tagline
+    displayProducts(randomMeatSeafood, 'Fresh Cuts');
+  }
+  
+
+// Helper function to get random items
+function getRandomItems(items, count = 8) {
+  const shuffled = items.sort(() => 0.5 - Math.random());
+  return shuffled.slice(0, count);
+}
+
+// Universal function to display products
+function displayProducts(productList, taglineText) {
+  const itemsContainer = document.getElementById('randomProductsContainer');
+
+  if (itemsContainer) {
+    itemsContainer.innerHTML = '';
+
+    productList.forEach(item => {
+      const itemBox = document.createElement('div');
+      itemBox.classList.add('item-box');
+
+      const itemWrapper = document.createElement('div');
+      itemWrapper.classList.add('item-wrapper');
+
+      // Tagline
+      const tagline = document.createElement('div');
+      tagline.classList.add('best-sale-tag');
+      tagline.textContent = taglineText;
+      itemWrapper.appendChild(tagline);
+
+      // Item picture
+      const itemImage = document.createElement('img');
+      itemImage.src = (item.pictures && item.pictures.length > 0) ? item.pictures[0] : 'default-image.jpg';
+      itemImage.alt = `${item.brand} image`;
+      itemWrapper.appendChild(itemImage);
+
+      // Item details
+      const itemDetailsCon = document.createElement('div');
+      itemDetailsCon.classList.add('item-details-con');
+      itemWrapper.appendChild(itemDetailsCon);
+
+      // Item name
+      const itemName = document.createElement('h3');
+      itemName.textContent = `${item.brand}`;
+      itemDetailsCon.appendChild(itemName);
+
+      // Item price container
+      const itemPriceContainer = document.createElement('div');
+      itemPriceContainer.classList.add('item-price-container');
+
+      // Item price
+      const itemPrice = document.createElement('p');
+      itemPrice.textContent = `${item.price}`;
+      itemPriceContainer.appendChild(itemPrice);
+
+      // + Button
+      const addButton = document.createElement('button');
+      addButton.textContent = '+';
+      addButton.classList.add('add-button');
+      itemPriceContainer.appendChild(addButton);
+
+      // Append price container to wrapper
+      itemWrapper.appendChild(itemPriceContainer);
+
+      // Append wrapper to item box
+      itemBox.appendChild(itemWrapper);
+
+      // Append item box to container
+      itemsContainer.appendChild(itemBox);
+    });
+  } else {
+    console.error('Container with id="randomProductsContainer" not found.');
+  }
+}
+
+function displayRandomHighestPriceProducts() {
+    // Retrieve products from sessionStorage
+    const products = JSON.parse(sessionStorage.getItem('products')) || [];
+
+    // Check if there are products available
+    if (products.length === 0) {
+        console.warn('No products found in sessionStorage.');
+        return;
+    }
+
+    // Helper function to parse price to a number
+    const parsePrice = (price) => parseFloat(price.replace(/,/g, '').replace('₦', ''));
+
+    // Filter out products with prices less than ₦2000
+    const filteredProducts = products.filter(product => parsePrice(product.price) >= 2000);
+
+    // Check if there are any valid products left after filtering
+    if (filteredProducts.length < 4) {
+        console.warn('Not enough products with prices above ₦2000 to display.');
+        return;
+    }
+
+    // Sort products by price in descending order
+    const sortedProducts = filteredProducts.sort((a, b) => parsePrice(b.price) - parsePrice(a.price));
+
+    // Shuffle the sorted list to get random products
+    const shuffledProducts = sortedProducts.sort(() => 0.5 - Math.random());
+
+    // Get 4 random products from the shuffled list
+    const highestPriceProducts = shuffledProducts.slice(0, 4);
+
+    // Get the container where the products will be displayed
+    const productContainer = document.getElementById('bestSellingProductsLeftCon');
+
+    // Check if the container exists
+    if (productContainer) {
+        // Clear any existing content in the container
+        productContainer.innerHTML = '';
+
+        // Loop through the highest price products to display
+        highestPriceProducts.forEach(product => {
+            // Create a product card
+            const productCard = document.createElement('div');
+            productCard.classList.add('best-selling-product-card');
+
+            // Add the Best Sale tagline badge
+            const taglineBadge = document.createElement('div');
+            taglineBadge.textContent = 'Mega Sale';
+            taglineBadge.classList.add('best-sale-badge');
+            productCard.appendChild(taglineBadge);
+
+            // Product picture
+            const productImage = document.createElement('img');
+            productImage.src = product.pictures[0] || 'default-image.jpg';  // Fallback image
+            productImage.alt = `${product.brand} image`;
+            productCard.appendChild(productImage);
+
+            // Product details container
+            const productDetailsCon = document.createElement('div');
+            productDetailsCon.classList.add('best-selling-product-details-con');
+            productCard.appendChild(productDetailsCon);
+
+            // Product name (Brand)
+            const productName = document.createElement('h3');
+            productName.textContent = `${product.brand}`;
+            productDetailsCon.appendChild(productName);
+
+            // Create price and + button container
+            const priceButtonContainer = document.createElement('div');
+            priceButtonContainer.classList.add('price-button-container');
+
+            // Product price
+            const productPrice = document.createElement('p');
+            productPrice.textContent = `${product.price}`;
+            priceButtonContainer.appendChild(productPrice);
+
+            // + Button (Add to cart button)
+            const addButton = document.createElement('button');
+            addButton.textContent = '+';
+            addButton.classList.add('add-button');
+            priceButtonContainer.appendChild(addButton);
+
+            // Append the price and button container to the product details container
+            productDetailsCon.appendChild(priceButtonContainer);
+
+            // Append the product card to the container
+            productContainer.appendChild(productCard);
+        });
+    } else {
+        console.error('Product container (id="bestSellingProductsLeftCon") not found.');
+    }
+}
+
+displayRandomHighestPriceProducts();
+
+// function displayLowStockProducts() {
+//     // Retrieve products from sessionStorage
+//     const products = JSON.parse(sessionStorage.getItem('products')) || [];
+
+//     // Filter products with quantity less than 100
+//     const lowStockProducts = products.filter(product => product.quantity < 100);
+
+//     // Sort the lowStockProducts if needed (optional)
+//     lowStockProducts.sort((a, b) => a.quantity - b.quantity); // Sorting by quantity in ascending order
+
+//     // Take the first product if available
+//     const productsToDisplay = lowStockProducts.slice(0, 4);
+
+//     // Get the container where the products will be displayed
+//     const productContainer = document.getElementById('lowStockProductsContainer');
+
+//     // Check if the container exists
+//     if (productContainer) {
+//         // Clear any existing content in the container
+//         productContainer.innerHTML = '';
+
+//         // Set the max capacity to 200 pcs
+//         const maxQuantity = 200;
+
+//         // Loop through the products to display
+//         productsToDisplay.forEach(product => {
+//             // Create a product card
+//             const limitedProductCard = document.createElement('div');
+//             limitedProductCard.classList.add('limited-product-card');
+        
+//             // Create and add the "Limited" tagline to the top-right corner
+//             const tagline = document.createElement('span');
+//             tagline.classList.add('tagline');
+//             tagline.textContent = 'Limited';  // Tagline text
+//             limitedProductCard.appendChild(tagline);
+        
+//             // Product picture
+//             const productImage = document.createElement('img');
+//             productImage.src = product.pictures[0] || 'default-image.jpg'; // Fallback image
+//             limitedProductCard.appendChild(productImage);
+        
+//             // Product name (Brand and Product Name)
+//             const productName = document.createElement('h3');
+//             productName.textContent = `${product.brand} ${product.name}`;
+//             limitedProductCard.appendChild(productName);
+        
+//             // Product price and + button container (to align them on the same line)
+//             const priceContainer = document.createElement('div');
+//             priceContainer.classList.add('price-container');
+        
+//             // Product price
+//             const productPrice = document.createElement('p');
+//             productPrice.classList.add('price')
+//             productPrice.textContent = `${product.price.toLocaleString()}`;
+//             priceContainer.appendChild(productPrice);
+        
+//             // Add to cart button
+//             const addToCartButton = document.createElement('button');
+//             addToCartButton.textContent = '+';
+//             addToCartButton.classList.add('add-to-cart-button');
+//             priceContainer.appendChild(addToCartButton);
+        
+//             // Append price container to the card
+//             limitedProductCard.appendChild(priceContainer);
+        
+//             // Create the <hr> element to separate price from progress bar
+//             const limitedHr = document.createElement('hr');
+//             limitedHr.style.borderTop = '1px solid gainsboro';
+//             limitedHr.style.marginTop = '0.5em';
+//             limitedHr.style.marginBottom = '1em';  // Optional spacing between <hr> and progress bar
+//             limitedProductCard.appendChild(limitedHr);  // Append <hr> after price
+        
+//             // Add the "A limited quantity of this product is left" paragraph above the progress bar
+//             const limitedQuantityText = document.createElement('p');
+//             limitedQuantityText.textContent = 'A limited quantity of this product is left';
+//             limitedQuantityText.style.fontSize = '14px';  // Optional font size adjustment
+//             limitedQuantityText.style.color = '#999';  // Optional color for the text
+//             limitedQuantityText.style.marginBottom = '0.5em'
+//             limitedProductCard.appendChild(limitedQuantityText);
+        
+//             // Create the progress bar dynamically
+//             const progressBar = document.createElement('div');
+//             progressBar.classList.add('progress-bar');
+        
+//             // Calculate the fill percentage based on the max stock (200 pcs)
+//             const percentageFilled = Math.round((product.quantity / maxQuantity) * 20); // 20 blocks for the progress bar
+        
+//             // Check if the product quantity is less than 100
+//             const isLowStock = product.quantity < 100;
+        
+//             // Generate the blocks for the progress bar
+//             for (let i = 0; i < 20; i++) {
+//                 const block = document.createElement('div');
+//                 block.classList.add('block');
+//                 // If product is in low stock, turn the blocks red
+//                 if (i < percentageFilled) {
+//                     block.classList.add(isLowStock ? 'filled-red' : 'filled');
+//                 }
+//                 progressBar.appendChild(block);
+//             }
+        
+//             // Append the progress bar to the product card
+//             limitedProductCard.appendChild(progressBar);
+        
+//             // Product quantity
+//             const productQuantity = document.createElement('p');
+//             productQuantity.classList.add('quantity')
+//             productQuantity.textContent = `Available only: ${product.quantity}pcs`;
+//             limitedProductCard.appendChild(productQuantity);
+        
+//             // Append the product card to the container
+//             productContainer.appendChild(limitedProductCard);
+//         });        
+//     } else {
+//         console.error('Product container (id="lowStockProductsContainer") not found.');
+//     }
+// }
 
 // FAQ functionality
 faqItems.forEach(item => {
