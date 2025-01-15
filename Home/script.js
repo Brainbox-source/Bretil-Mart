@@ -1285,6 +1285,16 @@ function showCustomModal(message) {
     modal.style.display = 'block';
 }
 
+// Function to update the cart item count in the UI
+function updateCartItemCount(cartData) {
+    const totalItems = cartData.reduce((total, item) => total + item.quantity, 0);
+    const cartItemCountElement = document.getElementById("zero");
+
+    if (cartItemCountElement) {
+        cartItemCountElement.textContent = totalItems;
+    }
+}
+
 // Function to add product to cart
 async function addToCart(productId, productName, productPrice, quantity) {
     try {
@@ -1350,11 +1360,91 @@ async function addToCart(productId, productName, productPrice, quantity) {
         // Optionally, save to localStorage for faster UI updates
         localStorage.setItem("cart", JSON.stringify(cartData));
 
+        // Update the cart item count in the UI
+        updateCartItemCount(cartData);
+
         console.log("Product added to cart!", cartData);
     } catch (error) {
         console.error("Error adding product to cart:", error);
     }
 }
+
+// Function to load the cart from Firestore or localStorage
+async function loadCart() {
+    const user = auth.currentUser;
+
+    if (!user) {
+        console.log("User is not logged in.");
+        loadCartFromLocalStorage(); // Load from localStorage if not logged in
+        return;
+    }
+
+    // Reference to the user's cart in Firestore
+    const cartRef = doc(db, "carts", user.uid);
+
+    try {
+        const cartDoc = await getDoc(cartRef);
+
+        if (cartDoc.exists()) {
+            const cartData = cartDoc.data().items;
+
+            // Update the cart count on page load
+            updateCartItemCount(cartData);
+
+            // Optionally, store it in localStorage for faster access
+            localStorage.setItem("cart", JSON.stringify(cartData));
+        } else {
+            console.log("No cart found for this user.");
+            loadCartFromLocalStorage(); // If no cart in Firestore, fall back to localStorage
+        }
+    } catch (error) {
+        console.error("Error loading cart from Firestore:", error);
+        loadCartFromLocalStorage(); // In case of an error, fall back to localStorage
+    }
+}
+
+// Function to load cart from localStorage (if available)
+function loadCartFromLocalStorage() {
+    const cartData = JSON.parse(localStorage.getItem("cart")) || [];
+
+    // Update the cart count based on the data from localStorage
+    updateCartItemCount(cartData);
+}
+
+// Function to clear the cart after checkout
+async function clearCartAfterCheckout() {
+    const user = auth.currentUser;
+
+    if (!user) {
+        console.log("User is not logged in.");
+        return;
+    }
+
+    // Reference to the user's cart in Firestore
+    const cartRef = doc(db, "carts", user.uid);
+
+    try {
+        // Remove cart data from Firestore
+        await deleteDoc(cartRef);
+
+        // Also remove cart from localStorage
+        localStorage.removeItem("cart");
+
+        // Reset cart count in the UI
+        const cartItemCountElement = document.getElementById("zero");
+        if (cartItemCountElement) {
+            cartItemCountElement.textContent = '0';
+        }
+
+        console.log("Cart cleared after checkout.");
+    } catch (error) {
+        console.error("Error clearing cart after checkout:", error);
+    }
+}
+
+// Load the cart from Firestore or localStorage on page load
+window.addEventListener('load', loadCart);
+
 
 
   
