@@ -28,7 +28,10 @@ const emailElement = document.getElementById("getEmail");
 const nameElement = document.getElementById("userName");
 const faqItems = document.querySelectorAll('.faq-item');
 const searchInput = document.getElementById('searchInput');
-console.log(searchInput);
+// console.log(searchInput);
+
+// importing db and auth
+import { db, doc, getDoc, setDoc, auth, signOut } from '../firebaseConfig.js';
 
 // // adding the category buttons
 import freshProduce from "../components/button.js";
@@ -93,6 +96,7 @@ import { getAllProducts } from "../utils/products.js";
 let allProducts = [];
 
 // Function to fetch and display the products with quantity less than 100
+// Ensure + buttons in low stock products have Add to Cart functionality
 function displayLowStockProducts() {
     // Retrieve products from sessionStorage
     const products = JSON.parse(sessionStorage.getItem('products')) || [];
@@ -148,13 +152,38 @@ function displayLowStockProducts() {
     } else {
         console.error('Product container (id="bestSellingProductsRightCon") not found.');
     }
+
+    // Find the + buttons and add the necessary attributes
+    const buttons = document.querySelectorAll('.low-stock-product button');
+
+    buttons.forEach(button => {
+        if (button.textContent.trim() === '+') {
+            const parentCard = button.closest('.low-stock-product');
+            if (parentCard) {
+                const productId = parentCard.getAttribute('data-id');
+                const productName = parentCard.getAttribute('data-name');
+                const productPrice = parentCard.getAttribute('data-price');
+
+                button.setAttribute('data-id', productId);
+                button.setAttribute('data-name', productName);
+                button.setAttribute('data-price', productPrice);
+            }
+        }
+    });
+
+    // Reattach Add to Cart functionality to + buttons
+    attachCartButtons();
 }
 
 // Helper function to create a product card
-function createProductCard(product, maxQuantity, showAddToCart = true) {
+// 🛠️ Updated Product Card Rendering Function
+function createProductCard(product, maxQuantity = 200, showAddToCart = true) {
     // Create a product card
     const limitedProductCard = document.createElement('div');
     limitedProductCard.classList.add('limited-product-card');
+    limitedProductCard.setAttribute('data-id', product.id);
+    limitedProductCard.setAttribute('data-name', product.brand);
+    limitedProductCard.setAttribute('data-price', product.price);
 
     // Create and add the "Limited" tagline to the top-right corner
     const tagline = document.createElement('span');
@@ -180,10 +209,14 @@ function createProductCard(product, maxQuantity, showAddToCart = true) {
     productPrice.textContent = `${product.price.toLocaleString()}`;
     priceContainer.appendChild(productPrice);
 
+    // Add to Cart Button
     if (showAddToCart) {
         const addToCartButton = document.createElement('button');
         addToCartButton.textContent = '+';
-        addToCartButton.classList.add('add-to-cart-button');
+        addToCartButton.classList.add('add-button');
+        addToCartButton.setAttribute('data-id', product.id);
+        addToCartButton.setAttribute('data-name', product.brand);
+        addToCartButton.setAttribute('data-price', product.price);
         priceContainer.appendChild(addToCartButton);
     }
 
@@ -236,27 +269,35 @@ function createProductCard(product, maxQuantity, showAddToCart = true) {
     return limitedProductCard;
 }
 
+
+// function displayLowStockProducts() {
+//     // Your existing logic to display low stock products
+  
+//     // Reattach Add to Cart functionality to + buttons
+//     attachCartButtons();
+// }
+
 // Helper function to add quantity selector and Add to Cart button
 function addQuantitySelectorAndCartButton(container) {
     // Create the main container for the quantity selector and add-to-cart button
     const mainContainer = document.createElement('div');
     mainContainer.classList.add('quantity-add-cart-container');
-
+  
     // Quantity selector container
     const quantityContainer = document.createElement('div');
     quantityContainer.classList.add('quantity-selector');
-
+  
     // Minus button
     const minusButton = document.createElement('button');
     minusButton.textContent = '-';
     minusButton.classList.add('quantity-btn');
     minusButton.addEventListener('click', () => {
-        const quantityInput = quantityContainer.querySelector('.quantity-input');
-        const currentValue = parseInt(quantityInput.value);
-        quantityInput.value = Math.max(1, currentValue - 1);
+      const quantityInput = quantityContainer.querySelector('.quantity-input');
+      const currentValue = parseInt(quantityInput.value);
+      quantityInput.value = Math.max(1, currentValue - 1);
     });
     quantityContainer.appendChild(minusButton);
-
+  
     // Quantity input
     const quantityInput = document.createElement('input');
     quantityInput.type = 'number';
@@ -264,139 +305,52 @@ function addQuantitySelectorAndCartButton(container) {
     quantityInput.min = 1;
     quantityInput.classList.add('quantity-input');
     quantityContainer.appendChild(quantityInput);
-
+  
     // Plus button
     const plusButton = document.createElement('button');
     plusButton.textContent = '+';
     plusButton.classList.add('quantity-btn');
     plusButton.addEventListener('click', () => {
-        const quantityInput = quantityContainer.querySelector('.quantity-input');
-        const currentValue = parseInt(quantityInput.value);
-        quantityInput.value = currentValue + 1;
+      const quantityInput = quantityContainer.querySelector('.quantity-input');
+      const currentValue = parseInt(quantityInput.value);
+      quantityInput.value = currentValue + 1;
     });
     quantityContainer.appendChild(plusButton);
-
+  
     // Add to Cart button
     const addToCartButton = document.createElement('button');
     addToCartButton.textContent = 'Add to Cart';
     addToCartButton.classList.add('add-to-cart-btn');
-
+    addToCartButton.addEventListener('click', () => {
+      const productId = container.getAttribute('data-id');
+      const productName = container.getAttribute('data-name');
+      const productPriceAttr = container.getAttribute('data-price');
+  
+      // Ensure productPriceAttr exists before trying to parse it
+      if (!productPriceAttr) {
+        console.error('Missing data-price attribute on container:', container);
+        return;
+      }
+  
+      const productPrice = parseFloat(productPriceAttr.replace(/[^0-9.]/g, ''));
+      const quantity = parseInt(quantityInput.value);
+  
+      if (productId && productName && !isNaN(productPrice) && quantity > 0) {
+        addToCart(productId, productName, `₦${productPrice}`, quantity);
+        // Reset quantity input to 1 after adding to cart
+        quantityInput.value = 1;
+      } else {
+        console.error('Missing product details or invalid quantity:', { productId, productName, productPrice, quantity });
+      }
+    });
+  
     // Append both containers to the main container
     mainContainer.appendChild(quantityContainer);
     mainContainer.appendChild(addToCartButton);
-
+  
     // Append the main container to the product card
     container.appendChild(mainContainer);
-}
-
-
-
-// Helper function to display products in a given container
-// function displayLimitedProducts(products, containerId) {
-//     // Get the container where the products will be displayed
-//     const productContainer = document.getElementById(containerId);
-
-//     // Check if the container exists
-//     if (productContainer) {
-//         // Clear any existing content in the container
-//         productContainer.innerHTML = '';
-
-//         // Set the max capacity to 200 pcs
-//         const maxQuantity = 200;
-
-//         // Loop through the products to display
-//         products.forEach(product => {
-//             // Create a product card
-//             const limitedProductCard = document.createElement('div');
-//             limitedProductCard.classList.add('limited-product-card');
-
-//             // Create and add the "Limited" tagline to the top-right corner
-//             const tagline = document.createElement('span');
-//             tagline.classList.add('tagline');
-//             tagline.textContent = 'Limited';  // Tagline text
-//             limitedProductCard.appendChild(tagline);
-
-//             // Product picture
-//             const productImage = document.createElement('img');
-//             productImage.src = product.pictures[0] || 'default-image.jpg'; // Fallback image
-//             limitedProductCard.appendChild(productImage);
-
-//             // Product name (Brand and Product Name)
-//             const productName = document.createElement('h3');
-//             productName.textContent = `${product.brand} ${product.name}`;
-//             limitedProductCard.appendChild(productName);
-
-//             // Product price and + button container (to align them on the same line)
-//             const priceContainer = document.createElement('div');
-//             priceContainer.classList.add('price-container');
-
-//             // Product price
-//             const productPrice = document.createElement('p');
-//             productPrice.classList.add('price');
-//             productPrice.textContent = `${product.price.toLocaleString()}`;
-//             priceContainer.appendChild(productPrice);
-
-//             // Add to cart button
-//             const addToCartButton = document.createElement('button');
-//             addToCartButton.textContent = '+';
-//             addToCartButton.classList.add('add-to-cart-button');
-//             priceContainer.appendChild(addToCartButton);
-
-//             // Append price container to the card
-//             limitedProductCard.appendChild(priceContainer);
-
-//             // Create the <hr> element to separate price from progress bar
-//             const limitedHr = document.createElement('hr');
-//             limitedHr.style.borderTop = '1px solid gainsboro';
-//             limitedHr.style.marginTop = '0.5em';
-//             limitedHr.style.marginBottom = '1em';  // Optional spacing between <hr> and progress bar
-//             limitedProductCard.appendChild(limitedHr);  // Append <hr> after price
-
-//             // Add the "A limited quantity of this product is left" paragraph above the progress bar
-//             const limitedQuantityText = document.createElement('p');
-//             limitedQuantityText.textContent = 'A limited quantity of this product is left';
-//             limitedQuantityText.style.fontSize = '14px';  // Optional font size adjustment
-//             limitedQuantityText.style.color = '#999';  // Optional color for the text
-//             limitedQuantityText.style.marginBottom = '0.5em';
-//             limitedProductCard.appendChild(limitedQuantityText);
-
-//             // Create the progress bar dynamically
-//             const progressBar = document.createElement('div');
-//             progressBar.classList.add('progress-bar');
-
-//             // Calculate the fill percentage based on the max stock (200 pcs)
-//             const percentageFilled = Math.round((product.quantity / maxQuantity) * 20); // 20 blocks for the progress bar
-
-//             // Check if the product quantity is less than 100
-//             const isLowStock = product.quantity < 100;
-
-//             // Generate the blocks for the progress bar
-//             for (let i = 0; i < 20; i++) {
-//                 const block = document.createElement('div');
-//                 block.classList.add('block');
-//                 // If product is in low stock, turn the blocks red
-//                 if (i < percentageFilled) {
-//                     block.classList.add(isLowStock ? 'filled-red' : 'filled');
-//                 }
-//                 progressBar.appendChild(block);
-//             }
-
-//             // Append the progress bar to the product card
-//             limitedProductCard.appendChild(progressBar);
-
-//             // Product quantity
-//             const productQuantity = document.createElement('p');
-//             productQuantity.classList.add('quantity');
-//             productQuantity.textContent = `Available only: ${product.quantity}pcs`;
-//             limitedProductCard.appendChild(productQuantity);
-
-//             // Append the product card to the container
-//             productContainer.appendChild(limitedProductCard);
-//         });
-//     } else {
-//         console.error(`Product container (id="${containerId}") not found.`);
-//     }
-// }
+  }
 
 function displayLowestPriceProducts() {
     // Retrieve products from sessionStorage
@@ -408,8 +362,7 @@ function displayLowestPriceProducts() {
         return;
     }
 
-    // Helper function to parse price to a number
-    const parsePrice = (price) => parseFloat(price.replace(/,/g, '').replace('₦', ''));
+    const parsePrice = (price) => price.replace('₦', '').trim();
 
     // Sort products by price in ascending order
     const sortedProducts = products.sort((a, b) => parsePrice(a.price) - parsePrice(b.price));
@@ -546,8 +499,6 @@ window.addEventListener("click", (event) => {
     }
 });
 
-import { auth, signOut } from "../firebaseConfig.js"; // Ensure correct path to your Firebase config file
-
 // Sign-out logic
 if (signOutBtn) {
     signOutBtn.addEventListener("click", () => {
@@ -638,11 +589,11 @@ async function fetchCountryFromCoordinates(latitude, longitude) {
             updateDeliveryLocation(data.country_name);
         } else {
             console.error("No country data found or invalid response format.");
-            updateDeliveryLocation("Unknown Location");
+            updateDeliveryLocation("Location");
         }
     } catch (error) {
         console.error("Error fetching country data:", error.message);
-        updateDeliveryLocation("Unknown Location");
+        updateDeliveryLocation("Location");
     }
 }
 
@@ -1085,70 +1036,99 @@ function getRandomItems(items, count = 8) {
 
 // Universal function to display products
 function displayProducts(productList, taglineText) {
-  const itemsContainer = document.getElementById('randomProductsContainer');
-
-  if (itemsContainer) {
-    itemsContainer.innerHTML = '';
-
-    productList.forEach(item => {
-      const itemBox = document.createElement('div');
-      itemBox.classList.add('item-box');
-
-      const itemWrapper = document.createElement('div');
-      itemWrapper.classList.add('item-wrapper');
-
-      // Tagline
-      const tagline = document.createElement('div');
-      tagline.classList.add('best-sale-tag');
-      tagline.textContent = taglineText;
-      itemWrapper.appendChild(tagline);
-
-      // Item picture
-      const itemImage = document.createElement('img');
-      itemImage.src = (item.pictures && item.pictures.length > 0) ? item.pictures[0] : 'default-image.jpg';
-      itemImage.alt = `${item.brand} image`;
-      itemWrapper.appendChild(itemImage);
-
-      // Item details
-      const itemDetailsCon = document.createElement('div');
-      itemDetailsCon.classList.add('item-details-con');
-      itemWrapper.appendChild(itemDetailsCon);
-
-      // Item name
-      const itemName = document.createElement('h3');
-      itemName.textContent = `${item.brand}`;
-      itemDetailsCon.appendChild(itemName);
-
-      // Item price container
-      const itemPriceContainer = document.createElement('div');
-      itemPriceContainer.classList.add('item-price-container');
-
-      // Item price
-      const itemPrice = document.createElement('p');
-      itemPrice.textContent = `${item.price}`;
-      itemPriceContainer.appendChild(itemPrice);
-
-      // + Button
-      const addButton = document.createElement('button');
-      addButton.textContent = '+';
-      addButton.classList.add('add-button');
-      itemPriceContainer.appendChild(addButton);
-
-      // Append price container to wrapper
-      itemWrapper.appendChild(itemPriceContainer);
-
-      // Append wrapper to item box
-      itemBox.appendChild(itemWrapper);
-
-      // Append item box to container
-      itemsContainer.appendChild(itemBox);
-    });
-  } else {
-    console.error('Container with id="randomProductsContainer" not found.');
+    const itemsContainer = document.getElementById('randomProductsContainer');
+  
+    if (itemsContainer) {
+      // Clear previous contents
+      itemsContainer.innerHTML = '';
+  
+      // Add products
+      productList.forEach(item => {
+        const itemBox = document.createElement('div');
+        itemBox.classList.add('item-box');
+  
+        const itemWrapper = document.createElement('div');
+        itemWrapper.classList.add('item-wrapper');
+  
+        // Tagline
+        const tagline = document.createElement('div');
+        tagline.classList.add('best-sale-tag');
+        tagline.textContent = taglineText;
+        itemWrapper.appendChild(tagline);
+  
+        // Item picture
+        const itemImage = document.createElement('img');
+        itemImage.src = (item.pictures && item.pictures.length > 0) ? item.pictures[0] : 'default-image.jpg';
+        itemImage.alt = `${item.brand} image`;
+        itemWrapper.appendChild(itemImage);
+  
+        // Item details
+        const itemDetailsCon = document.createElement('div');
+        itemDetailsCon.classList.add('item-details-con');
+        itemWrapper.appendChild(itemDetailsCon);
+  
+        // Item name
+        const itemName = document.createElement('h3');
+        itemName.textContent = `${item.brand}`;
+        itemDetailsCon.appendChild(itemName);
+  
+        // Item price container
+        const itemPriceContainer = document.createElement('div');
+        itemPriceContainer.classList.add('item-price-container');
+  
+        // Item price (Assuming price is already formatted before being passed in)
+        const itemPrice = document.createElement('p');
+        itemPrice.textContent = item.price.toLocaleString();  // Do not add Naira sign here if it's already formatted
+        itemPriceContainer.appendChild(itemPrice);
+  
+        // + Button
+        const addButton = document.createElement('button');
+        addButton.textContent = '+';
+        addButton.classList.add('add-button');
+        addButton.setAttribute('data-id', item.id);       // Set data-id
+        addButton.setAttribute('data-name', item.brand);   // Set data-name
+        addButton.setAttribute('data-price', item.price);  // Set data-price
+        itemPriceContainer.appendChild(addButton);
+  
+        // Append price container to wrapper
+        itemWrapper.appendChild(itemPriceContainer);
+  
+        // Append wrapper to item box
+        itemBox.appendChild(itemWrapper);
+  
+        // Append item box to container
+        itemsContainer.appendChild(itemBox);
+      });
+  
+      // Attach event listener for add-to-cart functionality using event delegation
+      if (!itemsContainer.hasAttribute('data-listener')) {
+        itemsContainer.addEventListener('click', function(event) {
+          if (event.target && event.target.classList.contains('add-button')) {
+            const button = event.target;
+            const productId = button.getAttribute('data-id');
+            const productName = button.getAttribute('data-name');
+            let productPrice = button.getAttribute('data-price');
+  
+            // Ensure productPrice does not have duplicate currency symbols
+            if (typeof productPrice === 'string' && productPrice.includes('₦')) {
+              productPrice = productPrice.replace(/₦/g, '').trim();
+            }
+  
+            addToCart(productId, productName, `₦${productPrice}`, 1); // Default quantity is 1
+          }
+        });
+  
+        // Mark the listener as attached
+        itemsContainer.setAttribute('data-listener', 'true');
+      }
+    } else {
+      console.error('Container with id="randomProductsContainer" not found.');
+    }
   }
-}
 
-function displayRandomHighestPriceProducts() {
+
+
+  function displayRandomHighestPriceProducts() {
     // Retrieve products from sessionStorage
     const products = JSON.parse(sessionStorage.getItem('products')) || [];
 
@@ -1158,8 +1138,7 @@ function displayRandomHighestPriceProducts() {
         return;
     }
 
-    // Helper function to parse price to a number
-    const parsePrice = (price) => parseFloat(price.replace(/,/g, '').replace('₦', ''));
+    const parsePrice = (price) => price.replace('₦', '').trim();
 
     // Filter out products with prices less than ₦2000
     const filteredProducts = products.filter(product => parsePrice(product.price) >= 2000);
@@ -1228,6 +1207,9 @@ function displayRandomHighestPriceProducts() {
             const addButton = document.createElement('button');
             addButton.textContent = '+';
             addButton.classList.add('add-button');
+            addButton.setAttribute('data-id', product.id);        // Set data-id
+            addButton.setAttribute('data-name', product.brand);    // Set data-name
+            addButton.setAttribute('data-price', product.price);   // Set data-price
             priceButtonContainer.appendChild(addButton);
 
             // Append the price and button container to the product details container
@@ -1241,125 +1223,7 @@ function displayRandomHighestPriceProducts() {
     }
 }
 
-displayRandomHighestPriceProducts();
-
-// function displayLowStockProducts() {
-//     // Retrieve products from sessionStorage
-//     const products = JSON.parse(sessionStorage.getItem('products')) || [];
-
-//     // Filter products with quantity less than 100
-//     const lowStockProducts = products.filter(product => product.quantity < 100);
-
-//     // Sort the lowStockProducts if needed (optional)
-//     lowStockProducts.sort((a, b) => a.quantity - b.quantity); // Sorting by quantity in ascending order
-
-//     // Take the first product if available
-//     const productsToDisplay = lowStockProducts.slice(0, 4);
-
-//     // Get the container where the products will be displayed
-//     const productContainer = document.getElementById('lowStockProductsContainer');
-
-//     // Check if the container exists
-//     if (productContainer) {
-//         // Clear any existing content in the container
-//         productContainer.innerHTML = '';
-
-//         // Set the max capacity to 200 pcs
-//         const maxQuantity = 200;
-
-//         // Loop through the products to display
-//         productsToDisplay.forEach(product => {
-//             // Create a product card
-//             const limitedProductCard = document.createElement('div');
-//             limitedProductCard.classList.add('limited-product-card');
-        
-//             // Create and add the "Limited" tagline to the top-right corner
-//             const tagline = document.createElement('span');
-//             tagline.classList.add('tagline');
-//             tagline.textContent = 'Limited';  // Tagline text
-//             limitedProductCard.appendChild(tagline);
-        
-//             // Product picture
-//             const productImage = document.createElement('img');
-//             productImage.src = product.pictures[0] || 'default-image.jpg'; // Fallback image
-//             limitedProductCard.appendChild(productImage);
-        
-//             // Product name (Brand and Product Name)
-//             const productName = document.createElement('h3');
-//             productName.textContent = `${product.brand} ${product.name}`;
-//             limitedProductCard.appendChild(productName);
-        
-//             // Product price and + button container (to align them on the same line)
-//             const priceContainer = document.createElement('div');
-//             priceContainer.classList.add('price-container');
-        
-//             // Product price
-//             const productPrice = document.createElement('p');
-//             productPrice.classList.add('price')
-//             productPrice.textContent = `${product.price.toLocaleString()}`;
-//             priceContainer.appendChild(productPrice);
-        
-//             // Add to cart button
-//             const addToCartButton = document.createElement('button');
-//             addToCartButton.textContent = '+';
-//             addToCartButton.classList.add('add-to-cart-button');
-//             priceContainer.appendChild(addToCartButton);
-        
-//             // Append price container to the card
-//             limitedProductCard.appendChild(priceContainer);
-        
-//             // Create the <hr> element to separate price from progress bar
-//             const limitedHr = document.createElement('hr');
-//             limitedHr.style.borderTop = '1px solid gainsboro';
-//             limitedHr.style.marginTop = '0.5em';
-//             limitedHr.style.marginBottom = '1em';  // Optional spacing between <hr> and progress bar
-//             limitedProductCard.appendChild(limitedHr);  // Append <hr> after price
-        
-//             // Add the "A limited quantity of this product is left" paragraph above the progress bar
-//             const limitedQuantityText = document.createElement('p');
-//             limitedQuantityText.textContent = 'A limited quantity of this product is left';
-//             limitedQuantityText.style.fontSize = '14px';  // Optional font size adjustment
-//             limitedQuantityText.style.color = '#999';  // Optional color for the text
-//             limitedQuantityText.style.marginBottom = '0.5em'
-//             limitedProductCard.appendChild(limitedQuantityText);
-        
-//             // Create the progress bar dynamically
-//             const progressBar = document.createElement('div');
-//             progressBar.classList.add('progress-bar');
-        
-//             // Calculate the fill percentage based on the max stock (200 pcs)
-//             const percentageFilled = Math.round((product.quantity / maxQuantity) * 20); // 20 blocks for the progress bar
-        
-//             // Check if the product quantity is less than 100
-//             const isLowStock = product.quantity < 100;
-        
-//             // Generate the blocks for the progress bar
-//             for (let i = 0; i < 20; i++) {
-//                 const block = document.createElement('div');
-//                 block.classList.add('block');
-//                 // If product is in low stock, turn the blocks red
-//                 if (i < percentageFilled) {
-//                     block.classList.add(isLowStock ? 'filled-red' : 'filled');
-//                 }
-//                 progressBar.appendChild(block);
-//             }
-        
-//             // Append the progress bar to the product card
-//             limitedProductCard.appendChild(progressBar);
-        
-//             // Product quantity
-//             const productQuantity = document.createElement('p');
-//             productQuantity.classList.add('quantity')
-//             productQuantity.textContent = `Available only: ${product.quantity}pcs`;
-//             limitedProductCard.appendChild(productQuantity);
-        
-//             // Append the product card to the container
-//             productContainer.appendChild(limitedProductCard);
-//         });        
-//     } else {
-//         console.error('Product container (id="lowStockProductsContainer") not found.');
-//     }
-// }
+displayRandomHighestPriceProducts();    
 
 // FAQ functionality
 faqItems.forEach(item => {
@@ -1367,3 +1231,197 @@ faqItems.forEach(item => {
         item.classList.toggle('open');
     });
 });
+
+
+// Function to create and show a dynamic modal with a message
+function showCustomModal(message) {
+    // Check if modal already exists
+    let modal = document.getElementById('dynamic-custom-modal');
+    if (!modal) {
+        // Create the modal if it doesn't exist
+        modal = document.createElement('div');
+        modal.id = 'dynamic-custom-modal';
+        modal.classList.add('custom-modal');
+
+        // Create modal content container
+        const modalContent = document.createElement('div');
+        modalContent.classList.add('custom-modal-content');
+
+        // Create the close button
+        const closeBtn = document.createElement('span');
+        closeBtn.classList.add('close-btn');
+        closeBtn.innerHTML = '&times;';
+
+        // Create the modal message paragraph
+        const modalMessage = document.createElement('p');
+        modalMessage.id = 'custom-modal-message';
+
+        // Append close button and message to modal content
+        modalContent.appendChild(closeBtn);
+        modalContent.appendChild(modalMessage);
+
+        // Append modal content to modal
+        modal.appendChild(modalContent);
+
+        // Append modal to body
+        document.body.appendChild(modal);
+
+        // Add close functionality to close button
+        closeBtn.onclick = function () {
+            modal.style.display = 'none';
+        };
+
+        // Close the modal if the user clicks outside of it
+        window.onclick = function (event) {
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        };
+    }
+
+    // Set the modal message and display it
+    const modalMessage = document.getElementById('custom-modal-message');
+    modalMessage.textContent = message;
+    modal.style.display = 'block';
+}
+
+// Function to add product to cart
+async function addToCart(productId, productName, productPrice, quantity) {
+    try {
+        const user = auth.currentUser;
+
+        if (!user) {
+            console.log("User is not logged in. Redirect to login page.");
+            return;
+        }
+
+        // Reference to the user's cart in Firestore
+        const cartRef = doc(db, "carts", user.uid);
+
+        // Get the current cart
+        const cartDoc = await getDoc(cartRef);
+
+        let cartData = cartDoc.exists() ? cartDoc.data().items : [];
+
+        // Get the product details from Firestore or the session storage
+        const products = JSON.parse(sessionStorage.getItem('products')) || [];
+        const product = products.find(item => item.id === productId);
+
+        if (!product) {
+            console.error('Product not found!');
+            return;
+        }
+
+        // Check if the quantity to add exceeds the available stock
+        if (quantity > product.quantity) {
+            showCustomModal(`Sorry! Only ${product.quantity} of this product is available.`);
+            return; // Stop execution if quantity exceeds stock
+        }
+
+        // Check if product already exists in the cart
+        const productIndex = cartData.findIndex(item => item.id === productId);
+
+        if (productIndex > -1) {
+            // Product exists, update quantity
+            const currentQuantityInCart = cartData[productIndex].quantity;
+            const newQuantity = currentQuantityInCart + quantity;
+
+            // If the new quantity exceeds stock, alert the user
+            if (newQuantity > product.quantity) {
+                showCustomModal(`You can only add ${product.quantity - currentQuantityInCart} more of this product.`);
+                return;
+            }
+
+            // Update the cart with the new quantity
+            cartData[productIndex].quantity = newQuantity;
+        } else {
+            // Product doesn't exist, add new product to the cart
+            cartData.push({
+                id: productId,
+                name: productName,
+                price: `${productPrice.replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`,
+                quantity: quantity
+            });
+        }
+
+        // Update Firestore with the new cart data
+        await setDoc(cartRef, { items: cartData });
+
+        // Optionally, save to localStorage for faster UI updates
+        localStorage.setItem("cart", JSON.stringify(cartData));
+
+        console.log("Product added to cart!", cartData);
+    } catch (error) {
+        console.error("Error adding product to cart:", error);
+    }
+}
+
+
+  
+// Attach addToCart to buttons with '+' as text content
+function attachCartButtons() {
+    const buttons = document.querySelectorAll('.add-button');
+
+    buttons.forEach(button => {
+        if (button.textContent.trim() === '+') {
+            // Ensure all necessary attributes are present
+            const parentCard = button.closest('.limited-product-card');
+            if (parentCard) {
+                const productId = parentCard.getAttribute('data-id');
+                const productName = parentCard.getAttribute('data-name');
+                const productPrice = parentCard.getAttribute('data-price');
+                button.setAttribute('data-id', productId);
+                button.setAttribute('data-name', productName);
+                button.setAttribute('data-price', productPrice);
+            }
+
+            // Add event listener only once
+            button.removeEventListener('click', addToCartHandler); // Remove any existing listeners
+            button.addEventListener('click', addToCartHandler);
+        }
+    });
+}
+
+function addToCartHandler(event) {
+    const button = event.target;
+    const productId = button.getAttribute('data-id');
+    const productName = button.getAttribute('data-name');
+    const productPrice = parseFloat(button.getAttribute('data-price').replace(/[^0-9.]/g, ''));
+    const quantity = 1;
+
+    if (productId && productName && !isNaN(productPrice)) {
+        addToCart(productId, productName, `₦${productPrice}`, quantity);
+    } else {
+        console.error('Error adding to cart. Missing product details or invalid price.');
+    }
+}
+
+
+// function handleClick(event) {
+//   const button = event.target;
+//   const productId = button.getAttribute('data-id');
+//   const productName = button.getAttribute('data-name');
+//   const productPriceAttr = button.getAttribute('data-price');
+
+//   // Ensure productPriceAttr exists before trying to parse it
+//   if (!productPriceAttr) {
+//     console.error('Missing data-price attribute on button:', button);
+//     return;
+//   }
+
+//   const productPrice = parseFloat(productPriceAttr.replace(/[^0-9.]/g, ''));
+//   const quantityInput = button.closest('.quantity-add-cart-container')?.querySelector('.quantity-input');
+//   const quantity = quantityInput ? parseInt(quantityInput.value) : 1;
+
+//   if (productId && productName && !isNaN(productPrice)) {
+//     addToCart(productId, productName, productPrice, quantity);
+//   } else {
+//     console.error('Missing product details on button:', button);
+//     console.error('Ensure your button has data-id, data-name, and data-price attributes.');
+//   }
+// }
+
+  
+
+// Ensure cart buttons are attached when products are loaded
+// document.addEventListener('DOMContentLoaded', attachCartButtons);
