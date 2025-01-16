@@ -282,22 +282,22 @@ function addQuantitySelectorAndCartButton(container) {
     // Create the main container for the quantity selector and add-to-cart button
     const mainContainer = document.createElement('div');
     mainContainer.classList.add('quantity-add-cart-container');
-  
+
     // Quantity selector container
     const quantityContainer = document.createElement('div');
     quantityContainer.classList.add('quantity-selector');
-  
+
     // Minus button
     const minusButton = document.createElement('button');
     minusButton.textContent = '-';
     minusButton.classList.add('quantity-btn');
     minusButton.addEventListener('click', () => {
-      const quantityInput = quantityContainer.querySelector('.quantity-input');
-      const currentValue = parseInt(quantityInput.value);
-      quantityInput.value = Math.max(1, currentValue - 1);
+        const quantityInput = quantityContainer.querySelector('.quantity-input');
+        const currentValue = parseInt(quantityInput.value);
+        quantityInput.value = Math.max(1, currentValue - 1);
     });
     quantityContainer.appendChild(minusButton);
-  
+
     // Quantity input
     const quantityInput = document.createElement('input');
     quantityInput.type = 'number';
@@ -305,52 +305,44 @@ function addQuantitySelectorAndCartButton(container) {
     quantityInput.min = 1;
     quantityInput.classList.add('quantity-input');
     quantityContainer.appendChild(quantityInput);
-  
+
     // Plus button
     const plusButton = document.createElement('button');
     plusButton.textContent = '+';
     plusButton.classList.add('quantity-btn');
     plusButton.addEventListener('click', () => {
-      const quantityInput = quantityContainer.querySelector('.quantity-input');
-      const currentValue = parseInt(quantityInput.value);
-      quantityInput.value = currentValue + 1;
+        const quantityInput = quantityContainer.querySelector('.quantity-input');
+        const currentValue = parseInt(quantityInput.value);
+        quantityInput.value = currentValue + 1;
     });
     quantityContainer.appendChild(plusButton);
-  
+
     // Add to Cart button
     const addToCartButton = document.createElement('button');
     addToCartButton.textContent = 'Add to Cart';
     addToCartButton.classList.add('add-to-cart-btn');
     addToCartButton.addEventListener('click', () => {
-      const productId = container.getAttribute('data-id');
-      const productName = container.getAttribute('data-name');
-      const productPriceAttr = container.getAttribute('data-price');
-  
-      // Ensure productPriceAttr exists before trying to parse it
-      if (!productPriceAttr) {
-        console.error('Missing data-price attribute on container:', container);
-        return;
-      }
-  
-      const productPrice = parseFloat(productPriceAttr.replace(/[^0-9.]/g, ''));
-      const quantity = parseInt(quantityInput.value);
-  
-      if (productId && productName && !isNaN(productPrice) && quantity > 0) {
-        addToCart(productId, productName, `₦${productPrice}`, quantity);
-        // Reset quantity input to 1 after adding to cart
-        quantityInput.value = 1;
-      } else {
-        console.error('Missing product details or invalid quantity:', { productId, productName, productPrice, quantity });
-      }
+        const productId = container.getAttribute('data-id');
+        const productName = container.getAttribute('data-name');
+        const productPrice = container.getAttribute('data-price');
+        const quantity = parseInt(quantityInput.value);
+
+        if (productId && productName && !isNaN(quantity) && quantity > 0) {
+            toggleLoading(true); // Show the loading indicator
+            addToCart(productId, productName, productPrice, quantity);
+            quantityInput.value = 1;
+        } else {
+            console.error('Error adding to cart. Missing product details or invalid quantity.');
+        }
     });
-  
+
     // Append both containers to the main container
     mainContainer.appendChild(quantityContainer);
     mainContainer.appendChild(addToCartButton);
-  
+
     // Append the main container to the product card
     container.appendChild(mainContainer);
-  }
+}
 
 function displayLowestPriceProducts() {
     // Retrieve products from sessionStorage
@@ -899,16 +891,27 @@ btnLabels.forEach((label, index) => {
     displayRandomProducts();
   }
 
-// Add click event to each button
-btn.addEventListener("click", function () {
+  // Add click event to each button
+  btn.addEventListener("click", function () {
+    // Reset loader whenever a new category is clicked
+    const loader = document.getElementById("loader"); // Assuming the loader has this ID
+
+    // Check if loader exists before modifying its style
+    if (loader) {
+      loader.style.display = "block"; // Show the loader
+    }
+
+    // If the clicked button is already active, don't deactivate it again
+    if (this.classList.contains("active")) return;
+
     // Remove active class from all buttons
     document.querySelectorAll(".product-btn").forEach((button) => {
       button.classList.remove("active");
     });
-  
+
     // Add active class to the clicked button
     this.classList.add("active");
-  
+
     // Display products based on the button clicked
     if (label === "All Products") {
       displayRandomProducts();
@@ -923,11 +926,19 @@ btn.addEventListener("click", function () {
     } else if (label === "Meat & Seafood") {
       displayMeatSeafoodProducts();
     }
-  });     
+
+    // Hide loader once products are displayed
+    setTimeout(() => {
+      if (loader) {
+        loader.style.display = "none"; // Hide the loader after products have been loaded
+      }
+    }, 500); // Adjust time as necessary depending on product load time
+  });
 
   // Append button to the container
   productBtnsContainer.appendChild(btn);
 });
+  
 
 // Function to display random products
 function displayRandomProducts() {
@@ -1124,7 +1135,7 @@ function displayProducts(productList, taglineText) {
     } else {
       console.error('Container with id="randomProductsContainer" not found.');
     }
-  }
+}
 
 
 
@@ -1233,56 +1244,75 @@ faqItems.forEach(item => {
 });
 
 
-// Function to create and show a dynamic modal with a message
-function showCustomModal(message) {
-    // Check if modal already exists
-    let modal = document.getElementById('dynamic-custom-modal');
-    if (!modal) {
-        // Create the modal if it doesn't exist
-        modal = document.createElement('div');
-        modal.id = 'dynamic-custom-modal';
-        modal.classList.add('custom-modal');
+// // Function to create and show a dynamic modal with a message
+// function showCustomModal(message) {
+//     // Check if modal already exists
+//     let modal = document.getElementById('dynamic-custom-modal');
+//     if (!modal) {
+//         // Create the modal if it doesn't exist
+//         modal = document.createElement('div');
+//         modal.id = 'dynamic-custom-modal';
+//         modal.classList.add('custom-modal');
 
-        // Create modal content container
-        const modalContent = document.createElement('div');
-        modalContent.classList.add('custom-modal-content');
+//         // Create modal content container
+//         const modalContent = document.createElement('div');
+//         modalContent.classList.add('custom-modal-content');
 
-        // Create the close button
-        const closeBtn = document.createElement('span');
-        closeBtn.classList.add('close-btn');
-        closeBtn.innerHTML = '&times;';
+//         // Create the close button
+//         const closeBtn = document.createElement('span');
+//         closeBtn.classList.add('close-btn');
+//         closeBtn.innerHTML = '&times;';
 
-        // Create the modal message paragraph
-        const modalMessage = document.createElement('p');
-        modalMessage.id = 'custom-modal-message';
+//         // Create the modal message paragraph
+//         const modalMessage = document.createElement('p');
+//         modalMessage.id = 'custom-modal-message';
 
-        // Append close button and message to modal content
-        modalContent.appendChild(closeBtn);
-        modalContent.appendChild(modalMessage);
+//         // Append close button and message to modal content
+//         modalContent.appendChild(closeBtn);
+//         modalContent.appendChild(modalMessage);
 
-        // Append modal content to modal
-        modal.appendChild(modalContent);
+//         // Append modal content to modal
+//         modal.appendChild(modalContent);
 
-        // Append modal to body
-        document.body.appendChild(modal);
+//         // Append modal to body
+//         document.body.appendChild(modal);
 
-        // Add close functionality to close button
-        closeBtn.onclick = function () {
-            modal.style.display = 'none';
-        };
+//         // Add close functionality to close button
+//         closeBtn.onclick = function () {
+//             modal.style.display = 'none';
+//         };
 
-        // Close the modal if the user clicks outside of it
-        window.onclick = function (event) {
-            if (event.target === modal) {
-                modal.style.display = 'none';
-            }
-        };
-    }
+//         // Close the modal if the user clicks outside of it
+//         window.onclick = function (event) {
+//             if (event.target === modal) {
+//                 modal.style.display = 'none';
+//             }
+//         };
+//     }
 
-    // Set the modal message and display it
-    const modalMessage = document.getElementById('custom-modal-message');
-    modalMessage.textContent = message;
-    modal.style.display = 'block';
+//     // Set the modal message and display it
+//     const modalMessage = document.getElementById('custom-modal-message');
+//     modalMessage.textContent = message;
+//     modal.style.display = 'block';
+// }
+
+// Function to show the modal
+function showModal(message) {
+    const modal = document.getElementById("productAddedModal");
+    const modalContent = modal.querySelector(".product-added-modal-content p");
+    modalContent.textContent = message;
+    modal.style.display = "block";
+
+    // Close the modal when the "Close" button is clicked
+    const closeModalBtn = document.getElementById("closeModalBtn");
+    closeModalBtn.addEventListener("click", () => {
+        modal.style.display = "none";
+    });
+
+    // Automatically hide the modal after 3 seconds
+    setTimeout(() => {
+        modal.style.display = "none";
+    }, 5000); // Adjust the time (in milliseconds) as needed (3000ms = 3 seconds)
 }
 
 // Function to update the cart item count in the UI
@@ -1297,6 +1327,13 @@ function updateCartItemCount(cartData) {
 
 // Function to add product to cart
 async function addToCart(productId, productName, productPrice, quantity) {
+    const loader = document.getElementById("loader"); // Assuming loader has this ID
+
+    // Check if loader exists before trying to manipulate its style
+    if (loader) {
+        loader.style.display = "block"; // Show the loader before starting the cart update
+    }
+
     try {
         const user = auth.currentUser;
 
@@ -1313,7 +1350,7 @@ async function addToCart(productId, productName, productPrice, quantity) {
 
         let cartData = cartDoc.exists() ? cartDoc.data().items : [];
 
-        // Get the product details from Firestore or the session storage
+        // Get the product details from session storage
         const products = JSON.parse(sessionStorage.getItem('products')) || [];
         const product = products.find(item => item.id === productId);
 
@@ -1324,8 +1361,8 @@ async function addToCart(productId, productName, productPrice, quantity) {
 
         // Check if the quantity to add exceeds the available stock
         if (quantity > product.quantity) {
-            showCustomModal(`Sorry! Only ${product.quantity} of this product is available.`);
-            return; // Stop execution if quantity exceeds stock
+            showModal(`Sorry! Only ${product.quantity} of this product is available.`);
+            return;
         }
 
         // Check if product already exists in the cart
@@ -1336,13 +1373,11 @@ async function addToCart(productId, productName, productPrice, quantity) {
             const currentQuantityInCart = cartData[productIndex].quantity;
             const newQuantity = currentQuantityInCart + quantity;
 
-            // If the new quantity exceeds stock, alert the user
             if (newQuantity > product.quantity) {
-                showCustomModal(`You can only add ${product.quantity - currentQuantityInCart} more of this product.`);
+                showModal(`You can only add ${product.quantity - currentQuantityInCart} more of this product.`);
                 return;
             }
 
-            // Update the cart with the new quantity
             cartData[productIndex].quantity = newQuantity;
         } else {
             // Product doesn't exist, add new product to the cart
@@ -1357,29 +1392,100 @@ async function addToCart(productId, productName, productPrice, quantity) {
         // Update Firestore with the new cart data
         await setDoc(cartRef, { items: cartData });
 
-        // Optionally, save to localStorage for faster UI updates
+        // Save to localStorage for faster UI updates
         localStorage.setItem("cart", JSON.stringify(cartData));
 
         // Update the cart item count in the UI
         updateCartItemCount(cartData);
 
+        // Show modal that the product has been added
+        showModal("Product Added Successfully!");
+
         console.log("Product added to cart!", cartData);
     } catch (error) {
         console.error("Error adding product to cart:", error);
+
+        // Hide the loader in case of error
+        if (loader) {
+            loader.style.display = "none";
+        }
+    } finally {
+        // Ensure the loader is hidden in case of any issues
+        if (loader) {
+            loader.style.display = "none"; // Hide the loading indicator
+        }
+
+        toggleLoading(false); // If you're using a custom function for this
     }
 }
 
-// Function to load the cart from Firestore or localStorage
+
+// Toggle loading indicator
+function toggleLoading(isLoading) {
+    const loadingIndicator = document.getElementById("loading");
+    console.log(`Loader toggled: ${isLoading ? "ON" : "OFF"}`);
+    if (loadingIndicator) {
+        loadingIndicator.style.display = isLoading ? "flex" : "none";
+    } else {
+        console.error("Loading indicator element not found.");
+    }
+}
+
+
+// Real-time listener to sync Firestore changes with localStorage
+function setupCartSyncPoll() {
+    const user = auth.currentUser;
+
+    if (!user) return;
+
+    const cartRef = doc(db, "carts", user.uid);
+
+    // Poll Firestore every 10 seconds
+    setInterval(async () => {
+        try {
+            const cartDoc = await getDoc(cartRef);
+            if (cartDoc.exists()) {
+                const cartData = cartDoc.data().items;
+
+                // Sync Firestore cart with localStorage
+                localStorage.setItem("cart", JSON.stringify(cartData));
+                updateCartItemCount(cartData);
+
+                console.log("Cart synced from Firestore.");
+            } else {
+                console.log("No cart found. Clearing localStorage...");
+                localStorage.removeItem("cart");
+                updateCartItemCount([]);
+            }
+        } catch (error) {
+            console.error("Error polling Firestore for cart updates:", error);
+        }
+    }, 10000); // Poll every 10 seconds
+}
+
+// Function to load cart data from Firestore or localStorage
 async function loadCart() {
+    const user = auth.currentUser;
+
+    if (user) {
+        // Load cart from Firestore and set up polling
+        await loadCartFromFirestore();
+        setupCartSyncPoll();
+    } else {
+        // Load cart from localStorage if user is not logged in
+        loadCartFromLocalStorage();
+    }
+}
+
+// Function to load the cart from Firestore
+async function loadCartFromFirestore() {
     const user = auth.currentUser;
 
     if (!user) {
         console.log("User is not logged in.");
-        loadCartFromLocalStorage(); // Load from localStorage if not logged in
         return;
     }
 
-    // Reference to the user's cart in Firestore
     const cartRef = doc(db, "carts", user.uid);
 
     try {
@@ -1387,29 +1493,39 @@ async function loadCart() {
 
         if (cartDoc.exists()) {
             const cartData = cartDoc.data().items;
-
-            // Update the cart count on page load
             updateCartItemCount(cartData);
-
-            // Optionally, store it in localStorage for faster access
             localStorage.setItem("cart", JSON.stringify(cartData));
         } else {
             console.log("No cart found for this user.");
-            loadCartFromLocalStorage(); // If no cart in Firestore, fall back to localStorage
         }
     } catch (error) {
         console.error("Error loading cart from Firestore:", error);
-        loadCartFromLocalStorage(); // In case of an error, fall back to localStorage
     }
 }
 
 // Function to load cart from localStorage (if available)
 function loadCartFromLocalStorage() {
     const cartData = JSON.parse(localStorage.getItem("cart")) || [];
-
-    // Update the cart count based on the data from localStorage
     updateCartItemCount(cartData);
 }
+
+// // Add event listeners for the cart buttons (if necessary)
+// function attachCartButtonsWithFlyEffect() {
+//     document.querySelectorAll('.add-to-cart-btn, .add-button').forEach(button => {
+//         button.addEventListener('click', (event) => {
+//             const productId = button.getAttribute('data-id');
+//             const productName = button.getAttribute('data-name');
+//             const productPrice = button.getAttribute('data-price');
+
+//             // Add product to cart
+//             addToCart(productId, productName, productPrice, 1);
+//         });
+//     });
+// }
+
+// // Ensure the buttons are attached when the page loads
+// document.addEventListener('DOMContentLoaded', attachCartButtonsWithFlyEffect);
+
 
 // Function to clear the cart after checkout
 async function clearCartAfterCheckout() {
@@ -1420,22 +1536,12 @@ async function clearCartAfterCheckout() {
         return;
     }
 
-    // Reference to the user's cart in Firestore
     const cartRef = doc(db, "carts", user.uid);
 
     try {
-        // Remove cart data from Firestore
         await deleteDoc(cartRef);
-
-        // Also remove cart from localStorage
         localStorage.removeItem("cart");
-
-        // Reset cart count in the UI
-        const cartItemCountElement = document.getElementById("zero");
-        if (cartItemCountElement) {
-            cartItemCountElement.textContent = '0';
-        }
-
+        updateCartItemCount([]);
         console.log("Cart cleared after checkout.");
     } catch (error) {
         console.error("Error clearing cart after checkout:", error);
@@ -1444,6 +1550,7 @@ async function clearCartAfterCheckout() {
 
 // Load the cart from Firestore or localStorage on page load
 window.addEventListener('load', loadCart);
+
 
 
 
@@ -1472,6 +1579,7 @@ function attachCartButtons() {
     });
 }
 
+// Add-to-cart button handler with loading
 function addToCartHandler(event) {
     const button = event.target;
     const productId = button.getAttribute('data-id');
@@ -1480,12 +1588,12 @@ function addToCartHandler(event) {
     const quantity = 1;
 
     if (productId && productName && !isNaN(productPrice)) {
+        toggleLoading(true); // Show the loading indicator
         addToCart(productId, productName, `₦${productPrice}`, quantity);
     } else {
         console.error('Error adding to cart. Missing product details or invalid price.');
     }
 }
-
 
 // function handleClick(event) {
 //   const button = event.target;
