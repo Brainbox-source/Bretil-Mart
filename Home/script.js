@@ -92,11 +92,15 @@ startShoppingBtnCon.appendChild(startShoppingButton("Start Shopping", '#fff', 'd
 
 // Fetching products securely and logging them to the console
 import { getAllProducts } from "../utils/products.js";
-
+import { displayfunction } from "../PRODUCT/DISPLAYPRODUCT.js";
+displayfunction('0lYUQd2K6zV3wf9Tul5Q');
 let allProducts = [];
 
+
+
+
+
 // Function to fetch and display the products with quantity less than 100
-// Ensure + buttons in low stock products have Add to Cart functionality
 function displayLowStockProducts() {
     // Retrieve products from sessionStorage
     const products = JSON.parse(sessionStorage.getItem('products')) || [];
