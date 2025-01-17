@@ -519,14 +519,71 @@ if (signOutBtn) {
 
 // Profile Picture Upload
 changeProfileBtn.onclick = () => fileInput.click();
-fileInput.onchange = (event) => {
-    const file = event.target.files[0];
+
+fileInput.onchange = async (event) => {
+    const file = event.target.files[0]; // Get the file
     if (file) {
         const reader = new FileReader();
+
+        // Temporarily display the selected file
         reader.onload = (e) => {
-            profilePic.src = e.target.result;
+            profilePic.src = e.target.result; // Update the profile picture preview
         };
         reader.readAsDataURL(file);
+
+        // Prepare the form data for the image upload
+        const formData = new FormData();
+        formData.append('file', file); // Append the file to the form data
+
+        try {
+            // Step 1: Send the file to the backend for processing
+            const response = await fetch('https://bretil-mart-server.onrender.com/upload', {
+                method: 'POST',
+                body: formData, // Attach the form data (including the file)
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                console.error('Upload failed:', errorData);
+                alert(`Error: ${errorData.message || 'Unknown error'}`);
+                return; // Stop further execution
+            }
+
+            const data = await response.json(); // Parse the JSON response
+
+            if (data.fileUrl) {
+                // After successful upload, get the file URL from the backend
+                const profilePicUrl = data.fileUrl;
+
+                // Step 2: Get the authenticated user's ID from Firebase Auth
+                const user = firebase.auth().currentUser;
+                if (!user) {
+                    alert('No authenticated user found. Please log in.');
+                    return;
+                }
+                const userId = user.uid; // Get the unique user ID
+
+                // Step 3: Store the profile picture URL in Firestore
+                const userRef = firebase.firestore().collection('users').doc(userId);
+                await userRef.set({ profilePicUrl }, { merge: true });
+
+                // Step 4: Save the profile picture URL to sessionStorage
+                sessionStorage.setItem('profilePicUrl', profilePicUrl);
+
+                // Step 5: Update the profile picture on the UI with the uploaded file URL
+                profilePic.src = profilePicUrl;
+
+                console.log('Profile picture uploaded and saved successfully:', profilePicUrl);
+                alert('Profile picture updated successfully!');
+            } else {
+                alert('Failed to upload the profile picture.');
+            }
+        } catch (error) {
+            console.error('Error uploading the profile picture:', error);
+            alert('An error occurred while uploading the profile picture.');
+        }
+    } else {
+        alert('No file selected. Please choose a profile picture to upload.');
     }
 };
 
@@ -937,8 +994,7 @@ btnLabels.forEach((label, index) => {
 
   // Append button to the container
   productBtnsContainer.appendChild(btn);
-});
-  
+});  
 
 // Function to display random products
 function displayRandomProducts() {
@@ -1136,8 +1192,6 @@ function displayProducts(productList, taglineText) {
       console.error('Container with id="randomProductsContainer" not found.');
     }
 }
-
-
 
   function displayRandomHighestPriceProducts() {
     // Retrieve products from sessionStorage
