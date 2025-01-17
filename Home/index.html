@@ -43,26 +43,21 @@
                             <i class="fa fa-search" style="font-size: 17px;"></i>
                         </span>
                     </div>
-
-                    <div id="productList">
-                        <h3 style="color: #013a01; font-size: 5em;">Products</h3>
-                        <hr style="border-top: 1px solid gainsboro; margin-top: 0.5em;">
-                    </div>
                 </div>
 
                 <div id="headerCartandProfileCon">
                     <div class="cartCont">
-                        <a href="">
+                        <a href="../cartFolder/cart.html">
                             <div class="cartCon">
                                 <i class="fa fa-shopping-basket" style="font-size: 20px;"></i>
-                                <span class="zero">0</span>
+                                <span class="zero" id="zero">0</span>
                             </div>
                         </a>
                     </div>
 
                     <div class="profileBtnCon">
                         <button id="ProfileBtn" data-tooltip="hello" class="profile">
-                            <span>
+                            <span id="profileImgCon">
                                 <img src="../img/profile.svg" alt="">
                             </span>
                         </button>
@@ -85,7 +80,8 @@
 
                         <!-- Hidden file input (this will open the file explorer) -->
                         <input type="file" id="fileInput" accept="image/*" />
-                    
+                        <p id="upload-status"></p>
+
                         <!-- Display Profile Picture -->
                         <img id="profilePic" src="../img/profile.svg" src="" alt="Profile Picture">
                     </div>
@@ -96,8 +92,14 @@
                 </div>
             </div>
 
+            <!-- <div id="searchProductDropDownCon"> -->
+                <div id="productList">
+                    
+                </div>
+            <!-- </div> -->
+
             <div id="productDropDownCon">
-                <div class="productDropDown">
+                <div id="productDropDown">
                     <div class="recentSearchCon" style="width: 15%;">
                         <h3 style="color: #013a01;">Recent Searches</h3>
                         <hr style="border-top: 1px solid gainsboro; margin-top: 0.5em;">
@@ -295,8 +297,6 @@
                 <div id="limitedProcuctsQuantity">
                     <div id="lowStockProductsContainer">
                         <!-- Filtered products with quantity < 50 will be dynamically inserted here -->
-
-                        <!-- <div id="percentBtn"></div> -->
                     </div>
                 </div>
 
@@ -379,7 +379,11 @@
                     </a>
                 </div>
 
-                <!-- <div></div> -->
+                <div id="bestDealProductCon">
+                    <div id="productBtns"></div>
+
+                    <div id="randomProductsContainer"></div>
+                </div>
 
                 <div class="cashBackSubscriptionCon">
                     <div class="cashBackSubscriptionContentCon">
@@ -445,7 +449,21 @@
                 </div>
             </section>
 
-            <!-- <section class="bestSellingProductsSection"></section> -->
+            <section class="bestSellingProductsSection">
+                <div class="searchCategoriesCon">
+                    <h2 class="todayBestDealsHeading">Best selling products</h2>
+
+                    <a href="" class="viewAll">View All
+                        <i class="fa fa-arrow-right"></i>
+                    </a>
+                </div>
+
+                <div class="best-selling-products-con">
+                    <div id="bestSellingProductsLeftCon"></div>
+
+                    <div id="bestSellingProductsRightCon"></div>
+                </div>
+            </section>
 
             <section class="FAQsSection">
                 <div class="FAQsImgCon">
@@ -559,6 +577,19 @@
                     </div>
                 </div>
             </section>
+
+            <div id="productAddedModal" class="product-added-modal">
+                <div class="product-added-modal-content">
+                    <!-- <h2>Product Added to Cart</h2> -->
+                    <p></p> <!-- This will display the product name/message dynamically -->
+                    <button id="closeModalBtn">×</button>
+                </div>
+            </div>  
+
+            <!-- Loading indicator container -->
+            <div id="loading" class="loadingIndicator">
+                <div class="spinner"></div>
+            </div>
         </main>
     
         <footer>
