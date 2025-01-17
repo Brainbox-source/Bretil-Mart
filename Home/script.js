@@ -1609,7 +1609,7 @@ window.addEventListener('load', loadCart);
 
 
   
-// Attach addToCart to buttons with '+' as text content
+// Attach   to buttons with '+' as text content
 function attachCartButtons() {
     const buttons = document.querySelectorAll('.add-button');
 
@@ -1677,3 +1677,10 @@ function addToCartHandler(event) {
 
 // Ensure cart buttons are attached when products are loaded
 // document.addEventListener('DOMContentLoaded', attachCartButtons);
+
+
+// api key
+// 782373725154486
+
+// api secret 
+// 4gD3zr00kcNM4v_pqxpbvMdW7D4

@@ -596,6 +596,259 @@ document.getElementById('startShoppingBtn').onclick = function() {
   window.location.href = '../Home/index.html'; // Change 'index.html' to your homepage URL
 };
 
+// Function to update the cart item count in the UI
+function updateCartItemCount(cartData) {
+    const totalItems = cartData.reduce((total, item) => total + item.quantity, 0);
+    const cartItemCountElement = document.getElementById("zero");
+
+    if (cartItemCountElement) {
+        cartItemCountElement.textContent = totalItems;
+    }
+}
+
+async function addToCart(productId, productName, productPrice, quantity) {
+    const loader = document.getElementById("loader"); // Assuming loader has this ID
+
+    // Check if loader exists before trying to manipulate its style
+    if (loader) {
+        loader.style.display = "block"; // Show the loader before starting the cart update
+    }
+
+    try {
+        const user = auth.currentUser;
+
+        if (!user) {
+            console.log("User is not logged in. Redirect to login page.");
+            return;
+        }
+
+        // Reference to the user's cart in Firestore
+        const cartRef = doc(db, "carts", user.uid);
+
+        // Get the current cart
+        const cartDoc = await getDoc(cartRef);
+
+        let cartData = cartDoc.exists() ? cartDoc.data().items : [];
+
+        // Get the product details from session storage
+        const products = JSON.parse(sessionStorage.getItem('products')) || [];
+        const product = products.find(item => item.id === productId);
+
+        if (!product) {
+            console.error('Product not found!');
+            return;
+        }
+
+        // Check if the quantity to add exceeds the available stock
+        if (quantity > product.quantity) {
+            showModal(`Sorry! Only ${product.quantity} of this product is available.`);
+            return;
+        }
+
+        // Check if product already exists in the cart
+        const productIndex = cartData.findIndex(item => item.id === productId);
+
+        if (productIndex > -1) {
+            // Product exists, update quantity
+            const currentQuantityInCart = cartData[productIndex].quantity;
+            const newQuantity = currentQuantityInCart + quantity;
+
+            if (newQuantity > product.quantity) {
+                showModal(`You can only add ${product.quantity - currentQuantityInCart} more of this product.`);
+                return;
+            }
+
+            cartData[productIndex].quantity = newQuantity;
+        } else {
+            // Product doesn't exist, add new product to the cart
+            cartData.push({
+                id: productId,
+                name: productName,
+                price: `${productPrice.replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`,
+                quantity: quantity
+            });
+        }
+
+        // Update Firestore with the new cart data
+        await setDoc(cartRef, { items: cartData });
+
+        // Save to localStorage for faster UI updates
+        localStorage.setItem("cart", JSON.stringify(cartData));
+
+        // Update the cart item count in the UI
+        updateCartItemCount(cartData);
+
+        // Show modal that the product has been added
+        showModal("Product Added Successfully!");
+
+        console.log("Product added to cart!", cartData);
+    } catch (error) {
+        console.error("Error adding product to cart:", error);
+
+        // Hide the loader in case of error
+        if (loader) {
+            loader.style.display = "none";
+        }
+    } finally {
+        // Ensure the loader is hidden in case of any issues
+        if (loader) {
+            loader.style.display = "none"; // Hide the loading indicator
+        }
+
+        toggleLoading(false); // If you're using a custom function for this
+    }
+}
+
+// Real-time listener to sync Firestore changes with localStorage
+function setupCartSyncPoll() {
+    const user = auth.currentUser;
+
+    if (!user) return;
+
+    const cartRef = doc(db, "carts", user.uid);
+
+    // Poll Firestore every 10 seconds
+    setInterval(async () => {
+        try {
+            const cartDoc = await getDoc(cartRef);
+            if (cartDoc.exists()) {
+                const cartData = cartDoc.data().items;
+
+                // Sync Firestore cart with localStorage
+                localStorage.setItem("cart", JSON.stringify(cartData));
+                updateCartItemCount(cartData);
+
+                console.log("Cart synced from Firestore.");
+            } else {
+                console.log("No cart found. Clearing localStorage...");
+                localStorage.removeItem("cart");
+                updateCartItemCount([]);
+            }
+        } catch (error) {
+            console.error("Error polling Firestore for cart updates:", error);
+        }
+    }, 10000); // Poll every 10 seconds
+}
+
+// Function to load the cart from Firestore
+async function loadCartFromFirestore() {
+    const user = auth.currentUser;
+
+    if (!user) {
+        console.log("User is not logged in.");
+        return;
+    }
+
+    const cartRef = doc(db, "carts", user.uid);
+
+    try {
+        const cartDoc = await getDoc(cartRef);
+
+        if (cartDoc.exists()) {
+            const cartData = cartDoc.data().items;
+            updateCartItemCount(cartData);
+            localStorage.setItem("cart", JSON.stringify(cartData));
+        } else {
+            console.log("No cart found for this user.");
+        }
+    } catch (error) {
+        console.error("Error loading cart from Firestore:", error);
+    }
+}
+
+// Function to load cart from localStorage (if available)
+function loadCartFromLocalStorage() {
+    const cartData = JSON.parse(localStorage.getItem("cart")) || [];
+    updateCartItemCount(cartData);
+}
+
+async function clearCartAfterCheckout() {
+    const user = auth.currentUser;
+
+    if (!user) {
+        console.log("User is not logged in.");
+        return;
+    }
+
+    const cartRef = doc(db, "carts", user.uid);
+
+    try {
+        await deleteDoc(cartRef);
+        localStorage.removeItem("cart");
+        updateCartItemCount([]);
+        console.log("Cart cleared after checkout.");
+    } catch (error) {
+        console.error("Error clearing cart after checkout:", error);
+    }
+}
+
+function addQuantitySelectorAndCartButton(container) {
+    // Create the main container for the quantity selector and add-to-cart button
+    const mainContainer = document.createElement('div');
+    mainContainer.classList.add('quantity-add-cart-container');
+
+    // Quantity selector container
+    const quantityContainer = document.createElement('div');
+    quantityContainer.classList.add('quantity-selector');
+
+    // Minus button
+    const minusButton = document.createElement('button');
+    minusButton.textContent = '-';
+    minusButton.classList.add('quantity-btn');
+    minusButton.addEventListener('click', () => {
+        const quantityInput = quantityContainer.querySelector('.quantity-input');
+        const currentValue = parseInt(quantityInput.value);
+        quantityInput.value = Math.max(1, currentValue - 1);
+    });
+    quantityContainer.appendChild(minusButton);
+
+    // Quantity input
+    const quantityInput = document.createElement('input');
+    quantityInput.type = 'number';
+    quantityInput.value = 1;
+    quantityInput.min = 1;
+    quantityInput.classList.add('quantity-input');
+    quantityContainer.appendChild(quantityInput);
+
+    // Plus button
+    const plusButton = document.createElement('button');
+    plusButton.textContent = '+';
+    plusButton.classList.add('quantity-btn');
+    plusButton.addEventListener('click', () => {
+        const quantityInput = quantityContainer.querySelector('.quantity-input');
+        const currentValue = parseInt(quantityInput.value);
+        quantityInput.value = currentValue + 1;
+    });
+    quantityContainer.appendChild(plusButton);
+
+    // Add to Cart button
+    const addToCartButton = document.createElement('button');
+    addToCartButton.textContent = 'Add to Cart';
+    addToCartButton.classList.add('add-to-cart-btn');
+    addToCartButton.addEventListener('click', () => {
+        const productId = container.getAttribute('data-id');
+        const productName = container.getAttribute('data-name');
+        const productPrice = container.getAttribute('data-price');
+        const quantity = parseInt(quantityInput.value);
+
+        if (productId && productName && !isNaN(quantity) && quantity > 0) {
+            toggleLoading(true); // Show the loading indicator
+            addToCart(productId, productName, productPrice, quantity);
+            quantityInput.value = 1;
+        } else {
+            console.error('Error adding to cart. Missing product details or invalid quantity.');
+        }
+    });
+
+    // Append both containers to the main container
+    mainContainer.appendChild(quantityContainer);
+    mainContainer.appendChild(addToCartButton);
+
+    // Append the main container to the product card
+    container.appendChild(mainContainer);
+}
+
+
 // const cart = JSON.parse(localStorage.getItem('cart')) || []; // Load cart from localStorage or initialize as empty array
 
 // function updateCartUI() {
