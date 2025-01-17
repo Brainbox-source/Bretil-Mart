@@ -319,43 +319,43 @@ async function fetchCountryFromCoordinates(latitude, longitude) {
 document.addEventListener("DOMContentLoaded", detectUserLocation);
 
 // automatic scrolling for searchCatogoriesCardsCon
-document.addEventListener("DOMContentLoaded", () => {
-    const container = document.querySelector(".searchCatogoriesCardsCon");
-    const scrollSpeed = 1; // Pixels to scroll per tick
-    let scrollInterval; // Variable to hold the scroll interval
+// document.addEventListener("DOMContentLoaded", () => {
+//     const container = document.querySelector(".searchCatogoriesCardsCon");
+//     const scrollSpeed = 1; // Pixels to scroll per tick
+//     let scrollInterval; // Variable to hold the scroll interval
 
-    // Duplicate the content for seamless scrolling
-    const duplicateContent = () => {
-        container.innerHTML += container.innerHTML;
-    };
+//     // Duplicate the content for seamless scrolling
+//     const duplicateContent = () => {
+//         container.innerHTML += container.innerHTML;
+//     };
 
-    // Start auto-scrolling
-    const startScrolling = () => {
-        scrollInterval = setInterval(() => {
-            container.scrollLeft += scrollSpeed;
+//     // Start auto-scrolling
+//     const startScrolling = () => {
+//         scrollInterval = setInterval(() => {
+//             container.scrollLeft += scrollSpeed;
 
-            // Reset the scroll position seamlessly when reaching halfway
-            if (container.scrollLeft >= container.scrollWidth / 2) {
-                container.scrollLeft = 0;
-            }
-        }, 15); // Adjust the interval for smoothness
-    };
+//             // Reset the scroll position seamlessly when reaching halfway
+//             if (container.scrollLeft >= container.scrollWidth / 2) {
+//                 container.scrollLeft = 0;
+//             }
+//         }, 15); // Adjust the interval for smoothness
+//     };
 
-    // Stop scrolling on hover
-    const stopScrolling = () => {
-        clearInterval(scrollInterval);
-    };
+//     // Stop scrolling on hover
+//     const stopScrolling = () => {
+//         clearInterval(scrollInterval);
+//     };
 
-    // Duplicate the content on page load
-    duplicateContent();
+//     // Duplicate the content on page load
+//     duplicateContent();
 
-    // Start auto-scrolling
-    startScrolling();
+//     // Start auto-scrolling
+//     startScrolling();
 
-    // Add hover listeners
-    container.addEventListener("mouseenter", stopScrolling);
-    container.addEventListener("mouseleave", startScrolling);
-});
+//     // Add hover listeners
+//     container.addEventListener("mouseenter", stopScrolling);
+//     container.addEventListener("mouseleave", startScrolling);
+// });
 
 // Product Search Functionality with Click-Away Feature
 // Function to save recent searches
@@ -730,6 +730,20 @@ function setupCartSyncPoll() {
     }, 10000); // Poll every 10 seconds
 }
 
+// Function to load cart data from Firestore or localStorage
+async function loadCart() {
+    const user = auth.currentUser;
+
+    if (user) {
+        // Load cart from Firestore and set up polling
+        await loadCartFromFirestore();
+        setupCartSyncPoll();
+    } else {
+        // Load cart from localStorage if user is not logged in
+        loadCartFromLocalStorage();
+    }
+}
+
 // Function to load the cart from Firestore
 async function loadCartFromFirestore() {
     const user = auth.currentUser;
@@ -761,6 +775,8 @@ function loadCartFromLocalStorage() {
     const cartData = JSON.parse(localStorage.getItem("cart")) || [];
     updateCartItemCount(cartData);
 }
+
+window.addEventListener('load', loadCart);
 
 async function clearCartAfterCheckout() {
     const user = auth.currentUser;
