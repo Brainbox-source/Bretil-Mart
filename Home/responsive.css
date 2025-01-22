@@ -1505,7 +1505,7 @@
 
     .footerMainLinksCon {
         /* border: 1px solid #000; */
-        justify-content: end;
+        justify-content: center;
         width: 75%;
         gap: 1em;
     }
@@ -1619,7 +1619,7 @@
 
     .footerMainLinksCon {
         /* border: 1px solid #000; */
-        justify-content: end;
+        justify-content: center;
         width: 75%;
         gap: 2em;
     }
