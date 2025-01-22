@@ -5,10 +5,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Bretil Mart Cart</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
   <link rel="stylesheet" href="cart.css">
+  <link rel="stylesheet" href="responsive.css">
   <link rel="icon" href="../img/Blogo2.png">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
   <script src="cart.js" defer type="module"></script>
+  <script src="https://js.paystack.co/v1/inline.js"></script>
 </head>
 
 <body>
@@ -20,154 +23,172 @@
 
   <div class="mainDashboard">
     <header>
-      <div class="primaryHeader">
-          <div id="headerLogoAndLocationCon">
-              <div class="bretilMartCon">
-                  <a href="../Home/index.html" class="bretilMartLogoLink">
-                      <img src="../img/Blogo.png" class="bretilMartLogo"  alt="">
-                  </a>
-              </div>
-  
-              <div class="locationCon">
-                  <img src="../img/location.svg" alt="">
-                  <p class="locationParagraph">Delivery to <br> <span class="locationAbuDhabi">Location</span></p>
-              </div>
-          </div>
-  
-          <div id="headerSearchCon">
-              <div id="searchForm">
-                  <input type="text" id="searchInput" placeholder="Search your products, Categories or Brands" >
-                  <span class="searchBtn">
-                      <i class="fa fa-search" style="font-size: 17px;"></i>
-                  </span>
-              </div>
-          </div>
-  
-          <div id="headerCartandProfileCon">
-              <div class="cartCont">
-                  <a href="../cartFolder/cart.html">
-                      <div class="cartCon">
-                          <i class="fa fa-shopping-basket" style="font-size: 20px;"></i>
-                          <span class="zero" id="zero">0</span>
+        <div class="primaryHeader">
+            <div id="headerLogoAndLocationCon">
+                <div class="bretilMartCon">
+                    <a href="../Home/index.html" class="bretilMartLogoLink">
+                        <img src="../img/Blogo.png" class="bretilMartLogo"  alt="">
+                    </a>
+                </div>
+
+                <div class="locationCon">
+                    <img src="../img/location.svg" class="location-img" alt="">
+
+                    <button class="arrow-left-con">
+                        <img src="../img/arrow-left.svg" class="arrow-img" alt="">
+                    </button>
+                    
+                    <div class="hamburger-menu" id="hamburger-menu">
+                        <span></span>
+                        <span></span>
+                        <span></span>
                       </div>
-                  </a>
-              </div>
-  
-              <div class="profileBtnCon">
-                  <button id="ProfileBtn" data-tooltip="hello" class="profile">
-                      <span>
-                          <img src="../img/profile.svg" alt="">
-                      </span>
-                  </button>
-              </div>
-          </div>
-      </div>
-  
-      <!-- Modal -->
-      <div id="myModal" class="modal">
-          <div class="modal-content" id="modal-content" style="display: flex; flex-direction: column;">
-              <div id="emailAndCloseBtn">
-                  <span id="getEmail"></span>
-                  <span id="closeBtn" class="close">&times;</span>
-              </div>
-              <div class="profileContainer">
-                  <!-- Profile Button -->
-                  <button id="changeProfileBtn" class="profile camera">
-                      <i class="fa fa-camera"></i>
-                  </button>
-  
-                  <!-- Hidden file input (this will open the file explorer) -->
-                  <input type="file" id="fileInput" accept="image/*" />
-              
-                  <!-- Display Profile Picture -->
-                  <img id="profilePic" src="../img/profile.svg" src="" alt="Profile Picture">
-              </div>
-  
-              <p id="userName"></p>
-  
-              <button type="button" id="signOutBtn">Sign Out</button>
-          </div>
-      </div>
-  
-      <!-- <div id="searchProductDropDownCon"> -->
-          <div id="productList">
-              
-          </div>
-      <!-- </div> -->
-  
-      <div id="productDropDownCon">
-          <div id="productDropDown">
-              <div class="recentSearchCon" style="width: 15%;">
-                  <h3 style="color: #013a01;">Recent Searches</h3>
-                  <hr style="border-top: 1px solid gainsboro; margin-top: 0.5em;">
-  
-                  <!-- <div class="recentSearchCOntent" style="height: 43vh; place-content: center; text-align: center;">
-                      <h3 id="recentSearchHeading" style="color: darkgreen; font-size: 1em; font-weight: 800;">Your Recent Search Would Appear Here!</h3>
-                  </div> -->
-  
-                  <div id="recentSearchesContainer"></div>
-              </div>
-  
-              <div class="searchCategoryCon" style="width: 20%;">
-                  <h3 style="color: #013a01;">Search by Categories</h3>
-                  <hr style="border-top: 1px solid gainsboro; margin-top: 0.5em;">
-  
-                  <div class="searchCategoryContent">
-                      <span id="freshProduceBtn"></span>
-                      <span id="bakedGoodsBtn"></span>
-                      <span id="diaryProductsBtn"></span>
-                      <span id="meatAndSeafoodBtn"></span>
-                      <span id="cannedGoodsBtn"></span>
-                      <span id="frozenFoodsBtn"></span>
-                      <span id="grainsAndPastaBtn"></span>
-                      <span id="snacksBtn"></span>
-                      <span id="beveragesBtn"></span>
-                      <span id="condimentsAndSaucesBtn"></span>
-                      <span id="spicesAndHerbsBtn"></span>
-                      <span id="sweetsAndDesertsBtn"></span>
-                  </div>
-              </div>
-  
-              <div class="recommendedSearchCon" style="width: 65%;">
-                  <h3 style="color: #013a01;">Recommended Searches</h3>
-                  <hr style="border-top: 1px solid gainsboro; margin-top: 0.5em;">
-  
-                  <div id="lowestPriceProductsContainer" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1em; border: 1px solid #fff; margin-top: 1em; overflow: scroll;"></div>
-              </div>
-          </div>
-      </div>
-  
-      <hr style="border-top: 1px solid gainsboro;">
-  
-      <div class="headerNavigationCon">
-          <div class="headerNavigation">
-              <nav>
-                  <ul>
-                      <li><a href="" class="navLink">Products
-                          <i class="fa fa-angle-down"></i>
-                      </a></li>
-                      <li><a href="" class="navLink">Whats new</a></li>
-                      <li><a href="" class="navLink">Delivery</a></li>
-                      <li><a href="" class="navLink">Deals and Offers
-                          <i class="fa fa-angle-down"></i>
-                      </a></li>
-                      <li><a href="" class="navLink">Help and Support</a></li>
-                  </ul>
-              </nav>
-          </div>
-  
-          <div class="headerUtilityCon">
-              <a href="" class="utilityLink">Returns</a>
-              <a href="" class="utilityLink">FAQs</a>
-              <a href="" class="utilityLink">
-                  <i class="fa fa-envelope-o"></i> Email Support
-              </a>
-          </div>
-      </div>
+                    <p class="locationParagraph">Delivery to <br> <span class="locationAbuDhabi">Location</span></p>
+                </div>
+            </div>
+
+            <div id="originalParentId">
+                <div id="headerSearchCon">
+                    <div id="searchForm">
+                        <input type="text" id="searchInput" placeholder="Search your products, Categories or Brands" >
+                        <span class="searchBtn">
+                            <i class="fa fa-search" style="font-size: 17px;"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div id="headerCartandProfileCon">
+                <div class="cartCont">
+                    <a>
+                        <div class="cartCon">
+                            <i class="fa fa-shopping-basket" style="font-size: 20px;"></i>
+                            <span class="zero" id="zero">0</span>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="profileBtnCon">
+                    <button id="ProfileBtn" data-tooltip="hello" class="profile">
+                        <span>
+                            <img src="../img/profile.svg" alt="">
+                        </span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile search input -->
+        <div id="mobileSearchInputCon">
+            <!-- search input will be displayed here -->
+        </div>
+
+        <!-- Modal -->
+        <div id="myModal" class="modal">
+            <div class="modal-content" id="modal-content" style="display: flex; flex-direction: column;">
+                <div id="emailAndCloseBtn">
+                    <span id="getEmail"></span>
+                    <span id="closeBtn" class="close">&times;</span>
+                </div>
+                <div class="profileContainer">
+                    <!-- Profile Button -->
+                    <button id="changeProfileBtn" class="profile camera">
+                        <i class="fa fa-camera"></i>
+                    </button>
+
+                    <!-- Hidden file input (this will open the file explorer) -->
+                    <input type="file" id="fileInput" name="images[]" accept="image/*" />
+                    <p id="upload-status"></p>
+
+                    <!-- Display Profile Picture -->
+                    <img id="profilePic" src="../img/profile.svg" src="" alt="Profile Picture">
+                </div>
+
+                <p id="userName"></p>
+
+                <button type="button" id="signOutBtn">Sign Out</button>
+            </div>
+        </div>
+
+        <!-- <div id="searchProductDropDownCon"> -->
+            <div id="productList">
+                
+            </div>
+        <!-- </div> -->
+
+        <div id="productDropDownCon">
+            <div id="productDropDown">
+                <div class="recentSearchCon">
+                    <h3 style="color: #013a01;">Recent Searches</h3>
+                    <hr style="border-top: 1px solid gainsboro; margin-top: 0.5em;">
+
+                    <!-- <div class="recentSearchCOntent" style="height: 43vh; place-content: center; text-align: center;">
+                        <h3 id="recentSearchHeading" style="color: darkgreen; font-size: 1em; font-weight: 800;">Your Recent Search Would Appear Here!</h3>
+                    </div> -->
+
+                    <div id="recentSearchesContainer"></div>
+                </div>
+
+                <div class="searchCategoryCon">
+                    <h3 style="color: #013a01;">Search by Categories</h3>
+                    <hr style="border-top: 1px solid gainsboro; margin-top: 0.5em;">
+
+                    <div class="searchCategoryContent">
+                        <span id="freshProduceBtn"></span>
+                        <span id="bakedGoodsBtn"></span>
+                        <span id="diaryProductsBtn"></span>
+                        <span id="meatAndSeafoodBtn"></span>
+                        <span id="cannedGoodsBtn"></span>
+                        <span id="frozenFoodsBtn"></span>
+                        <span id="grainsAndPastaBtn"></span>
+                        <span id="snacksBtn"></span>
+                        <span id="beveragesBtn"></span>
+                        <span id="condimentsAndSaucesBtn"></span>
+                        <span id="spicesAndHerbsBtn"></span>
+                        <span id="sweetsAndDesertsBtn"></span>
+                    </div>
+                </div>
+
+                <div class="recommendedSearchCon">
+                    <h3 style="color: #013a01;">Recommended Searches</h3>
+                    <hr style="border-top: 1px solid gainsboro; margin-top: 0.5em;">
+
+                    <div id="lowestPriceProductsContainer"></div>
+                </div>
+            </div>
+        </div>
+
+        <hr style="border-top: 1px solid gainsboro;" class="header-hr">
+
+        <div class="headerNavigationCon" id="headerNavigationCon">
+            <div class="headerNavigation">
+                <nav>
+                    <ul>
+                        <li><a href="" class="navLink">Products
+                            <i class="fa fa-angle-down"></i>
+                        </a></li>
+                        <li><a href="" class="navLink">Whats new</a></li>
+                        <li><a href="" class="navLink">Delivery</a></li>
+                        <li><a href="" class="navLink">Deals and Offers
+                            <i class="fa fa-angle-down"></i>
+                        </a></li>
+                        <li><a href="" class="navLink">Help and Support</a></li>
+                    </ul>
+                </nav>
+            </div>
+
+            <div class="headerUtilityCon">
+                <a href="" class="utilityLink">Returns</a>
+                <a href="" class="utilityLink">FAQs</a>
+                <a href="" class="utilityLink">
+                    <i class="fa fa-envelope-o"></i> Email Support
+                </a>
+            </div>
+        </div>
     </header>
 
     <main>
-      <div class="cart-container">
+      <div id="cart-container">
         <div class="cart-content-container">
           <img src="../img/bcart.png" alt="" class="bretil-cart-img">
 
@@ -178,119 +199,150 @@
           <button class="btn btn-primary" id="startShoppingBtn">Start Shopping</button>
         </div>
       </div>
+
+        <div id="deliveryPaymentAndOrderCon">
+            <div class="deliveryAndPaymentCon">
+                <div class="deliveryCon">
+                    <div class="delivery-edit-con">
+                        <h2 class="delivery-information">Delivery information</h2>
+    
+                        <button id="edit">
+                            <img src="../img/edit.svg" alt=""> Edit
+                        </button>
+                    </div>
+
+                    <hr style="border-top: 1px solid gainsboro;">
+
+                    <div class="delivery-details-con">
+                        <img src="../img/map.svg" class="map" alt="">
+
+                        <div class="deliveryInput">
+                            <h3 class="deliveryTo">Delivery to</h3>
+
+                            <textarea id="address" placeholder="Enter your delivery address" required></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="paymentCon">
+                    <div class="delivery-edit-con">
+                        <h2 class="delivery-information">Payment Method</h2>
+                    </div>
+
+                    <hr style="border-top: 1px solid gainsboro;">
+
+                    <div class="payment-information">
+                        <h3>Payment Method is Currently Unavailable</h3>
+                        <!-- <form id="payment-form">
+                          <div class="payment-method">
+                            <label>Select Payment Method:</label>
+                            <div class="payment-option">
+                              <input type="radio" id="paystack" name="payment-method" value="paystack">
+                              <label for="paystack">Paystack</label>
+                            </div>
+                            <div class="payment-option">
+                              <input type="radio" id="credit-card" name="payment-method" value="credit-card">
+                              <label for="credit-card">Credit/Debit Card</label>
+                            </div>
+                            <div class="payment-option">
+                              <input type="radio" id="cash-on-delivery" name="payment-method" value="cash-on-delivery">
+                              <label for="cash-on-delivery">Cash on Delivery</label>
+                            </div>
+                          </div>
+                          <div class="promo-code">
+                            <label for="promo-code">Enter Promo Code (if any):</label>
+                            <input type="text" id="promo-code" name="promo-code" placeholder="Promo Code">
+                          </div>
+                          <button type="submit" id="apply-promo">Apply Promo</button>
+                        </form> -->
+                    </div>
+                      
+                </div>
+
+            </div>
+
+            <div class="orderSummaryCon">
+                <h2 class="orderSummary">Order Summary</h2>
+
+                <hr style="border-top: 1px solid gainsboro;">
+
+                <div class="productOrderSummaryCon">
+                    <div id="productDetailsCon"></div>
+
+                    <div id="productPaymentCon">
+                        <div style="line-height: 2.5; color: gray;">
+                            <p class="sum sub-total">Subtotal <span id="subtotal">₦0.00</span></p>
+                            <p class="sum deliveryFee">Delivery fee <span id="delivery-fee">₦500.00</span></p>
+                        </div>
+
+                        <hr style="border-top: 1px solid gainsboro; margin-bottom: 1.5em;">
+
+                        <div>
+                            <p class="sum total">Total <span id="total">₦0.00</span></p>
+                            <button id="pay-now">Confirm Order</button>
+                        </div>
+                    </div>
+                </div>
+            </div>    
+            
+            <!-- Loading indicator container -->
+            <div id="loading" class="loadingIndicator">
+                <div class="spinner"></div>
+            </div>
+
+            <div id="productAddedModal" class="product-added-modal">
+                <div class="product-added-modal-content">
+                    <!-- <h2>Product Added to Cart</h2> -->
+                    <p></p> <!-- This will display the product name/message dynamically -->
+                    <button id="closeModalBtn">×</button>
+                </div>
+            </div> 
+        </div>
     </main>
 
-    <footer>
-      <div class="mainFooterCon">
-          <div class="footerPaymentCon">
-              <div class="efficientDeliveryCon">
-                  <img src="../img/Blogo.png" width="30%" class="footerLogo" alt="">
-
-                  <p class="efficientDeliveryParagraph">Get the freshest groceries delivered right to <br> your home. Quick, efficient delivery to you.</p>
-              </div>
-
-              <div class="acceptedPaymentCon">
-                  <p class="paymentParagraph">Our Accepted Payments</p>
-
-                  <div class="paymentImgCon">
-                      <img src="../img/mastercard.png" class="paymentImg" alt="">
-                      <img src="../img/visa.jpeg" class="paymentImg" alt="">
-                      <img src="../img/verve.png" class="paymentImg" alt="">
-                  </div>
-              </div>
-          </div>
-
-          <div class="footerMainLinksCon">
-              <div class="footerMainLinks">
-                  <p class="footerParagraph">Department</p>
-
-                  <div class="footerLinksCon">
-                      <a class="footerLinks" href="">Fashion</a>
-                      <a class="footerLinks" href="">Education Product</a>
-                      <a class="footerLinks" href="">Frozen Food</a>
-                      <a class="footerLinks" href="">Beverages</a>
-                      <a class="footerLinks" href="">Beauty Products</a>
-                  </div>
-              </div>
-
-              <div class="footerMainLinks">
-                  <p class="footerParagraph">About us</p>
-
-                  <div class="footerLinksCon">
-                      <a class="footerLinks" href="">About Bretil Mart</a>
-                      <a class="footerLinks" href="">Careers</a>
-                      <a class="footerLinks" href="">News & Blog</a>
-                      <a class="footerLinks" href="">Press</a>
-                      <a class="footerLinks" href="">Help Center</a>
-                  </div>
-              </div>
-
-              <div class="footerMainLinks">
-                  <p class="footerParagraph">Services</p>
-
-                  <div class="footerLinksCon">
-                      <a class="footerLinks" href="">Gift Card</a>
-                      <a class="footerLinks" href="">Mobile App</a>
-                      <a class="footerLinks" href="">Shipping Delivery</a>
-                      <a class="footerLinks" href="">Order Pickup</a>
-                  </div>
-              </div>
-
-              <div class="footerMainLinks">
-                  <p class="footerParagraph">Help</p>
-
-                  <div class="footerLinksCon">
-                      <a class="footerLinks" href="">Shopcart Help</a>
-                      <a class="footerLinks" href="">Returns</a>
-                      <a class="footerLinks" href="">Track Orders</a>
-                      <a class="footerLinks" href="">Contact us</a>
-                  </div>
-              </div>
-
-              <div class="footerMainLinks">
-                  <p class="footerParagraph">Contact</p>
-
-                  <div class="footerLinksCon">
-                      <a class="footerLinks" href="tel:07037154085">
-                          <i class="fa fa-phone footerIcon"></i>
-                          07037154085
-                      </a>
-
-                      <a class="footerLinks" href="">
-                          <i class="fa fa-envelope footerIcon"></i>
-                          bretilmart@gmail.com
-                      </a>
-
-                      <a class="footerLinks" href="">
-                          <img src="../img/footer-location.svg" class="footerIcon" alt="">
-                          <p>24, Anishere road, <br> Lagos</p>
-                      </a>
-                  </div>
-              </div>
-          </div>
-      </div>
-
-      <div class="footerCopyrightCon">
-          <div class="otherFooterLinksCon">
-              <a href="" class="otherFooterLinks">
-                  <i class="fa fa-gift gift"></i> Gift Cards
-              </a>
-
-              <a href="" class="otherFooterLinks">
-                  <i class="fa fa-question question"></i>Help Center
-              </a>
-          </div>
-
-          <div class="copyRight">
-              &copy; All rights reserved by Bretil Mart 2024
-          </div>
-
-          <div class="termsAndPrivacyLinkCon">
-              <a href="" class="termsAndPrivacyLink">Terms of service</a>
-              <a href="" class="termsAndPrivacyLink">Privacy Policy</a>
-          </div>
-      </div>
-    </footer>
+    <div id="receipt-container" style="display: none;">
+        <h2>
+            Receipt for Your Bretil Mart Purchase
+        </h2>
+        <div>
+            <h3>Merchant Details</h3>
+            <p>Store: Bretil Mart</p>
+        </div>
+        <div>
+            <h3>Customer Information</h3>
+            <p>Delivery Address: <span id="receipt-delivery-address"></span></p>
+            <p>Order Date & Time: <span id="receipt-order-date"></span></p>
+            <p>Order/Transaction ID: <span id="receipt-transaction-id"></span></p>
+        </div>
+        <div>
+            <h3>List of Items</h3>
+            <table border="1" style="width: 100%;">
+                <thead>
+                    <tr>
+                        <th>Product Name</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                    </tr>
+                </thead>
+                <tbody id="receipt-items"></tbody>
+            </table>
+        </div>
+        <div>
+            <h3>Summary</h3>
+            <p>Subtotal: <span id="receipt-subtotal"></span></p>
+            <p>Delivery Fee: <span id="receipt-delivery-fee"></span></p>
+            <p>Total Amount: <span id="receipt-total-amount"></span></p>
+        </div>
+        <div>
+            <h3>Payment Method</h3>
+            <p><span id="receipt-payment-method"></span></p>
+        </div>
+        <div>
+            <h3>Support Contact Info</h3>
+            <p>Email: support@bretilmart.com</p>
+        </div>
+    </div>
+    
   </div>
 
 </body>

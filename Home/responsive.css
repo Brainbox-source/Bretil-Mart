@@ -1,4 +1,1521 @@
-@media screen and (min-width: 1180px) and (max-width: 1366px) {
+:root {
+    --GREEN: #003a00;
+    --ALTERNATEGREEN: darkgreen;
+    --CHERRYWOOD: #640d14;
+    --LIGHTCHERRYWOOD: #7D1820;
+    --DARKCHERRYWOOD: #4B0A10;
+}
+
+@media screen and (max-width: 350px) {
+    .modal {
+        width: 95vw;
+    }
+
+    #organicFoodBtnCon,
+    #hurryUpBtnCon,
+    #heroSectionBtnCon {
+        width: 110px;
+    }
+}
+
+@media screen and (max-width: 576px) {
+    .advertisement,
+    .bretilMartCon,
+    .location-img,
+    .header-hr,
+    /* .headerNavigationCon, */
+    /* #headerSearchCon, */
+    /* main, */
+    .provisionSection,
+    .clientFeedbackSection,
+    /* .searchByCategoriesSection, */
+    /* .limitedProductsSection, */
+    /* .todayBestDealsSection, */
+    /* .shopByBrandsSection, */
+    /* .bestSellingPrductsSection, */
+    /* .FAQsSection, */
+    .laptopServiceDescription,
+    footer {
+        display: none;
+    }
+
+    .mainDashboard {
+        width: 95vw;
+        /* border: 1px solid #000; */
+        /* margin: auto; */
+    }
+
+    header {
+        border: 1px solid #fff;
+    }
+
+    .primaryHeader {
+        /* display: block; */
+        /* align-items: center; */
+        /* justify-content: space-between; */
+        /* padding: 0.5em 0; */
+        /* position: relative; */
+        /* border: 1px solid purple; */
+    }
+
+    #headerLogoAndLocationCon {
+        /* display: flex;
+        align-items: center;
+        justify-content: start; */
+        gap: 1em;
+        /* border: 1px solid #f00; */
+        width: 100%;
+    }
+
+    .locationCon {
+        /* display: flex; */
+        /* align-items: center; */
+        gap: 1em;
+        /* border: 1px solid purple; */
+    }
+
+    .hamburger-menu {
+        cursor: pointer;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 4px;
+        width: 40px;
+        height: 40px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.136);
+        /* background-color: red; */
+        /* border: 1px solid green; */
+        /* padding: 0.2em 0.5em; */
+        border-radius: 50%;
+        /* margin: 20px; */
+    }
+      
+    .hamburger-menu span {
+        height: 3px;
+        background-color: var(--GREEN);
+        width: 50%;
+        transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+
+    #headerCartandProfileCon {
+        /* display: flex;
+        align-items: center;
+        justify-content: end; */
+        gap: 0.5em;
+        /* border: 1px solid #00f; */
+        width: 100%;
+    }
+
+    #mobileSearchInputCon {
+        display: block;
+        /* border: 1px solid #000; */
+        margin: 0.2em 0 1.2em 0;
+    }
+
+    .searchBtn {
+        left: 5.8%;
+    }
+
+    .headerNavigationCon {
+        position: absolute;
+        top: 48%;
+        left: -600px;
+        width: 100%;
+        height: 350px;
+        background-color: #fff;
+        transition: left 0.5s ease;
+        /* border: 1px solid rgba(220, 220, 220, 0.881); */
+        box-shadow: 0.5px 0 5px rgba(0, 0, 0, 0.2);
+        overflow-y: auto;
+        padding: 1em 1em;
+        text-align: center;
+      }
+
+    .menu-active {
+        left: 0;
+      }
+      
+      .hamburger-active span:nth-child(1) {
+        transform: rotate(45deg) translate(5px, 5px);
+      }
+      
+      .hamburger-active span:nth-child(2) {
+        opacity: 0;
+      }
+      
+      .hamburger-active span:nth-child(3) {
+        transform: rotate(-45deg) translate(5px, -5px);
+      }
+
+      #headerNavigationCon.menu-active {
+        display: block; /* Menu becomes visible when active */
+        opacity: 1; /* Make it fully visible */
+        transform: translateY(0); /* Move the menu to its original position */
+      }
+      
+      #hamburger-menu.hamburger-active {
+        /* Optional: Style the hamburger icon when active (e.g., animate it) */
+        transform: rotate(90deg); /* Rotate the hamburger icon when active */
+        transition: transform 0.3s ease; /* Smooth hamburger icon rotation */
+      }
+    
+    .headerNavigation  ul {
+        /* display: flex; */
+        flex-direction: column;
+        gap: 2em;
+        /* border: 1px solid #000; */
+    }
+    
+    .navLink {
+        /* color: var(--GREEN); */
+        font-weight: 700;
+        /* font-size: 0.9em; */
+    }
+
+    .headerUtilityCon {
+        display: flex;
+        gap: 1.5em;
+        flex-direction: column;
+        /* border: 1px solid #000; */
+        margin-top: 1.5em;
+    }
+    
+    .utilityLink {
+        font-weight: 700;
+    }
+    
+    .utilityLink:nth-child(3) {
+        padding: 0.8em 0;
+    }
+
+    #productDropDownCon {
+        width: 100vw;
+        overflow: auto;
+    }
+    
+    #productDropDown {
+        /* display: flex; */
+        flex-direction: column;
+        gap: 2em;
+        padding: 1em 2em;
+        width: 95vw;
+        /* background-color: red; */
+        height: 70vh;
+        overflow: auto;
+    }
+
+    .recentSearchCon {
+        width: 100%;
+    }
+
+    /* Recent search item */
+    #recentSearchesContainer .search-result-item {
+        padding: 1.2em 0;
+    }
+
+    .searchCategoryCon {
+        width: 100%;
+    }
+
+    .recommendedSearchCon {
+        width: 100%;
+    }
+
+    #lowestPriceProductsContainer {
+        grid-template-columns: repeat(1, 1fr); 
+    }
+
+    #productList {
+        min-height: 0;
+        height: 70vh;
+        padding: 1em 2em 1em 2em;
+    }
+    
+    .product-grid-container {
+        /* display: grid; */
+        grid-template-columns: repeat(1, 1fr);
+    }
+
+    .heroSection {
+        position: relative;
+        padding: 1.5em 0 1.5em 1em;
+        /* animation: gradientMotion 10s ease infinite; */
+        overflow: hidden; /* Prevent content like the image from spilling out */
+    }
+    
+    .heroSectionContentCon {
+        width: 100%;
+        /* border: 1px solid #000; */
+        z-index: 2;
+    }
+    
+    .freeDelivery {
+        width: 100%;
+        /* font-size: 0.9em; */
+    }
+    
+    .heroHeading {
+        font-size: 1.2em;
+        /* color: #fff;
+        margin: 0.35em 0; */
+    }
+    
+    .serviceDescription {
+        /* color: gainsboro; */
+        font-size: 1.2em;
+        /* line-height: 1.6; */
+    }
+
+    .man-with-basket {
+        position: absolute; /* Position the element relative to heroSection */
+        bottom: 0; /* Align the bottom of the image with the bottom of heroSection */
+        right: 0; /* Align it to the right edge */
+        width: 180px; /* Maintain the defined width */
+        /* border: 1px solid #f00; Keep or remove this as needed */
+        border-bottom-right-radius: 1.8em; /* Match the heroSection radius */
+        /* z-index: 0; Ensure it sits above the background but below other content if needed */
+    }
+
+    .shopCategoriesHeading,
+    .limitedProductsHeading,
+    .todayBestDealsHeading,
+    .shopByBrandHeading,
+    .clientFeedbackHeading {
+        font-size: 0.9em;
+    }
+
+    .allCategories,
+    .viewAll {
+        font-size: 0.85em;
+    }
+
+    .searchByCategoriesSection {
+        margin: 1.5em 0;
+    }
+
+    .searchCategoriesCon {
+        margin-bottom: 1em;
+    }
+
+    #lowStockProductsContainer {
+        display: grid;
+        grid-template-columns: repeat(1, 1fr);
+        gap: 1em;
+    }
+
+    #limitedProcuctsQuantity {
+        /* border: 1px solid #efdf2d; */
+        margin-bottom: 1em;
+    }
+
+    .organicFoodAndBigOfferContainer {
+        display: flex; gap: 1.5em;
+        flex-direction: column;
+    }    
+
+    .organicFoodCon {
+        position: relative;
+        background: linear-gradient(50deg, var(--GREEN), var(--ALTERNATEGREEN), rgb(1, 143, 1), rgb(2, 88, 2), yellowgreen);
+        background-size: 400% 400%;
+        color: #fff;
+        display: flex;
+        /* align-items: ; */
+        padding-left: 1em;
+        padding-top: 1.5em;
+        padding-bottom: 0;
+        border-radius: 1.5em;
+        animation: organicFoodGradientMotion 15s ease infinite;
+        /* width: 70%; */
+    }
+    
+    .organicFoodContentCon {
+        /* border: 1px solid #f00; */
+        margin-top: 0;
+        margin-right: 0;
+        /* backdrop-filter: blur(2px); */
+        width: 100%;
+        z-index: 2;
+        border-bottom-right-radius: 1.5em;
+        /* height: 100%; */
+    }
+    
+    .organicFoodParagraph {
+        font-size: 0.8em;
+        margin-bottom: 0.8em;
+    }
+    
+    .organicFoodHeading {
+        font-size: 1em;
+        margin-bottom: 2.5em;
+    }
+    
+    .pepperImg {
+        position: absolute;
+        /* border: 1px solid #f00; */
+        width: 165px;
+        margin-bottom: 0%;
+        border-bottom-right-radius: 1.5em;
+        right: 0;
+        bottom: 0;
+    }
+    
+    #organicFoodBtnCon {
+        /* width: 10px; */
+        margin: 2em 0;
+        /* display: flex; */
+    }
+    
+    .bigOffer {
+        background-color: darkorange;
+        border-radius: 1.5em;
+        width: 100%;
+        text-align: center;
+        padding-top: 3em;
+    }
+    
+    .bigOfferContentCon {
+        font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    }
+    
+    .bigOfferHeading {
+        font-size: 4em;
+        color: #FFF05A;
+    }
+    
+    .bigOfferParagraph {
+        font-size: 1.6em;
+        color: #FFF05A;
+    }
+
+    .giftImg {
+        display: none;
+    }
+
+    .giftImg2 {
+        display: block;
+        width: 95vw;
+    }
+
+    .hurryUpAndGrabTheOfferCon {
+        display: flex; gap: 1em; margin: 1.5em 0;
+        flex-direction: column;
+    }
+    
+    .hurryUpCon {
+        background: linear-gradient(50deg, var(--CHERRYWOOD), var(--DARKCHERRYWOOD), var(--LIGHTCHERRYWOOD));
+        background-size: 400% 400%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-direction: column;
+        border-radius: 1.5em;
+        padding-left: 1em;
+        width: 95vw;
+        position: relative;
+    }
+
+    .hurryUpParagraph {
+        color: #efdf2d;
+        font-size: 0.8em;
+        margin-bottom: 1em;
+    }
+    
+    .hurryUpContentCon {
+        padding: 0 0 0 0;
+        /* margin-bottom: 0.1em; */
+        /* backdrop-filter: blur(2px); */
+        z-index: 2;
+        /* border: 1px solid #000; */
+        width: 100%;
+    }
+    
+    .hurryUpHeading {
+        color: #fff;
+        line-height: 1.5;
+        font-size: 1em;
+        /* margin: 0 0.5em 0 0; */
+    }
+    
+    #hurryUpBtnCon {
+        /* width: 160px; */
+        margin: 1em 0 0 0;
+        display: flex;
+    }
+    
+    .beefImg {
+        width: 45%;
+        border-bottom-right-radius: 1.5em;
+        border-bottom-left-radius: 1.5em;
+        margin-bottom: 0%;
+        position: absolute;
+        /* top: 0; */
+        /* left: 0; */
+        right: 0;
+        bottom: 0;
+        /* border: 1px solid #0f0; */
+    }
+    
+    .grabTheOfferCon {
+        flex-direction: row-reverse;
+        position: relative;
+        padding: 1em 0;
+    }
+    
+    .appleImg {
+        width: 45%;
+        /* border: 1px solid #f00; */
+        border-bottom-left-radius: 1.5em;
+        margin-bottom: 0%;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+    }
+    
+    .grabTheOfferContentCon {
+        /* border: 1px solid #f00; */
+        padding-right: 2.2em;
+        /* width: 200px; */
+    }
+    
+    .granTheOfferHeading {
+        font-size: 2em;
+        color: var(--LIGHTCHERRYWOOD);
+        margin-bottom: 0.3em;
+    }
+    
+    .offerParagraph {
+        font-weight: 600;
+        font-size: 1em;
+        margin-bottom: 0.8em;
+    }
+    
+    .grabTheOfferLink, .arrow-right {
+        color: #000;
+        /* padding-bottom: 0.15em; */
+        /* margin-bottom: 0.5em; */
+        /* text-decoration: underline; */
+    }
+
+    #productBtns {
+        /* border: 1px solid red; */
+        margin-bottom: 1em;
+        text-align: center;
+        /* display: flex;
+        gap: 0.5em; */
+        overflow: auto;
+    }
+
+    /* General button styling */
+    .product-btn {
+        /* width: 0%; */
+        padding: 10px 20px;
+        /* border: 1px solid #000; */
+        width: 45%;
+        margin-right: 0.5em;
+        margin-bottom: 0.5em;
+        /* display: flex;
+        align-items: center;
+        justify-content: center; */
+    }
+
+    #randomProductsContainer {
+        grid-template-columns: repeat(1, 1fr);
+      }
+
+      .item-details-con h3 {
+        color: var(--GREEN);
+        font-weight: 700;
+        font-size: 0.8em;
+      }
+      
+      .item-price-container p {
+        font-size: 1em;
+        font-weight: 800;
+        color: var(--GREEN);
+      }
+
+      #bestDealProductCon {
+        /* border: 1px solid #000; */
+        margin-bottom: 1em;
+    }
+
+      .cashBackSubscriptionCon {
+        position: relative;
+        /* border: 1px solid #000; */
+        padding: 2em 0 0 1em;
+        margin-bottom: 1em;
+    }
+
+    .cashBackSubscriptionContentCon {
+        /* border: 1px solid #000; */
+        width: 100%;
+        z-index: 2;
+    }
+
+    .cashBackSubscriptionHeading {
+        color: var(--GREEN);
+        font-size: 1.1em;
+        font-weight: 700;
+        margin-bottom: 0.35em;
+    }
+
+    .cashBackSubscriptionParagraph {
+        font-size: 0.9em;
+    }
+    
+    #cashBackSubscriptionBtnCon {
+        width: 160px;
+        margin: 1.2em auto 0.5em auto;
+    }
+    
+    .cashBagImg {
+        position: absolute;
+        margin-bottom: 100%;
+        width: 45%;
+        bottom: 0;
+        top: 0;
+        right: 0;
+        border-top-right-radius: 1.5em;
+        /* border: 1px solid #000; */
+    }
+
+    .shopByBrandsSection {
+        margin: 1.5em 0;
+    }
+
+    .brandsCon {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.8em;
+        margin: 1em 0;
+    }
+
+    .deliveryDescriptionCon {
+        flex-direction: column; 
+        margin: 1.5em 0;       
+    }
+
+    .startShoppingCon,
+    .branchAndWorkersCon {
+        padding: 1em;
+        width: 100%;
+        text-align: center;
+    }
+
+    #startShoppingBtnCon {
+        margin: 2em auto 0 auto;
+    }
+
+    .branchAndWorkersContent {
+        margin-bottom: 0%;
+        gap: 2.8em;
+        /* border: 1px solid #000; */
+        place-content: center;
+    }
+
+    .thirtyThree,
+    .sixteenHundred {
+        font-size: 2.5em;
+    }
+
+    #bestSellingProductsLeftCon {
+        /* display: grid; */
+        grid-template-columns: repeat(1, 1fr);
+    }
+
+    .best-selling-products-con {
+        /* border: 1px solid #000; */
+        /* height: 450px; */
+        /* display: grid; */
+        grid-template-columns: repeat(1, 1fr);
+        /* gap: 1.5em; */
+    }
+
+    .quantity-selector {
+        display: flex;
+        align-items: center;
+        width: 40%; /* Takes less width compared to Add to Cart button */
+        border: 1px solid #ccc;
+        background-color: var(--ALTERNATEGREEN);
+        border-radius: 5px;
+        overflow: hidden;
+    }
+
+    .add-to-cart-btn {
+        width: 60%;
+        /* margin-left: 1em; */
+    }
+
+    .FAQsSection {
+        margin: 2em 0 0 0;
+        display: flex;
+        gap: 1.5em;
+        height: auto;
+        /* border: 1px solid #000; */
+        flex-direction: column;
+    }
+
+    .FAQsImgCon {
+        /* border: 1px solid #000; */
+        width: 100%;
+    }
+    
+    .FAQsContentCon {
+        width: 100%;
+        text-align: center;
+    }
+
+    .faq-question {
+        font-size: 1.2em;
+    }
+    
+    .faq-answer {
+        display: none;
+        font-size: 0.9em;
+        margin-top: 0.6em;
+    }
+
+    .faq-question:after {
+        display: none;
+    }
+
+    .product-added-modal-content {
+        padding: 0.25em 0;
+        gap: 1em;
+        text-align: center;
+    }
+}
+
+@media screen and (min-width: 577px) and (max-width: 920px) {
+    .advertisement,
+    .bretilMartCon,
+    .location-img,
+    .header-hr,
+    /* .headerNavigationCon, */
+    /* #headerSearchCon, */
+    /* main, */
+    .provisionSection,
+    .clientFeedbackSection,
+    /* .searchByCategoriesSection, */
+    /* .limitedProductsSection, */
+    /* .todayBestDealsSection, */
+    /* .shopByBrandsSection, */
+    /* .bestSellingPrductsSection, */
+    /* .FAQsSection, */
+    .laptopServiceDescription,
+    footer {
+        display: none;
+    }
+
+    .mainDashboard {
+        width: 95vw;
+        /* border: 1px solid #000; */
+        /* margin: auto; */
+    }
+
+    header {
+        border: 1px solid #fff;
+    }
+
+    .primaryHeader {
+        /* display: block; */
+        /* align-items: center; */
+        /* justify-content: space-between; */
+        /* padding: 0.5em 0; */
+        /* position: relative; */
+        /* border: 1px solid purple; */
+    }
+
+    #headerLogoAndLocationCon {
+        /* display: flex;
+        align-items: center;
+        justify-content: start; */
+        gap: 1em;
+        /* border: 1px solid #f00; */
+        width: 100%;
+    }
+
+    .locationCon {
+        /* display: flex; */
+        /* align-items: center; */
+        gap: 1em;
+        /* border: 1px solid purple; */
+    }
+
+    .hamburger-menu {
+        cursor: pointer;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 4px;
+        width: 40px;
+        height: 40px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.136);
+        /* background-color: red; */
+        /* border: 1px solid green; */
+        /* padding: 0.2em 0.5em; */
+        border-radius: 50%;
+        /* margin: 20px; */
+    }
+      
+    .hamburger-menu span {
+        height: 3px;
+        background-color: var(--GREEN);
+        width: 50%;
+        transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+
+    #headerCartandProfileCon {
+        /* display: flex;
+        align-items: center;
+        justify-content: end; */
+        gap: 0.5em;
+        /* border: 1px solid #00f; */
+        width: 100%;
+    }
+
+    #mobileSearchInputCon {
+        display: block;
+        /* border: 1px solid #000; */
+        margin: 0.2em 0 1.2em 0;
+    }
+
+    .searchBtn {
+        left: 3.5%;
+    }
+
+    .headerNavigationCon {
+        position: absolute;
+        top: 48%;
+        left: -1000px;
+        width: 100%;
+        height: 450px;
+        background-color: #fff;
+        transition: left 0.5s ease;
+        /* border: 1px solid rgba(220, 220, 220, 0.881); */
+        box-shadow: 0.5px 0 5px rgba(0, 0, 0, 0.2);
+        overflow-y: auto;
+        padding: 1em 1em;
+        text-align: center;
+      }
+
+    .menu-active {
+        left: 0;
+      }
+      
+      .hamburger-active span:nth-child(1) {
+        transform: rotate(45deg) translate(5px, 5px);
+      }
+      
+      .hamburger-active span:nth-child(2) {
+        opacity: 0;
+      }
+      
+      .hamburger-active span:nth-child(3) {
+        transform: rotate(-45deg) translate(5px, -5px);
+      }
+
+      #headerNavigationCon.menu-active {
+        display: block; /* Menu becomes visible when active */
+        opacity: 1; /* Make it fully visible */
+        transform: translateY(0); /* Move the menu to its original position */
+      }
+      
+      #hamburger-menu.hamburger-active {
+        /* Optional: Style the hamburger icon when active (e.g., animate it) */
+        transform: rotate(90deg); /* Rotate the hamburger icon when active */
+        transition: transform 0.3s ease; /* Smooth hamburger icon rotation */
+      }
+    
+    .headerNavigation  ul {
+        /* display: flex; */
+        flex-direction: column;
+        gap: 2em;
+        /* border: 1px solid #000; */
+    }
+    
+    .navLink {
+        /* color: var(--GREEN); */
+        font-weight: 700;
+        /* font-size: 0.9em; */
+    }
+
+    .headerUtilityCon {
+        display: flex;
+        gap: 1.5em;
+        flex-direction: column;
+        /* border: 1px solid #000; */
+        margin-top: 1.5em;
+    }
+    
+    .utilityLink {
+        font-weight: 700;
+    }
+    
+    .utilityLink:nth-child(3) {
+        padding: 0.8em 0;
+    }
+
+    #productDropDownCon {
+        width: 100vw;
+        overflow: auto;
+    }
+    
+    #productDropDown {
+        /* display: flex; */
+        flex-direction: column;
+        gap: 2em;
+        padding: 1em 2em;
+        width: 95vw;
+        /* background-color: red; */
+        height: 70vh;
+        overflow: auto;
+    }
+
+    .recentSearchCon {
+        width: 100%;
+    }
+
+    /* Recent search item */
+    #recentSearchesContainer .search-result-item {
+        padding: 1.2em 0;
+    }
+
+    .searchCategoryCon {
+        width: 100%;
+    }
+
+    .recommendedSearchCon {
+        width: 100%;
+    }
+
+    #lowestPriceProductsContainer {
+        grid-template-columns: repeat(2, 1fr); 
+    }
+
+    #productList {
+        min-height: 0;
+        height: 70vh;
+        padding: 1em 2em 1em 2em;
+    }
+    
+    .product-grid-container {
+        /* display: grid; */
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .heroSection {
+        position: relative;
+        padding: 2.5em 0 4em 2em;
+        /* animation: gradientMotion 10s ease infinite; */
+        overflow: hidden; /* Prevent content like the image from spilling out */
+    }
+    
+    .heroSectionContentCon {
+        width: 100%;
+        /* border: 1px solid #000; */
+        z-index: 2;
+    }
+    
+    .freeDelivery {
+        width: 100%;
+        /* font-size: 0.9em; */
+    }
+    
+    .heroHeading {
+        font-size: 2em;
+        /* color: #fff;
+        margin: 0.35em 0; */
+    }
+    
+    .serviceDescription {
+        /* color: gainsboro; */
+        font-size: 1.6em;
+        /* line-height: 1.6; */
+    }
+
+    .man-with-basket {
+        position: absolute; /* Position the element relative to heroSection */
+        bottom: 0; /* Align the bottom of the image with the bottom of heroSection */
+        right: 0; /* Align it to the right edge */
+        width: 50%; /* Maintain the defined width */
+        /* border: 1px solid #f00; Keep or remove this as needed */
+        border-bottom-right-radius: 1.8em; /* Match the heroSection radius */
+        /* z-index: 0; Ensure it sits above the background but below other content if needed */
+    }
+
+    .shopCategoriesHeading,
+    .limitedProductsHeading,
+    .todayBestDealsHeading,
+    .shopByBrandHeading,
+    .clientFeedbackHeading {
+        font-size: 0.9em;
+    }
+
+    .allCategories,
+    .viewAll {
+        font-size: 0.85em;
+    }
+
+    .searchByCategoriesSection {
+        margin: 1.5em 0;
+    }
+
+    .searchCategoriesCon {
+        margin-bottom: 1em;
+    }
+
+    #lowStockProductsContainer {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1em;
+    }
+
+    #limitedProcuctsQuantity {
+        /* border: 1px solid #efdf2d; */
+        margin-bottom: 1em;
+    }
+
+    .organicFoodAndBigOfferContainer {
+        display: flex; gap: 1.5em;
+        flex-direction: column;
+    }    
+
+    .organicFoodCon {
+        position: relative;
+        background: linear-gradient(50deg, var(--GREEN), var(--ALTERNATEGREEN), rgb(1, 143, 1), rgb(2, 88, 2), yellowgreen);
+        background-size: 400% 400%;
+        color: #fff;
+        display: flex;
+        /* align-items: ; */
+        padding-left: 2.6em;
+        padding-top: 7em;
+        padding-bottom: 0;
+        border-radius: 1.5em;
+        animation: organicFoodGradientMotion 15s ease infinite;
+        /* width: 70%; */
+    }
+    
+    .organicFoodContentCon {
+        /* border: 1px solid #f00; */
+        margin-top: 0;
+        margin-right: 0;
+        /* backdrop-filter: blur(2px); */
+        width: 100%;
+        z-index: 2;
+        border-bottom-right-radius: 1.5em;
+        /* height: 100%; */
+    }
+    
+    .organicFoodParagraph {
+        font-size: 1em;
+        margin-bottom: 0.8em;
+    }
+    
+    .organicFoodHeading {
+        font-size: 1.25em;
+        margin-bottom: 2.5em;
+    }
+    
+    .pepperImg {
+        position: absolute;
+        /* border: 1px solid #f00; */
+        width: 50%;
+        margin-bottom: 0%;
+        border-top-right-radius: 1.5em;
+        border-bottom-right-radius: 1.5em;
+        right: 0;
+        bottom: 0;
+    }
+    
+    #organicFoodBtnCon {
+        /* width: 10px; */
+        margin: 2em 0;
+        /* display: flex; */
+    }
+    
+    .bigOffer {
+        background-color: darkorange;
+        border-radius: 1.5em;
+        width: 100%;
+        text-align: center;
+        padding-top: 3em;
+    }
+    
+    .bigOfferContentCon {
+        font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    }
+    
+    .bigOfferHeading {
+        font-size: 4em;
+        color: #FFF05A;
+    }
+    
+    .bigOfferParagraph {
+        font-size: 1.6em;
+        color: #FFF05A;
+    }
+
+    .giftImg {
+        display: none;
+    }
+
+    .giftImg2 {
+        display: block;
+        width: 70vw;
+        margin: auto;
+    }
+
+    .hurryUpAndGrabTheOfferCon {
+        display: flex; gap: 1em; margin: 1.5em 0;
+        flex-direction: column;
+    }
+    
+    .hurryUpCon {
+        background: linear-gradient(50deg, var(--CHERRYWOOD), var(--DARKCHERRYWOOD), var(--LIGHTCHERRYWOOD));
+        background-size: 400% 400%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-direction: column;
+        border-radius: 1.5em;
+        padding-left: 3em;
+        padding-top: 2em;
+        width: 100%;
+        position: relative;
+    }
+
+    .hurryUpParagraph {
+        color: #efdf2d;
+        font-size: 1em;
+        margin-bottom: 1em;
+    }
+    
+    .hurryUpContentCon {
+        padding: 0 0 0 0;
+        /* margin-bottom: 0.1em; */
+        /* backdrop-filter: blur(2px); */
+        z-index: 2;
+        /* border: 1px solid #000; */
+        width: 100%;
+    }
+    
+    .hurryUpHeading {
+        color: #fff;
+        line-height: 1.5;
+        font-size: 1.5em;
+        /* margin: 0 0.5em 0 0; */
+    }
+    
+    #hurryUpBtnCon {
+        /* width: 160px; */
+        margin: 1em 0 0 0;
+        display: flex;
+    }
+    
+    .beefImg {
+        width: 32%;
+        border-bottom-right-radius: 1.5em;
+        border-bottom-left-radius: 1.5em;
+        margin-bottom: 0%;
+        position: absolute;
+        /* top: 0; */
+        /* left: 0; */
+        right: 0;
+        bottom: 0;
+        /* border: 1px solid #0f0; */
+    }
+    
+    .grabTheOfferCon {
+        flex-direction: row-reverse;
+        position: relative;
+        padding: 3.5em 2em 3.5em 0;
+    }
+    
+    .appleImg {
+        width: 43%;
+        /* border: 1px solid #f00; */
+        border-bottom-left-radius: 1.5em;
+        margin-bottom: 0%;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+    }
+    
+    .grabTheOfferContentCon {
+        /* border: 1px solid #f00; */
+        padding-right: 2.2em;
+        /* width: 200px; */
+    }
+    
+    .granTheOfferHeading {
+        font-size: 2em;
+        color: var(--LIGHTCHERRYWOOD);
+        margin-bottom: 0.3em;
+    }
+    
+    .offerParagraph {
+        font-weight: 600;
+        font-size: 1.2em;
+        margin-bottom: 0.8em;
+    }
+    
+    .grabTheOfferLink, .arrow-right {
+        color: #000;
+        /* padding-bottom: 0.15em; */
+        /* margin-bottom: 0.5em; */
+        /* text-decoration: underline; */
+    }
+
+    #productBtns {
+        /* border: 1px solid red; */
+        margin-bottom: 1em;
+        text-align: center;
+        /* display: flex;
+        gap: 0.5em; */
+        overflow: auto;
+    }
+
+    /* General button styling */
+    .product-btn {
+        /* width: 0%; */
+        padding: 10px 20px;
+        /* border: 1px solid #000; */
+        width: 45%;
+        margin-right: 0.5em;
+        margin-bottom: 0.5em;
+        /* display: flex;
+        align-items: center;
+        justify-content: center; */
+    }
+
+    #randomProductsContainer {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .item-details-con h3 {
+        color: var(--GREEN);
+        font-weight: 700;
+        font-size: 0.8em;
+      }
+      
+      .item-price-container p {
+        font-size: 1em;
+        font-weight: 800;
+        color: var(--GREEN);
+      }
+
+      #bestDealProductCon {
+        /* border: 1px solid #000; */
+        margin-bottom: 1em;
+    }
+
+      .cashBackSubscriptionCon {
+        position: relative;
+        /* border: 1px solid #000; */
+        padding: 8em 0 2em 2.2em;
+        margin-bottom: 1em;
+    }
+
+    .cashBackSubscriptionContentCon {
+        /* border: 1px solid #000; */
+        width: 100%;
+        z-index: 2;
+    }
+
+    .cashBackSubscriptionHeading {
+        color: var(--GREEN);
+        font-size: 1.5em;
+        font-weight: 700;
+        margin-bottom: 0.35em;
+    }
+
+    .cashBackSubscriptionParagraph {
+        font-size: 1.2em;
+    }
+    
+    #cashBackSubscriptionBtnCon {
+        width: 160px;
+        margin: 1.2em 0 0.5em 0;
+    }
+    
+    .cashBagImg {
+        position: absolute;
+        margin-bottom: 100%;
+        width: 45%;
+        bottom: 0;
+        top: 0;
+        right: 0;
+        border-top-right-radius: 1.5em;
+        /* border: 1px solid #000; */
+    }
+
+    .shopByBrandsSection {
+        margin: 1.5em 0;
+    }
+
+    .brandsCon {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 0.8em;
+        margin: 1em 0;
+    }
+
+    .deliveryDescriptionCon {
+        /* flex-direction: column;  */
+        margin: 1.5em 0;       
+    }
+
+    .startShoppingCon,
+    .branchAndWorkersCon {
+        padding: 1em;
+        width: 100%;
+        text-align: center;
+    }
+
+    #startShoppingBtnCon {
+        margin: 2em auto 0 auto;
+    }
+
+    .branchAndWorkersContent {
+        margin-bottom: 0%;
+        gap: 2.8em;
+        /* border: 1px solid #000; */
+        place-content: center;
+    }
+
+    .thirtyThree,
+    .sixteenHundred {
+        font-size: 2.5em;
+    }
+
+    #bestSellingProductsLeftCon {
+        /* display: grid; */
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .best-selling-products-con {
+        /* border: 1px solid #000; */
+        /* height: 450px; */
+        /* display: grid; */
+        grid-template-columns: repeat(1, 1fr);
+        /* gap: 1.5em; */
+    }
+
+    .quantity-selector {
+        display: flex;
+        align-items: center;
+        width: 40%; /* Takes less width compared to Add to Cart button */
+        border: 1px solid #ccc;
+        background-color: var(--ALTERNATEGREEN);
+        border-radius: 5px;
+        overflow: hidden;
+    }
+
+    .add-to-cart-btn {
+        width: 100%;
+        /* margin-left: 1em; */
+    }
+
+    .FAQsSection {
+        margin: 2em 0 0 0;
+        display: flex;
+        gap: 1.5em;
+        height: auto;
+        /* border: 1px solid #000; */
+        flex-direction: column;
+    }
+
+    .FAQsImgCon {
+        /* border: 1px solid #000; */
+        width: 100%;
+    }
+    
+    .FAQsContentCon {
+        width: 100%;
+        /* text-align: center; */
+    }
+
+    .faq-question {
+        font-size: 1.2em;
+    }
+    
+    .faq-answer {
+        display: none;
+        font-size: 0.9em;
+        margin-top: 0.6em;
+    }
+
+    .faq-question:after {
+        /* display: none; */
+    }
+
+    .product-added-modal-content {
+        padding: 0.25em 0;
+        gap: 6em;
+        text-align: center;
+    }
+}
+
+@media screen and (min-width: 921px) and (max-width: 1151px) {
+    .mainDashboard {
+        width: 95vw;
+        /* border: 1px solid #000; */
+    }
+
+    #headerLogoAndLocationCon {
+        gap: 1.5em;
+        /* border: 1px solid #f00; */
+        width: 24%;
+    }
+
+    #headerSearchCon {
+        /* border: 1px solid #0f0; */
+        width: 99%;
+    }
+
+    .heroHeading {
+        font-size: 2.3em;
+    }
+
+    .man-with-basket {
+        width: 450px;
+        /* margin-bottom: -0.8%; */
+    }
+
+    #productDropDown {
+        width: 95vw;
+    }
+
+    .organicFoodCon {
+        align-items: start;
+        padding-top: 3em;
+        padding-left: 1.5em;
+    }
+    
+    .organicFoodContentCon {
+        margin-top: -0.1%;
+        /* margin-right: 0; */
+        z-index: 2;
+        /* border: 1px solid #000; */
+        width: 100%;
+    }
+
+    .pepperImg {
+        width: 350px;
+        margin-bottom: -128.6%;
+    }
+
+    .giftImg {
+        display: none;
+    }
+
+    .giftImg2 {
+        display: block;
+        margin: auto;
+    }
+
+    /* .hurryUpHeading {
+        font-size: 1em;
+    } */
+
+    .hurryUpCon {
+        width: 50%;
+        padding: 0 0 0 1em;
+        position: relative;
+    }
+
+    .beefImg {
+        width: 255px;
+        margin-bottom: 0%;
+        position: absolute;
+        bottom: 0;
+        right: 0;
+    }
+
+    .grabTheOfferCon {
+        position: relative;
+        width: 50%;
+        justify-content: space-between;
+    }
+
+    .grabTheOfferContentCon {
+        /* border: 1px solid #f00; */
+        padding-right: 1em;
+        /* width: 200px; */
+        z-index: 2;
+    }
+
+    .appleImg {
+        width: 285px;
+        margin-bottom: 0%;
+        position: absolute;
+        bottom: 0;
+        /* right: 0; */
+    }
+
+    .branchAndWorkersContent {
+        margin-bottom: 0%;
+    }
+
+    .clientsImgCon {
+        display: flex;
+        gap: 1em;
+        margin-bottom: 2em;
+    }
+
+    .client-one,
+    .client-two {
+        width: 49%;
+        border-radius: 0.8em;
+    }
+
+    .FAQsImgCon {
+        /* border: 1px solid #000; */
+        width: 50%;
+        height: 95%;
+    }
+    
+    .FAQsContentCon {
+        width: 50%;
+    }
+
+    .faq-question {
+        font-size: 1em;
+    }
+    
+    .faq-answer {
+        /* display: none; */
+        font-size: 0.9em;
+    }
+
+    .mainFooterCon {
+        /* border: 1px solid #f00; */
+        margin: 2em 0;
+        display: flex;
+        justify-content: space-between;
+        gap: 0;
+    }
+
+    .footerPaymentCon {
+        /* border: 1px solid #000; */
+        width: 25%;
+        padding-right: 0.5em;
+    }
+
+    .footerMainLinksCon {
+        /* border: 1px solid #000; */
+        justify-content: end;
+        width: 75%;
+        gap: 1em;
+    }
+
+    .footerLinks {
+        font-size: 0.9em;
+    }
+}
+
+@media screen and (min-width: 1151px) and (max-width: 1366px) {
     .mainDashboard {
         width: 95vw;
         /* border: 1px solid #000; */
@@ -20,6 +1537,7 @@
     .organicFoodContentCon {
         margin-top: -10em;
         margin-right: -5.5em;
+        z-index: 2;
     }
 
     .pepperImg {
@@ -40,12 +1558,69 @@
     } */
 
     .beefImg {
-        width: 305px;
-        margin-bottom: -1.3%;
+        width: 250px;
+        margin-bottom: 0%;
+        position: absolute;
+        bottom: 0;
+        right: 0;
     }
 
     .appleImg {
-        width: 410px;
-        margin-bottom: -16.5%;
+        width: 400px;
+        margin-bottom: 0%;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+    }
+
+    .hurryUpCon {
+        width: 50%;
+        padding: 0 0 0 1em;
+        position: relative;
+    }
+
+    .grabTheOfferCon {
+        position: relative;
+        width: 50%;
+        justify-content: space-between;
+    }
+
+    .grabTheOfferContentCon {
+        /* border: 1px solid #f00; */
+        padding-right: 1em;
+        /* width: 200px; */
+        z-index: 2;
+    }
+
+    .clientsImgCon {
+        /* display: flex; */
+        gap: 1.5em;
+    }
+
+    .client-one,
+    .client-two {
+        width: 48.9%;
+        border-radius: 0.8em;
+    }
+
+    .mainFooterCon {
+        /* border: 1px solid #f00; */
+        margin: 2em 0;
+        display: flex;
+        justify-content: space-between;
+        gap: 0;
+    }
+
+    .footerPaymentCon {
+        /* border: 1px solid #000; */
+        width: 25%;
+        padding-right: 0.5em;
+    }
+
+    .footerMainLinksCon {
+        /* border: 1px solid #000; */
+        justify-content: end;
+        width: 75%;
+        gap: 2em;
     }
 }

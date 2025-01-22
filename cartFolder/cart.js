@@ -21,9 +21,10 @@ const fileInput = document.getElementById("fileInput");
 const profilePic = document.getElementById("profilePic");
 const emailElement = document.getElementById("getEmail");
 const nameElement = document.getElementById("userName");
-const faqItems = document.querySelectorAll('.faq-item');
 const searchInput = document.getElementById('searchInput');
 console.log(searchInput);
+
+import { db, doc, getDoc, setDoc, updateDoc, deleteDoc } from '../firebaseConfig.js';
 
 // // adding the category buttons
 import freshProduce from "../components/button.js";
@@ -36,13 +37,13 @@ import diaryProducts from "../components/button.js";
 diaryProductsBtn.appendChild(diaryProducts("Diary Products", 'green', 'white'));
 
 import meatAndSeafood from "../components/button.js";
-meatAndSeafoodBtn.appendChild(meatAndSeafood("Meat and Seafood", '#920b92', 'white'));
+meatAndSeafoodBtn.appendChild(meatAndSeafood("Meat and Seafood", '#460032', 'white'));
 
 import cannedGoods from "../components/button.js";
 cannedGoodsBtn.appendChild(cannedGoods("Canned Goods", '#7D1820', 'white'));
 
 import frozenFoods from "../components/button.js";
-frozenFoodsBtn.appendChild(frozenFoods("Frozen Foods", '#2b2be8', 'white'));
+frozenFoodsBtn.appendChild(frozenFoods("Frozen Foods", 'darkorange', 'white'));
 
 import grainsAndPasta from "../components/button.js";
 grainsAndPastaBtn.appendChild(grainsAndPasta("Grains and Pasta", '#7b7106', 'white'));
@@ -51,7 +52,7 @@ import snacks from "../components/button.js";
 snacksBtn.appendChild(snacks("Snacks", '#013f01', 'white'));
 
 import beverages from "../components/button.js";
-beveragesBtn.appendChild(beverages("Beverages", '#920b92', 'white'));
+beveragesBtn.appendChild(beverages("Beverages", '#460032', 'white'));
 
 import condimentsAndSauces from "../components/button.js";
 condimentsAndSaucesBtn.appendChild(condimentsAndSauces("Condiments", '#7D1820', 'white'));
@@ -244,17 +245,17 @@ if (signOutBtn) {
 
 
 // Profile Picture Upload
-changeProfileBtn.onclick = () => fileInput.click();
-fileInput.onchange = (event) => {
-    const file = event.target.files[0];
-    if (file) {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            profilePic.src = e.target.result;
-        };
-        reader.readAsDataURL(file);
-    }
-};
+// changeProfileBtn.onclick = () => fileInput.click();
+// fileInput.onchange = (event) => {
+//     const file = event.target.files[0];
+//     if (file) {
+//         const reader = new FileReader();
+//         reader.onload = (e) => {
+//             profilePic.src = e.target.result;
+//         };
+//         reader.readAsDataURL(file);
+//     }
+// };
 
 // Update delivery location
 function updateDeliveryLocation(location) {
@@ -554,16 +555,16 @@ searchInput.addEventListener('blur', () => {
 // Display dropdown when clicking the search input
 searchInput.addEventListener('click', () => {
     const productDropDownCon = document.getElementById('productDropDownCon');
-    const headerSearchCon = document.getElementById('headerSearchCon');
+    const originalParentId = document.getElementById('originalParentId');
     const headerLogoAndLocationCon = document.getElementById('headerLogoAndLocationCon');
     const headerCartandProfileCon = document.getElementById('headerCartandProfileCon');
 
     // Show dropdown after a slight delay
     setTimeout(() => {
         productDropDownCon.style.display = 'block';
-        headerSearchCon.style.width = '100%';
-        headerSearchCon.style.marginTop = '1.4em';
-        headerSearchCon.style.marginBottom = '1em';
+        originalParentId.style.width = '100%';
+        originalParentId.style.marginTop = '1.4em';
+        originalParentId.style.marginBottom = '1em';
         headerLogoAndLocationCon.style.display = 'none';
         headerCartandProfileCon.style.display = 'none';
     }, 200);
@@ -572,7 +573,7 @@ searchInput.addEventListener('click', () => {
 // Close the dropdown when clicking outside
 document.addEventListener('click', (event) => {
     const productDropDownCon = document.getElementById('productDropDownCon');
-    const headerSearchCon = document.getElementById('headerSearchCon');
+    const originalParentId = document.getElementById('originalParentId');
     const headerLogoAndLocationCon = document.getElementById('headerLogoAndLocationCon');
     const headerCartandProfileCon = document.getElementById('headerCartandProfileCon');
 
@@ -580,13 +581,13 @@ document.addEventListener('click', (event) => {
     if (
         !searchInput.contains(event.target) && 
         !productDropDownCon.contains(event.target) &&
-        !headerSearchCon.contains(event.target) // Prevent closing when clicking inside the search bar area
+        !originalParentId.contains(event.target) // Prevent closing when clicking inside the search bar area
     ) {
         productDropDownCon.style.display = 'none';
 
         // Reset UI to default state
-        headerSearchCon.style.width = '70%'; // Restore the original width of the search container
-        headerSearchCon.style.marginTop = '0'; // Remove the margin
+        originalParentId.style.width = '70%'; // Restore the original width of the search container
+        originalParentId.style.marginTop = '0'; // Remove the margin
         headerLogoAndLocationCon.style.display = 'flex'; // Show the header logo and location
         headerCartandProfileCon.style.display = 'flex'; // Show the cart and profile section
     }
@@ -606,98 +607,99 @@ function updateCartItemCount(cartData) {
     }
 }
 
-async function addToCart(productId, productName, productPrice, quantity) {
-    const loader = document.getElementById("loader"); // Assuming loader has this ID
+// async function addToCart(productId, productName, productPrice, quantity) {
+//     const loader = document.getElementById("loader"); // Assuming loader has this ID
 
-    // Check if loader exists before trying to manipulate its style
-    if (loader) {
-        loader.style.display = "block"; // Show the loader before starting the cart update
-    }
+//     // Check if loader exists before trying to manipulate its style
+//     if (loader) {   
+//         loader.style.display = "block"; // Show the loader before starting the cart update
+//     }
 
-    try {
-        const user = auth.currentUser;
+//     try {
+//         const user = auth.currentUser;
 
-        if (!user) {
-            console.log("User is not logged in. Redirect to login page.");
-            return;
-        }
+//         if (!user) {
+//             console.log("User is not logged in. Redirect to login page.");
+//             return;
+//         }
 
-        // Reference to the user's cart in Firestore
-        const cartRef = doc(db, "carts", user.uid);
+//         // Reference to the user's cart in Firestore
+//         const cartRef = doc(db, "carts", user.uid);
 
-        // Get the current cart
-        const cartDoc = await getDoc(cartRef);
+//         // Get the current cart
+//         const cartDoc = await getDoc(cartRef);
 
-        let cartData = cartDoc.exists() ? cartDoc.data().items : [];
+//         let cartData = cartDoc.exists() ? cartDoc.data().items : [];
 
-        // Get the product details from session storage
-        const products = JSON.parse(sessionStorage.getItem('products')) || [];
-        const product = products.find(item => item.id === productId);
+//         // Get the product details from session storage
+//         const products = JSON.parse(sessionStorage.getItem('products')) || [];
+//         const product = products.find(item => item.id === productId);
 
-        if (!product) {
-            console.error('Product not found!');
-            return;
-        }
+//         if (!product) {
+//             console.error('Product not found!');
+//             return;
+//         }
 
-        // Check if the quantity to add exceeds the available stock
-        if (quantity > product.quantity) {
-            showModal(`Sorry! Only ${product.quantity} of this product is available.`);
-            return;
-        }
+//         // Check if the quantity to add exceeds the available stock
+//         if (quantity > product.quantity) {
+//             showModal(`Sorry! Only ${product.quantity} of this product is available.`);
+//             return;
+//         }
 
-        // Check if product already exists in the cart
-        const productIndex = cartData.findIndex(item => item.id === productId);
+//         // Check if product already exists in the cart
+//         const productIndex = cartData.findIndex(item => item.id === productId);
 
-        if (productIndex > -1) {
-            // Product exists, update quantity
-            const currentQuantityInCart = cartData[productIndex].quantity;
-            const newQuantity = currentQuantityInCart + quantity;
+//         if (productIndex > -1) {
+//             // Product exists, update quantity
+//             const currentQuantityInCart = cartData[productIndex].quantity;
+//             const newQuantity = currentQuantityInCart + quantity;
 
-            if (newQuantity > product.quantity) {
-                showModal(`You can only add ${product.quantity - currentQuantityInCart} more of this product.`);
-                return;
-            }
+//             if (newQuantity > product.quantity) {
+//                 showModal(`You can only add ${product.quantity - currentQuantityInCart} more of this product.`);
+//                 return;
+//             }
 
-            cartData[productIndex].quantity = newQuantity;
-        } else {
-            // Product doesn't exist, add new product to the cart
-            cartData.push({
-                id: productId,
-                name: productName,
-                price: `${productPrice.replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`,
-                quantity: quantity
-            });
-        }
+//             cartData[productIndex].quantity = newQuantity;
+//         } else {
+//             // Product doesn't exist, add new product to the cart
+//             cartData.push({
+//                 id: productId,
+//                 name: productName,
+//                 price: `${productPrice.replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`,
+//                 quantity: quantity,
+//                 picture: product.pictures && product.pictures.length > 0 ? product.pictures[0] : 'default-image.jpg' // Add product picture
+//             });
+//         }
 
-        // Update Firestore with the new cart data
-        await setDoc(cartRef, { items: cartData });
+//         // Update Firestore with the new cart data
+//         await setDoc(cartRef, { items: cartData });
 
-        // Save to localStorage for faster UI updates
-        localStorage.setItem("cart", JSON.stringify(cartData));
+//         // Save to localStorage for faster UI updates
+//         localStorage.setItem("cart", JSON.stringify(cartData));
 
-        // Update the cart item count in the UI
-        updateCartItemCount(cartData);
+//         // Update the cart item count in the UI
+//         updateCartItemCount(cartData);
 
-        // Show modal that the product has been added
-        showModal("Product Added Successfully!");
+//         // Show modal that the product has been added
+//         showModal("Product Added Successfully!");
 
-        console.log("Product added to cart!", cartData);
-    } catch (error) {
-        console.error("Error adding product to cart:", error);
+//         console.log("Product added to cart!", cartData);
+//     } catch (error) {
+//         console.error("Error adding product to cart:", error);
 
-        // Hide the loader in case of error
-        if (loader) {
-            loader.style.display = "none";
-        }
-    } finally {
-        // Ensure the loader is hidden in case of any issues
-        if (loader) {
-            loader.style.display = "none"; // Hide the loading indicator
-        }
+//         // Hide the loader in case of error
+//         if (loader) {
+//             loader.style.display = "none";
+//         }
+//     } finally {
+//         // Ensure the loader is hidden in case of any issues
+//         if (loader) {
+//             loader.style.display = "none"; // Hide the loading indicator
+//         }
 
-        toggleLoading(false); // If you're using a custom function for this
-    }
-}
+//         toggleLoading(false); // If you're using a custom function for this
+//     }
+// }
 
 // Real-time listener to sync Firestore changes with localStorage
 function setupCartSyncPoll() {
@@ -778,191 +780,692 @@ function loadCartFromLocalStorage() {
 
 window.addEventListener('load', loadCart);
 
-async function clearCartAfterCheckout() {
-    const user = auth.currentUser;
+// Optimized Function to check if the cart is empty
+async function checkCartStatus() {
+    const cartContainer = document.getElementById("cart-container");
+    const deliveryPaymentAndOrderCon = document.getElementById("deliveryPaymentAndOrderCon");
 
-    if (!user) {
-        console.log("User is not logged in.");
+    // Get the cart data from localStorage
+    const localCartData = localStorage.getItem("cart");
+    const hasLocalCartItems = localCartData && JSON.parse(localCartData).length > 0;
+
+    // Check Firestore cart data
+    let hasFirestoreCartItems = false;
+
+    const user = auth.currentUser;
+    if (user) {
+        const cartRef = doc(db, "carts", user.uid);
+
+        try {
+            const cartDoc = await getDoc(cartRef);
+            if (cartDoc.exists()) {
+                const firestoreCartData = cartDoc.data().items;
+                hasFirestoreCartItems = firestoreCartData && firestoreCartData.length > 0;
+
+                // Sync Firestore cart with localStorage
+                localStorage.setItem("cart", JSON.stringify(firestoreCartData));
+                updateCartItemCount(firestoreCartData);
+
+                console.log("Cart synced from Firestore.");
+            } else {
+                console.log("No cart found in Firestore. Clearing localStorage...");
+                localStorage.removeItem("cart");
+                updateCartItemCount([]);
+            }
+        } catch (error) {
+            console.error("Error checking Firestore cart:", error);
+        }
+    }
+
+    // Determine the final cart status based on localStorage or Firestore
+    const hasCartItems = hasLocalCartItems || hasFirestoreCartItems;
+
+    if (cartContainer) {
+        cartContainer.style.display = hasCartItems ? "none" : "block";
+    }
+
+    if (deliveryPaymentAndOrderCon) {
+        deliveryPaymentAndOrderCon.style.display = hasCartItems ? "flex" : "none";
+    }
+}
+
+// Call checkCartStatus initially to set the correct state on page load
+checkCartStatus();
+
+// Setup Firestore sync to poll every 10 seconds
+setupCartSyncPoll();
+
+// Function to enable and style textarea when edit is clicked
+function enableAddressEdit() {
+    const addressInput = document.getElementById("address");
+    const editButton = document.getElementById("edit");
+
+    if (!addressInput || !editButton) {
+        console.error("Address input or edit button not found.");
         return;
     }
 
-    const cartRef = doc(db, "carts", user.uid);
+    // Initially disable textarea and hide border
+    addressInput.disabled = true;
+    addressInput.style.border = "none";
+    addressInput.style.outline = "none";
+    addressInput.style.backgroundColor = "#fff"; // Light gray background to indicate disabled
+    addressInput.style.color = "#003a00"; 
+    // addressInput.style.border = "1px solid gainsboro"; 
+    addressInput.style.fontSize = "1.2em"; 
+    addressInput.style.resize = "none"; // Disable resizing
+    addressInput.style.width = "500px"; // Set default width
+    addressInput.style.height = "40px"; // Set default height
+    addressInput.style.placeContent = "center";
+
+    // Add click event listener to enable editing
+    editButton.addEventListener("click", () => {
+        addressInput.disabled = false;
+        // addressInput.style.border = "1"; // Show border when enabled
+        addressInput.style.backgroundColor = "#fff"; // Change background to white
+        addressInput.focus(); // Automatically focus on the textarea
+
+        // Add click-away event
+        document.addEventListener("click", function handleClickAway(event) {
+            if (!addressInput.contains(event.target) && event.target !== editButton) {
+                addressInput.disabled = true;
+                addressInput.style.border = "none";
+                // addressInput.style.backgroundColor = "#f9f9f9"; // Revert background to indicate disabled
+                document.removeEventListener("click", handleClickAway); // Remove the event listener after execution
+            }
+        });
+    });
+}
+
+enableAddressEdit();
+
+// function getDeliveryAddress() {
+//     const addressInput = document.getElementById("address");
+//     if (!addressInput) {
+//         console.error("Address input element not found.");
+//         return null;
+//     }
+
+//     const address = addressInput.value.trim();
+//     if (!address) {
+//         alert("Please enter your delivery address.");
+//         return null;
+//     }
+
+//     return address;
+// }
+
+// Function to fetch and display products in the cart
+function displayCartProducts() {
+    const productDetailsCon = document.getElementById("productDetailsCon");
+    const subtotalElement = document.getElementById("subtotal");
+    const totalElement = document.getElementById("total");
+    const deliveryFee = 500; // Default delivery fee
+
+    // Ensure the container exists
+    if (!productDetailsCon) {
+        console.error("Container with id='productDetailsCon' not found.");
+        return;
+    }
+
+    // Get cart data from localStorage
+    const cartData = JSON.parse(localStorage.getItem("cart")) || [];
+
+    // Clear the container before adding products
+    productDetailsCon.innerHTML = "";
+
+    // If no products are in the cart, do not display anything
+    if (cartData.length === 0) {
+        productDetailsCon.style.display = "none";
+        if (subtotalElement) subtotalElement.textContent = "₦0.00";
+        if (totalElement) totalElement.textContent = `₦${deliveryFee.toLocaleString()}.00`;
+        return;
+    }
+
+    // Ensure the container is visible
+    productDetailsCon.style.display = "grid";
+
+    let subtotal = 0;
+
+    // Loop through the cart data and display each product
+    cartData.forEach(product => {
+        // Create a product card
+        const productCard = document.createElement("div");
+        productCard.classList.add("product-cart-card");
+
+        // Add product image
+        const productImage = document.createElement("img");
+        productImage.src = product.picture || "default-image.jpg"; // Use default image if none exists
+        productImage.alt = product.name;
+        productImage.classList.add("product-image");
+        productCard.appendChild(productImage);
+
+        // Add product details container
+        const productDetails = document.createElement("div");
+        productDetails.classList.add("product-details");
+
+        // Add product brand/name
+        const productName = document.createElement("h3");
+        productName.textContent = product.name;
+        productDetails.appendChild(productName);
+
+        // Add product price and quantity controls
+        const priceQuantityContainer = document.createElement("div");
+        priceQuantityContainer.classList.add("price-quantity-container");
+
+        const productPrice = document.createElement("p");
+        productPrice.textContent = product.price;
+        productPrice.classList.add("product-price");
+
+        const quantityContainer = document.createElement("div");
+        quantityContainer.classList.add("quantity-container");
+
+        const minusButton = document.createElement("button");
+        minusButton.textContent = "-";
+        minusButton.classList.add("quantity-btn");
+        minusButton.addEventListener("click", () => updateQuantity(product.id, -1));
+
+        const quantityInput = document.createElement("input");
+        quantityInput.type = "number";
+        quantityInput.value = product.quantity;
+        quantityInput.min = 1;
+        quantityInput.readOnly = true;
+        quantityInput.classList.add("quantity-input");
+
+        const plusButton = document.createElement("button");
+        plusButton.textContent = "+";
+        plusButton.classList.add("quantity-btn");
+        plusButton.addEventListener("click", () => updateQuantity(product.id, 1));
+
+        quantityContainer.appendChild(minusButton);
+        quantityContainer.appendChild(quantityInput);
+        quantityContainer.appendChild(plusButton);
+
+        priceQuantityContainer.appendChild(productPrice);
+        priceQuantityContainer.appendChild(quantityContainer);
+        productDetails.appendChild(priceQuantityContainer);
+
+        // Append details to the product card
+        productCard.appendChild(productDetails);
+
+        // Append product card to the container
+        productDetailsCon.appendChild(productCard);
+
+        // Calculate subtotal
+        const productPriceValue = parseFloat(product.price.replace(/[^0-9.]/g, ""));
+        subtotal += productPriceValue * product.quantity;
+    });
+
+    // Update the subtotal display
+    if (subtotalElement) subtotalElement.textContent = `₦${subtotal.toLocaleString()}.00`;
+
+    // Calculate and update the total display
+    const total = subtotal + deliveryFee;
+    if (totalElement) totalElement.textContent = `₦${total.toLocaleString()}.00`;
+}
+
+// Function to update product quantity
+async function updateQuantity(productId, change) {
+    toggleLoading(true); // Show loading indicator
 
     try {
-        await deleteDoc(cartRef);
-        localStorage.removeItem("cart");
-        updateCartItemCount([]);
-        console.log("Cart cleared after checkout.");
+        const cartData = JSON.parse(localStorage.getItem("cart")) || [];
+        const productIndex = cartData.findIndex(product => product.id === productId);
+
+        if (productIndex > -1) {
+            const product = cartData[productIndex];
+            const newQuantity = product.quantity + change;
+
+            if (newQuantity <= 0) {
+                // Remove product from cart if quantity is 0 or less
+                cartData.splice(productIndex, 1);
+                await updateCartAndShowModal(cartData, `${product.name} has been removed from your cart.`);
+            } else {
+                // Update quantity in the cart
+                product.quantity = newQuantity;
+                await updateCartAndShowModal(cartData, `Updated ${product.name} quantity to ${newQuantity}.`);
+            }
+
+            // Update Firestore if user is logged in
+            const user = auth.currentUser;
+            if (user) {
+                const cartRef = doc(db, "carts", user.uid);
+                await setDoc(cartRef, { items: cartData });
+            }
+
+            // Refresh the cart display
+            displayCartProducts();
+            checkCartStatus();
+        }
     } catch (error) {
-        console.error("Error clearing cart after checkout:", error);
+        console.error("Error updating quantity:", error);
+    } finally {
+        toggleLoading(false); // Hide loading indicator
     }
 }
 
-function addQuantitySelectorAndCartButton(container) {
-    // Create the main container for the quantity selector and add-to-cart button
-    const mainContainer = document.createElement('div');
-    mainContainer.classList.add('quantity-add-cart-container');
+// Function to update the cart and show the modal after loading
+async function updateCartAndShowModal(cartData, message) {
+    // Simulate some processing delay if needed (optional)
+    await new Promise(resolve => setTimeout(resolve, 100)); // Simulates delay
 
-    // Quantity selector container
-    const quantityContainer = document.createElement('div');
-    quantityContainer.classList.add('quantity-selector');
+    // Update localStorage
+    localStorage.setItem("cart", JSON.stringify(cartData));
 
-    // Minus button
-    const minusButton = document.createElement('button');
-    minusButton.textContent = '-';
-    minusButton.classList.add('quantity-btn');
-    minusButton.addEventListener('click', () => {
-        const quantityInput = quantityContainer.querySelector('.quantity-input');
-        const currentValue = parseInt(quantityInput.value);
-        quantityInput.value = Math.max(1, currentValue - 1);
+    // Ensure the modal only appears after loader finishes
+    toggleLoading(false); // Hide loading indicator
+    showModal(message); // Show modal
+}
+
+// Function to show a modal with a custom message
+function showModal(message) {
+    const modal = document.getElementById("productAddedModal");
+    const modalContent = modal.querySelector(".product-added-modal-content p");
+    modalContent.textContent = message;
+    modal.style.display = "block";
+
+    // Close the modal when the "Close" button is clicked
+    const closeModalBtn = document.getElementById("closeModalBtn");
+    closeModalBtn.addEventListener("click", () => {
+        modal.style.display = "none";
     });
-    quantityContainer.appendChild(minusButton);
 
-    // Quantity input
-    const quantityInput = document.createElement('input');
-    quantityInput.type = 'number';
-    quantityInput.value = 1;
-    quantityInput.min = 1;
-    quantityInput.classList.add('quantity-input');
-    quantityContainer.appendChild(quantityInput);
+    // Automatically hide the modal after 5 seconds
+    setTimeout(() => {
+        modal.style.display = "none";
+    }, 25000);
+}
 
-    // Plus button
-    const plusButton = document.createElement('button');
-    plusButton.textContent = '+';
-    plusButton.classList.add('quantity-btn');
-    plusButton.addEventListener('click', () => {
-        const quantityInput = quantityContainer.querySelector('.quantity-input');
-        const currentValue = parseInt(quantityInput.value);
-        quantityInput.value = currentValue + 1;
-    });
-    quantityContainer.appendChild(plusButton);
+// Function to toggle loading indicator
+function toggleLoading(isLoading) {
+    const loadingIndicator = document.getElementById("loading");
+    console.log(`Loader toggled: ${isLoading ? "ON" : "OFF"}`);
+    if (loadingIndicator) {
+        loadingIndicator.style.display = isLoading ? "flex" : "none";
+    } else {
+        console.error("Loading indicator element not found.");
+    }
+}
 
-    // Add to Cart button
-    const addToCartButton = document.createElement('button');
-    addToCartButton.textContent = 'Add to Cart';
-    addToCartButton.classList.add('add-to-cart-btn');
-    addToCartButton.addEventListener('click', () => {
-        const productId = container.getAttribute('data-id');
-        const productName = container.getAttribute('data-name');
-        const productPrice = container.getAttribute('data-price');
-        const quantity = parseInt(quantityInput.value);
+// Call the function to display cart products
+displayCartProducts(); // Uncomment to run it immediately
 
-        if (productId && productName && !isNaN(quantity) && quantity > 0) {
-            toggleLoading(true); // Show the loading indicator
-            addToCart(productId, productName, productPrice, quantity);
-            quantityInput.value = 1;
-        } else {
-            console.error('Error adding to cart. Missing product details or invalid quantity.');
+function getDeliveryAddress() {
+    const addressInput = document.getElementById("address");
+    if (!addressInput) {
+        console.error("Address input element not found.");
+        return null;
+    }
+
+    const address = addressInput.value.trim();
+    // if (!address) {
+    //     alert("Please enter your delivery address.");
+    //     return null;
+    // }
+
+    return address;
+}
+
+// Function to handle Paystack payment
+async function initiatePayment() {
+    // Get delivery address before proceeding
+    const address = getDeliveryAddress();
+    if (!address) {
+        showModal("Please provide a delivery address before proceeding.");
+        return;
+    }
+
+    const cartData = JSON.parse(localStorage.getItem("cart")) || [];
+    if (cartData.length === 0) {
+        alert("Your cart is empty. Please add items to proceed.");
+        return;
+    }
+
+    const deliveryFee = 500; // Default delivery fee
+    const subtotal = cartData.reduce((sum, product) => {
+        const price = parseFloat(product.price.replace(/[^0-9.]/g, ""));
+        return sum + price * product.quantity;
+    }, 0);
+    const totalAmount = subtotal + deliveryFee;
+
+    // Get logged-in user from sessionStorage
+    const loggedInUser = JSON.parse(sessionStorage.getItem("loggedInUser"));
+
+    if (!loggedInUser || !loggedInUser.email) {
+        alert("You need to be logged in to make a payment.");
+        return;
+    }
+
+    const userEmail = loggedInUser.email; // Dynamic user email from sessionStorage
+
+    const handler = PaystackPop.setup({
+        key: "pk_test_b5aae19a97e711a2ce65cab0f906378951264e57", // Replace with your Paystack public key
+        email: userEmail, // Dynamic user email from sessionStorage
+        amount: totalAmount * 100, // Paystack requires amount in kobo
+        currency: "NGN", // Currency code
+        callback: function (response) {
+            // Ensure that response is available
+            if (response && response.reference) {
+                // alert(`Payment successful! Transaction reference: ${response.reference}`);
+        
+                // Call a separate async function to handle the rest
+                handleSuccessfulPayment(response.reference, address, cartData, subtotal, deliveryFee, totalAmount);
+            } else {
+                showModal("Error: No transaction reference found.");
+            }
+        },
+        onClose: function () {
+            showModal("Payment process was closed.");
+        },
+        error: function () {
+            showModal("There was an error processing your payment. Please try again.");
         }
     });
 
-    // Append both containers to the main container
-    mainContainer.appendChild(quantityContainer);
-    mainContainer.appendChild(addToCartButton);
-
-    // Append the main container to the product card
-    container.appendChild(mainContainer);
+    handler.openIframe(); // Open Paystack payment modal
 }
 
+// Separate async function for handling successful payment
+async function handleSuccessfulPayment(transactionReference, address, cartData, subtotal, deliveryFee, totalAmount) {
+    const transactionData = {
+        deliveryAddress: address,
+        transactionId: transactionReference,
+        items: cartData,
+        subtotal: subtotal,
+        deliveryFee: deliveryFee,
+        totalAmount: totalAmount,
+        paymentMethod: "Card" // Example payment method
+    };
 
-// const cart = JSON.parse(localStorage.getItem('cart')) || []; // Load cart from localStorage or initialize as empty array
+    try {
+        // Generate receipt
+        await generateReceipt(transactionData);
 
-// function updateCartUI() {
-//   const cartList = document.getElementById('cart-list');
-//   const cartTotal = document.getElementById('cart-total');
-//   const emptyCartMessage = document.getElementById('empty-cart-message');
-//   const cartItemsSection = document.getElementById('cart-items');
-//   const cartIcon = document.getElementById('cart-icon'); // Assuming you have a cart icon element
+        // Update cart and Firestore
+        await updateCartAndFirestore(transactionData.items);
+
+        // Show confirmation modal
+        showModal("Order placed successfully!");
+    } catch (error) {
+        console.error("Error handling payment success:", error);
+        alert("An error occurred while processing your order. Please contact support.");
+    }
+}
+
+async function generateReceipt(transactionData) {
+    try {
+        const { jsPDF } = window.jspdf;
+
+        const doc = new jsPDF();
+
+        // Styles
+        const titleFontSize = 16;
+        const sectionFontSize = 12;
+        const normalFontSize = 10;
+        const lineHeight = 8;
+        const margin = 10;
+        const pageWidth = doc.internal.pageSize.getWidth();
+        const sectionWidth = pageWidth - margin * 2;
+
+        // Set text color to #003a00 (green)
+        doc.setTextColor(0, 58, 0);
+
+        // Header Title
+        doc.setFontSize(titleFontSize);
+        doc.setFont("helvetica", "bold");
+        doc.text("Receipt for Your Bretil Mart Purchase", margin + sectionWidth / 2, 20, { align: "center" });
+
+        // Merchant Info
+        doc.setFontSize(sectionFontSize);
+        doc.setFont("helvetica", "normal");
+        doc.text("Merchant: Bretil Mart", margin, 30);
+
+        // Customer Info
+        doc.text(`Customer Address: ${transactionData.deliveryAddress}`, margin, 50);
+
+        // Transaction Info
+        doc.text(`Transaction ID: ${transactionData.transactionId}`, margin, 70);
+        doc.text(`Order Date: ${new Date().toLocaleString()}`, margin, 80);
+
+        // Items List Header
+        doc.setFontSize(sectionFontSize);
+        doc.setFont("helvetica", "bold");
+        doc.text("Items:", margin, 100);
+
+        // Items List
+        let yPosition = 105;
+        doc.setFontSize(normalFontSize);
+        doc.setFont("helvetica", "normal");
+
+        transactionData.items.forEach(item => {
+            doc.text(
+                `• ${item.name} (Qty: ${item.quantity}) - ₦${item.price}`,
+                margin + 5,
+                yPosition
+            );
+            yPosition += lineHeight;
+        });
+
+        // Subtotal, Delivery Fee, and Total
+        yPosition += 10;
+        doc.setFont("helvetica", "bold");
+        doc.text(`Subtotal: ₦${transactionData.subtotal}`, margin, yPosition);
+        doc.text(`Delivery Fee: ₦${transactionData.deliveryFee}`, margin, yPosition + lineHeight);
+
+        // Highlight Total Amount
+        doc.setFontSize(sectionFontSize + 2);
+        doc.text(
+            `Total Amount: ₦${transactionData.totalAmount}`,
+            margin,
+            yPosition + lineHeight * 2
+        );
+
+        // Payment Method
+        yPosition += lineHeight * 4;
+        doc.setFontSize(sectionFontSize);
+        doc.setFont("helvetica", "normal");
+        doc.text(`Payment Method: ${transactionData.paymentMethod}`, margin, yPosition);
+
+        // Footer - Support Info
+        yPosition += lineHeight * 2;
+        doc.setFontSize(normalFontSize);
+        doc.setFont("helvetica", "italic");
+        doc.text("Support Contact: bretilmart@gmail.com", margin, yPosition);
+        doc.text("Call: 07037154085", margin, yPosition + lineHeight);
+
+        // Save or Download the Receipt
+        doc.save(`bretil_mart_order_receipt_${transactionData.transactionId}.pdf`);
+
+        console.log("Styled receipt generated successfully with green text.");
+    } catch (error) {
+        console.error("Error generating styled receipt:", error);
+        alert("Failed to generate styled receipt. Please try again.");
+    }
+}
+
+// Function to update cart and Firestore after payment
+async function updateCartAndFirestore(cartData) {
+    try {
+        // Remove purchased items from localStorage
+        localStorage.setItem("cart", JSON.stringify([])); // Empty the cart
+
+        // Update Firestore to decrease product quantities
+        const user = auth.currentUser;
+        if (user) {
+            // Loop through cartData to update each product
+            for (let product of cartData) {
+                const productRef = doc(db, "products", product.id); // Assuming you store products in Firestore with a unique ID
+                const productDoc = await getDoc(productRef);
+                if (productDoc.exists()) {
+                    const currentQuantity = productDoc.data().quantity;
+                    const newQuantity = currentQuantity - product.quantity;
+
+                    if (newQuantity < 0) {
+                        alert("Insufficient stock for product: " + product.name);
+                        continue; // Skip updating this product if stock is insufficient
+                    }
+
+                    // Update the product quantity in Firestore
+                    await updateDoc(productRef, {
+                        quantity: newQuantity
+                    });
+                }
+            }
+
+            // Clear the cart from Firestore (assuming the user's cart is stored under 'carts' collection)
+            const userCartRef = doc(db, "carts", user.uid); // Assuming the cart is stored with the user's UID as the document ID
+            await deleteDoc(userCartRef); // Delete the user's cart from Firestore
+
+            console.log("Cart cleared from Firestore.");
+        }
+
+        // After clearing the cart in Firestore and localStorage, call checkCartStatus to update UI
+        checkCartStatus();
+    } catch (error) {
+        console.error("Error updating cart and Firestore:", error);
+    }
+}
+
+// Attach payment function to the button
+document.getElementById("pay-now").addEventListener("click", initiatePayment);
+
+function moveSearchToMobile() {
+    const headerSearchCon = document.getElementById("headerSearchCon");
+    const mobileSearchInputCon = document.getElementById("mobileSearchInputCon");
   
-//   // Clear the current list
-//   cartList.innerHTML = '';
-//   let total = 0;
+    if (window.innerWidth <= 920) {
+      if (mobileSearchInputCon && headerSearchCon && !mobileSearchInputCon.contains(headerSearchCon)) {
+        mobileSearchInputCon.appendChild(headerSearchCon);
+      }
+    } else {
+      // Optionally move it back to its original position if needed
+      const originalParent = document.getElementById("originalParentId"); // Replace with the original parent's ID
+      if (originalParent && headerSearchCon && !originalParent.contains(headerSearchCon)) {
+        originalParent.appendChild(headerSearchCon);
+      }
+    }
+  }
+  
+  // Listen for window resize events
+  window.addEventListener("resize", moveSearchToMobile);
+  
+  // Call on page load to handle initial state
+  document.addEventListener("DOMContentLoaded", moveSearchToMobile);  
 
-//   if (cart.length > 0) {
-//     cartItemsSection.style.display = 'block';
-//     emptyCartMessage.style.display = 'none';
+// Hamburger menu and navigation container
+const hamburgerMenu = document.getElementById('hamburger-menu');
+const menu = document.getElementById('headerNavigationCon');
 
-//     // Add items to the cart display
-//     cart.forEach((item, index) => {
-//       const listItem = document.createElement('li');
-//       listItem.innerHTML = `${item.name} - ₦${item.price.toFixed(2)} <button class="remove-btn" onclick="removeItem(${index})">Remove</button>`;
-//       cartList.appendChild(listItem);
-//       total += item.price;
+// Toggle the menu when hamburger is clicked
+hamburgerMenu.addEventListener('click', (e) => {
+  e.stopPropagation();  // Prevent the click from bubbling up to the document
+  menu.classList.toggle('menu-active'); // Show or hide the menu
+  hamburgerMenu.classList.toggle('hamburger-active'); // Optional, add some active style to hamburger
+});
+
+// Close the menu when clicking outside of the hamburger or menu
+document.addEventListener('click', (e) => {
+  if (!hamburgerMenu.contains(e.target) && !menu.contains(e.target)) {
+    menu.classList.remove('menu-active'); // Close the menu
+    hamburgerMenu.classList.remove('hamburger-active'); // Optional, reset hamburger icon
+  }
+});
+
+// Select the arrow-left container
+const arrowLeftCon = document.querySelector('.arrow-left-con');
+
+// Add click event listener to redirect
+if (arrowLeftCon) {
+  arrowLeftCon.addEventListener('click', () => {
+    window.location.href = '../Home/index.html'; // Redirect to home.html
+  });
+} else {
+  console.error('Arrow left container not found.');
+}   
+
+// async function clearCartAfterCheckout() {
+//     const user = auth.currentUser;
+
+//     if (!user) {
+//         console.log("User is not logged in.");
+//         return;
+//     }
+
+//     const cartRef = doc(db, "carts", user.uid);
+
+//     try {
+//         await deleteDoc(cartRef);
+//         localStorage.removeItem("cart");
+//         updateCartItemCount([]);
+//         console.log("Cart cleared after checkout.");
+//     } catch (error) {
+//         console.error("Error clearing cart after checkout:", error);
+//     }
+// }
+
+// function addQuantitySelectorAndCartButton(container) {
+//     // Create the main container for the quantity selector and add-to-cart button
+//     const mainContainer = document.createElement('div');
+//     mainContainer.classList.add('quantity-add-cart-container');
+
+//     // Quantity selector container
+//     const quantityContainer = document.createElement('div');
+//     quantityContainer.classList.add('quantity-selector');
+
+//     // Minus button
+//     const minusButton = document.createElement('button');
+//     minusButton.textContent = '-';
+//     minusButton.classList.add('quantity-btn');
+//     minusButton.addEventListener('click', () => {
+//         const quantityInput = quantityContainer.querySelector('.quantity-input');
+//         const currentValue = parseInt(quantityInput.value);
+//         quantityInput.value = Math.max(1, currentValue - 1);
 //     });
-//   } else {
-//     cartItemsSection.style.display = 'none';
-//     emptyCartMessage.style.display = 'block';
-//   }
+//     quantityContainer.appendChild(minusButton);
 
-//   // Update the total price
-//   cartTotal.innerHTML = `Total: ₦${total.toFixed(2)}`;
+//     // Quantity input
+//     const quantityInput = document.createElement('input');
+//     quantityInput.type = 'number';
+//     quantityInput.value = 1;
+//     quantityInput.min = 1;
+//     quantityInput.classList.add('quantity-input');
+//     quantityContainer.appendChild(quantityInput);
 
-//   // Update cart icon with item count
-//   cartIcon.innerHTML = cart.length > 0 ? `Cart (${cart.length})` : 'Cart';
+//     // Plus button
+//     const plusButton = document.createElement('button');
+//     plusButton.textContent = '+';
+//     plusButton.classList.add('quantity-btn');
+//     plusButton.addEventListener('click', () => {
+//         const quantityInput = quantityContainer.querySelector('.quantity-input');
+//         const currentValue = parseInt(quantityInput.value);
+//         quantityInput.value = currentValue + 1;
+//     });
+//     quantityContainer.appendChild(plusButton);
+
+//     // Add to Cart button
+//     const addToCartButton = document.createElement('button');
+//     addToCartButton.textContent = 'Add to Cart';
+//     addToCartButton.classList.add('add-to-cart-btn');
+//     addToCartButton.addEventListener('click', () => {
+//         const productId = container.getAttribute('data-id');
+//         const productName = container.getAttribute('data-name');
+//         const productPrice = container.getAttribute('data-price');
+//         const quantity = parseInt(quantityInput.value);
+
+//         if (productId && productName && !isNaN(quantity) && quantity > 0) {
+//             toggleLoading(true); // Show the loading indicator
+//             addToCart(productId, productName, productPrice, quantity);
+//             quantityInput.value = 1;
+//         } else {
+//             console.error('Error adding to cart. Missing product details or invalid quantity.');
+//         }
+//     });
+
+//     // Append both containers to the main container
+//     mainContainer.appendChild(quantityContainer);
+//     mainContainer.appendChild(addToCartButton);
+
+//     // Append the main container to the product card
+//     container.appendChild(mainContainer);
 // }
 
-// function addItemToCart(name, price) {
-//   cart.push({ name, price });
-//   updateCartStorage();
-//   updateCartUI();
-// }
-
-// function removeItem(index) {
-//   cart.splice(index, 1);
-//   updateCartStorage();
-//   updateCartUI();
-// }
-
-// function startShopping() {
-//   alert("Redirecting to the shopping page...");
-// }
-
-// function checkout() {
-//   if (cart.length === 0) {
-//     alert("Your cart is empty. Please add items to your cart first!");
-//   } else {
-//     alert("Proceeding to checkout...");
-//   }
-// }
-
-// function openModal() {
-//   const modal = document.getElementById("cartModal");
-//   modal.style.display = "flex";
-//   updateModalCart(); // Ensure the modal shows updated cart content
-// }
-
-// function closeModal() {
-//   const modal = document.getElementById("cartModal");
-//   modal.style.display = "none";
-// }
-
-// function updateModalCart() {
-//   const modalCartList = document.getElementById("modal-cart-list");
-//   const modalCartTotal = document.getElementById("modal-cart-total");
-
-//   modalCartList.innerHTML = "";
-//   let total = 0;
-
-//   cart.forEach(item => {
-//     const listItem = document.createElement("li");
-//     listItem.innerHTML = `${item.name} - ₦${item.price.toFixed(2)}`;
-//     modalCartList.appendChild(listItem);
-//     total += item.price;
-//   });
-
-//   modalCartTotal.innerHTML = `Total: ₦${total.toFixed(2)}`;
-// }
-
-// // Update cart in localStorage
-// function updateCartStorage() {
-//   localStorage.setItem('cart', JSON.stringify(cart));
-// }
-
-// // Open modal when the page loads (optional)
-// window.onload = function() {
-//   openModal();
-//   updateCartUI(); // Ensure the cart is loaded from localStorage and displayed properly
-// };
-
-// // Event listener to open cart modal when the cart icon is clicked
-// document.getElementById('cart-icon').addEventListener('click', openModal);

@@ -90,10 +90,15 @@ a {
     font-weight: 700;
 }
 
+#originalParentId {
+    width: 70%;
+}
+
 #headerSearchCon {
     /* border: 1px solid #0f0; */
-    width: 70%;
+    width: 100%;
     border-radius: 2em;
+    display: block;
 }
 
 #searchForm {
@@ -154,10 +159,10 @@ a {
     position: relative;
 }
 
-.profile[data-tooltip]:hover::after {
-    content: attr(data-tooltip); /* Use data attribute as tooltip content */
+/* .profile[data-tooltip]:hover::after {
+    content: attr(data-tooltip); Use data attribute as tooltip content
     position: absolute;
-    top: 100%; /* Position tooltip below the button */
+    top: 100%; Position tooltip below the button
     left: 50%;
     transform: translateX(-50%);
     background-color: #333;
@@ -181,7 +186,7 @@ a {
     border-color: #333 transparent transparent transparent;
     z-index: 10;
     pointer-events: none;
-}
+} */
 
 .profileBtnCon {
     border-radius: 50px;
@@ -240,6 +245,27 @@ a {
     /* border-radius: 0.5em; */
     max-height: 18.5em;
     overflow-y: auto;
+}
+
+.recentSearchCon {
+    width: 15%;
+}
+
+.searchCategoryCon {
+    width: 20%;
+}
+
+.recommendedSearchCon {
+    width: 65%;
+}
+
+#lowestPriceProductsContainer {
+    display: grid; 
+    grid-template-columns: repeat(3, 1fr); 
+    gap: 1em; 
+    border: 1px solid #fff; 
+    margin-top: 1em; 
+    overflow: scroll;
 }
 
 /* #freshProduceBtn,
@@ -363,6 +389,10 @@ a {
     line-height: 1.6;
 }
 
+.man-with-basket {
+    width: 515px;
+    margin-bottom: -0.8%;
+}
 
 #heroSectionBtnCon {
     width: 150px;
@@ -557,7 +587,7 @@ a {
 }
 
 .searchCatogoriesCard:nth-child(2) {
-    background-color: purple;
+    background-color: #460032;
 }
 
 .searchCatogoriesCard:nth-child(3) {
@@ -601,19 +631,19 @@ a {
 }
 
 .searchCatogoriesCard:nth-child(5) {
-    background-color: rgba(0, 0, 255, 0.753);
+    background-color: #ff7300;
 }
 
 .searchCatogoriesCard:nth-child(22) {
-    background-color: rgba(0, 0, 255, 0.753);
+    background-color: var(--DARKCHERRYWOOD);
 }
 
 .searchCatogoriesCard:nth-child(10) {
-    background-color: rgba(0, 0, 255, 0.753);
+    background-color: var(--DARKCHERRYWOOD);
 }
 
 .searchCatogoriesCard:nth-child(17) {
-    background-color: rgba(0, 0, 255, 0.753);
+    background-color: #ff7300;
 }
 
 .searchCatogoriesCard:nth-child(11) {
@@ -625,15 +655,15 @@ a {
 }
 
 .searchCatogoriesCard:nth-child(12) {
-    background-color: purple;
+    background-color: #460032;
 }
 
 .searchCatogoriesCard:nth-child(14) {
-    background-color: purple;
+    background-color: #460032;
 }
 
 .searchCatogoriesCard:nth-child(24) {
-    background-color: purple;
+    background-color: #460032;
 }
 
 .searchContent {
@@ -806,6 +836,10 @@ a {
     font-weight: 700;
 }
 
+.organicFoodAndBigOfferContainer {
+    display: flex; gap: 1.5em;
+}
+
 .organicFoodCon {
     background: linear-gradient(50deg, var(--GREEN), var(--ALTERNATEGREEN), rgb(1, 143, 1), rgb(2, 88, 2), yellowgreen);
     background-size: 400% 400%;
@@ -889,7 +923,11 @@ a {
 
 .giftImg2 {
     display: none;
-} 
+}
+
+.hurryUpAndGrabTheOfferCon {
+    display: flex; gap: 1em; margin: 1.5em 0;
+}
 
 .hurryUpCon {
     background: linear-gradient(50deg, var(--CHERRYWOOD), var(--DARKCHERRYWOOD), var(--LIGHTCHERRYWOOD));
@@ -925,6 +963,7 @@ a {
 
 .hurryUpContentCon {
     margin: 3em 0;
+    z-index: 2;
 }
 
 .hurryUpHeading {
@@ -1349,6 +1388,9 @@ a {
     border-bottom: 1px solid gainsboro;
     padding-bottom: 0.8em;
     color: var(--GREEN);
+    /* display: flex;
+    align-items: center;
+    justify-content: space-between; */
 }
 
 .faq-item:last-child {
@@ -1377,6 +1419,8 @@ a {
     font-weight: bold;
     color: #333;
     transform: rotate(90deg);
+    /* border: 1px solid #f00; */
+    /* margin: 0 0 0 30em; */
 }
 
 .faq-item.open .faq-answer {
@@ -1455,6 +1499,7 @@ a {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 15px;
+  /* border: 1px solid #000; */
   /* padding: 20px; */
 }
 
@@ -1842,7 +1887,7 @@ a {
 
 .spinner {
     border: 4px solid darkgreen;
-    border-top: 4px solid darkorange;
+    border-top: 4px solid #ff8c00;
     border-radius: 50%;
     width: 3.5em;
     height: 3.5em;
@@ -1906,6 +1951,10 @@ a {
 /* Apply fade-in animation */
 .product-added-modal-content {
     animation: fadeIn 0.3s ease-in-out;
+}
+
+#mobileSearchInputCon {
+    display: none;
 }
 
 /* scrollbar */

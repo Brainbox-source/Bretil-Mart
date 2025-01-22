@@ -44,13 +44,13 @@ import diaryProducts from "../components/button.js";
 diaryProductsBtn.appendChild(diaryProducts("Diary Products", 'green', 'white'));
 
 import meatAndSeafood from "../components/button.js";
-meatAndSeafoodBtn.appendChild(meatAndSeafood("Meat and Seafood", '#920b92', 'white'));
+meatAndSeafoodBtn.appendChild(meatAndSeafood("Meat and Seafood", '#460032', 'white'));
 
 import cannedGoods from "../components/button.js";
 cannedGoodsBtn.appendChild(cannedGoods("Canned Goods", '#7D1820', 'white'));
 
 import frozenFoods from "../components/button.js";
-frozenFoodsBtn.appendChild(frozenFoods("Frozen Foods", '#2b2be8', 'white'));
+frozenFoodsBtn.appendChild(frozenFoods("Frozen Foods", 'darkorange', 'white'));
 
 import grainsAndPasta from "../components/button.js";
 grainsAndPastaBtn.appendChild(grainsAndPasta("Grains and Pasta", '#7b7106', 'white'));
@@ -59,7 +59,7 @@ import snacks from "../components/button.js";
 snacksBtn.appendChild(snacks("Snacks", '#013f01', 'white'));
 
 import beverages from "../components/button.js";
-beveragesBtn.appendChild(beverages("Beverages", '#920b92', 'white'));
+beveragesBtn.appendChild(beverages("Beverages", '#460032', 'white'));
 
 import condimentsAndSauces from "../components/button.js";
 condimentsAndSaucesBtn.appendChild(condimentsAndSauces("Condiments", '#7D1820', 'white'));
@@ -535,7 +535,8 @@ fileInput.onchange = async (event) => {
 
         // Prepare the form data for the image upload
         const formData = new FormData();
-        formData.append('file', file); // Append the file to the form data
+        // Wrap the file in an array and append it to the form data at index 0
+        formData.append('file[0]', file); // Append the file at index 0
 
         try {
             // Step 1: Send the file to the backend for processing
@@ -588,6 +589,7 @@ fileInput.onchange = async (event) => {
         alert('No file selected. Please choose a profile picture to upload.');
     }
 };
+
 
 // Update delivery location
 function updateDeliveryLocation(location) {
@@ -820,7 +822,7 @@ function performProductSearch(query) {
 
             // Handle product selection
             productItem.addEventListener('click', () => {
-                alert(`You selected: ${product.brand} - ${product.price}`);
+                // alert(`You selected: ${product.brand} - ${product.price}`);
                 saveRecentSearch(product.brand);
                 productList.style.display = 'none';
                 displayRecentSearches();
@@ -887,16 +889,16 @@ searchInput.addEventListener('blur', () => {
 // Display dropdown when clicking the search input
 searchInput.addEventListener('click', () => {
     const productDropDownCon = document.getElementById('productDropDownCon');
-    const headerSearchCon = document.getElementById('headerSearchCon');
+    const originalParentId = document.getElementById('originalParentId');
     const headerLogoAndLocationCon = document.getElementById('headerLogoAndLocationCon');
     const headerCartandProfileCon = document.getElementById('headerCartandProfileCon');
 
     // Show dropdown after a slight delay
     setTimeout(() => {
         productDropDownCon.style.display = 'block';
-        headerSearchCon.style.width = '100%';
-        headerSearchCon.style.marginTop = '1.4em';
-        headerSearchCon.style.marginBottom = '1em';
+        originalParentId.style.width = '100%';
+        originalParentId.style.marginTop = '1.4em';
+        originalParentId.style.marginBottom = '1em';
         headerLogoAndLocationCon.style.display = 'none';
         headerCartandProfileCon.style.display = 'none';
     }, 200);
@@ -905,7 +907,7 @@ searchInput.addEventListener('click', () => {
 // Close the dropdown when clicking outside
 document.addEventListener('click', (event) => {
     const productDropDownCon = document.getElementById('productDropDownCon');
-    const headerSearchCon = document.getElementById('headerSearchCon');
+    const originalParentId = document.getElementById('originalParentId');
     const headerLogoAndLocationCon = document.getElementById('headerLogoAndLocationCon');
     const headerCartandProfileCon = document.getElementById('headerCartandProfileCon');
 
@@ -913,13 +915,13 @@ document.addEventListener('click', (event) => {
     if (
         !searchInput.contains(event.target) && 
         !productDropDownCon.contains(event.target) &&
-        !headerSearchCon.contains(event.target) // Prevent closing when clicking inside the search bar area
+        !originalParentId.contains(event.target) // Prevent closing when clicking inside the search bar area
     ) {
         productDropDownCon.style.display = 'none';
 
         // Reset UI to default state
-        headerSearchCon.style.width = '70%'; // Restore the original width of the search container
-        headerSearchCon.style.marginTop = '0'; // Remove the margin
+        originalParentId.style.width = '70%'; // Restore the original width of the search container
+        originalParentId.style.marginTop = '0'; // Remove the margin
         headerLogoAndLocationCon.style.display = 'flex'; // Show the header logo and location
         headerCartandProfileCon.style.display = 'flex'; // Show the cart and profile section
     }
@@ -1386,7 +1388,7 @@ async function addToCart(productId, productName, productPrice, quantity) {
     const loader = document.getElementById("loader"); // Assuming loader has this ID
 
     // Check if loader exists before trying to manipulate its style
-    if (loader) {
+    if (loader) {   
         loader.style.display = "block"; // Show the loader before starting the cart update
     }
 
@@ -1441,7 +1443,8 @@ async function addToCart(productId, productName, productPrice, quantity) {
                 id: productId,
                 name: productName,
                 price: `${productPrice.replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`,
-                quantity: quantity
+                quantity: quantity,
+                picture: product.pictures && product.pictures.length > 0 ? product.pictures[0] : 'default-image.jpg' // Add product picture
             });
         }
 
@@ -1583,26 +1586,26 @@ function loadCartFromLocalStorage() {
 // document.addEventListener('DOMContentLoaded', attachCartButtonsWithFlyEffect);
 
 
-// Function to clear the cart after checkout
-async function clearCartAfterCheckout() {
-    const user = auth.currentUser;
+// // Function to clear the cart after checkout
+// async function clearCartAfterCheckout() {
+//     const user = auth.currentUser;
 
-    if (!user) {
-        console.log("User is not logged in.");
-        return;
-    }
+//     if (!user) {
+//         console.log("User is not logged in.");
+//         return;
+//     }
 
-    const cartRef = doc(db, "carts", user.uid);
+//     const cartRef = doc(db, "carts", user.uid);
 
-    try {
-        await deleteDoc(cartRef);
-        localStorage.removeItem("cart");
-        updateCartItemCount([]);
-        console.log("Cart cleared after checkout.");
-    } catch (error) {
-        console.error("Error clearing cart after checkout:", error);
-    }
-}
+//     try {
+//         await deleteDoc(cartRef);
+//         localStorage.removeItem("cart");
+//         updateCartItemCount([]);
+//         console.log("Cart cleared after checkout.");
+//     } catch (error) {
+//         console.error("Error clearing cart after checkout:", error);
+//     }
+// }
 
 // Load the cart from Firestore or localStorage on page load
 window.addEventListener('load', loadCart);
@@ -1650,6 +1653,50 @@ function addToCartHandler(event) {
         console.error('Error adding to cart. Missing product details or invalid price.');
     }
 }
+
+function moveSearchToMobile() {
+    const headerSearchCon = document.getElementById("headerSearchCon");
+    const mobileSearchInputCon = document.getElementById("mobileSearchInputCon");
+  
+    if (window.innerWidth <= 920) {
+      if (mobileSearchInputCon && headerSearchCon && !mobileSearchInputCon.contains(headerSearchCon)) {
+        mobileSearchInputCon.appendChild(headerSearchCon);
+      }
+    } else {
+      // Optionally move it back to its original position if needed
+      const originalParent = document.getElementById("originalParentId"); // Replace with the original parent's ID
+      if (originalParent && headerSearchCon && !originalParent.contains(headerSearchCon)) {
+        originalParent.appendChild(headerSearchCon);
+      }
+    }
+  }
+  
+  // Listen for window resize events
+  window.addEventListener("resize", moveSearchToMobile);
+  
+  // Call on page load to handle initial state
+  document.addEventListener("DOMContentLoaded", moveSearchToMobile);  
+
+// Hamburger menu and navigation container
+const hamburgerMenu = document.getElementById('hamburger-menu');
+const menu = document.getElementById('headerNavigationCon');
+
+// Toggle the menu when hamburger is clicked
+hamburgerMenu.addEventListener('click', (e) => {
+  e.stopPropagation();  // Prevent the click from bubbling up to the document
+  menu.classList.toggle('menu-active'); // Show or hide the menu
+  hamburgerMenu.classList.toggle('hamburger-active'); // Optional, add some active style to hamburger
+});
+
+// Close the menu when clicking outside of the hamburger or menu
+document.addEventListener('click', (e) => {
+  if (!hamburgerMenu.contains(e.target) && !menu.contains(e.target)) {
+    menu.classList.remove('menu-active'); // Close the menu
+    hamburgerMenu.classList.remove('hamburger-active'); // Optional, reset hamburger icon
+  }
+});
+
+
 
 // function handleClick(event) {
 //   const button = event.target;

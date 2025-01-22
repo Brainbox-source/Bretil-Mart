@@ -31,17 +31,24 @@
                     </div>
 
                     <div class="locationCon">
-                        <img src="../img/location.svg" alt="">
+                        <img src="../img/location.svg" class="location-img" alt="">
+                        <div class="hamburger-menu" id="hamburger-menu">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                          </div>
                         <p class="locationParagraph">Delivery to <br> <span class="locationAbuDhabi">Location</span></p>
                     </div>
                 </div>
 
-                <div id="headerSearchCon">
-                    <div id="searchForm">
-                        <input type="text" id="searchInput" placeholder="Search your products, Categories or Brands" >
-                        <span class="searchBtn">
-                            <i class="fa fa-search" style="font-size: 17px;"></i>
-                        </span>
+                <div id="originalParentId">
+                    <div id="headerSearchCon">
+                        <div id="searchForm">
+                            <input type="text" id="searchInput" placeholder="Search your products, Categories or Brands" >
+                            <span class="searchBtn">
+                                <i class="fa fa-search" style="font-size: 17px;"></i>
+                            </span>
+                        </div>
                     </div>
                 </div>
 
@@ -65,6 +72,11 @@
                 </div>
             </div>
 
+            <!-- Mobile search input -->
+            <div id="mobileSearchInputCon">
+                <!-- search input will be displayed here -->
+            </div>
+
             <!-- Modal -->
             <div id="myModal" class="modal">
                 <div class="modal-content" id="modal-content" style="display: flex; flex-direction: column;">
@@ -79,7 +91,7 @@
                         </button>
 
                         <!-- Hidden file input (this will open the file explorer) -->
-                        <input type="file" id="fileInput" accept="image/*" />
+                        <input type="file" id="fileInput" name="images[]" accept="image/*" />
                         <p id="upload-status"></p>
 
                         <!-- Display Profile Picture -->
@@ -100,7 +112,7 @@
 
             <div id="productDropDownCon">
                 <div id="productDropDown">
-                    <div class="recentSearchCon" style="width: 15%;">
+                    <div class="recentSearchCon">
                         <h3 style="color: #013a01;">Recent Searches</h3>
                         <hr style="border-top: 1px solid gainsboro; margin-top: 0.5em;">
 
@@ -111,7 +123,7 @@
                         <div id="recentSearchesContainer"></div>
                     </div>
 
-                    <div class="searchCategoryCon" style="width: 20%;">
+                    <div class="searchCategoryCon">
                         <h3 style="color: #013a01;">Search by Categories</h3>
                         <hr style="border-top: 1px solid gainsboro; margin-top: 0.5em;">
 
@@ -131,18 +143,18 @@
                         </div>
                     </div>
 
-                    <div class="recommendedSearchCon" style="width: 65%;">
+                    <div class="recommendedSearchCon">
                         <h3 style="color: #013a01;">Recommended Searches</h3>
                         <hr style="border-top: 1px solid gainsboro; margin-top: 0.5em;">
 
-                        <div id="lowestPriceProductsContainer" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1em; border: 1px solid #fff; margin-top: 1em; overflow: scroll;"></div>
+                        <div id="lowestPriceProductsContainer"></div>
                     </div>
                 </div>
             </div>
 
-            <hr style="border-top: 1px solid gainsboro;">
+            <hr style="border-top: 1px solid gainsboro;" class="header-hr">
 
-            <div class="headerNavigationCon">
+            <div class="headerNavigationCon" id="headerNavigationCon">
                 <div class="headerNavigation">
                     <nav>
                         <ul>
@@ -177,15 +189,16 @@
                         Get Free Delivery On Your First Order
                     </p>
 
-                    <h1 class="heroHeading">We deliver <span class="highlight">groceries</span> to your doorstep</h1>
+                    <h1 class="heroHeading">We deliver <span class="highlight">groceries</span> <br> to your doorstep</h1>
 
-                    <p class="serviceDescription">Get the freshest groceries delivered right to your home. Save time, skip the lines, and enjoy the convenience of quick, efficient delivery.</p>
+                    <p class="serviceDescription laptopServiceDescription">Get the freshest groceries delivered right to your home. Save time, skip the lines, and enjoy the convenience of quick, efficient delivery.</p>
+                    <p class="mobileServiceDescription serviceDescription">Fresh groceries, <br> delivered fast!</p>
 
                     <div id="heroSectionBtnCon"></div>
                 </div>
 
                 <div class="heroSectionImgCon">
-                    <img src="../img/man-holding-basket.png" width="515px" style="margin-bottom: -0.8%;" alt="">
+                    <img src="../img/man-holding-basket.png" class="man-with-basket" alt="">
                 </div>
             </section>
 
@@ -301,7 +314,7 @@
                 </div>
 
                 <div class="percentageContainer">
-                    <div class="organicFoodAndBigOfferContainer" style="display: flex; gap: 1.5em;">
+                    <div class="organicFoodAndBigOfferContainer">
                         <div class="organicFoodCon">
                             <div class="organicFoodContentCon">
                                 <p class="organicFoodParagraph">ORGANIC FOOD! <span class="fifteenPercentOff">GET 15% OFF</span></p>
@@ -332,7 +345,7 @@
                         </div>
                     </div>
 
-                    <div class="hurryUpAndGrabTheOfferCon" style="display: flex; gap: 1em; margin: 1.5em 0;">
+                    <div class="hurryUpAndGrabTheOfferCon">
                         <div class="hurryUpCon">
                             <div class="hurryUpContentCon">
                                 <p class="hurryUpParagraph">HURRY UP! GET 20% OFF</p>
@@ -421,7 +434,7 @@
                 <div class="deliveryDescriptionCon">
                     <div class="startShoppingCon">
                         <div class="startShoppingContentCon">
-                            <h2 class="startShoppingHeading">We <span class="deliver">deliver</span> groceries <br> throughout the <span class="deliver">Nigeria</span></h2>
+                            <h2 class="startShoppingHeading">We <span class="deliver">deliver</span> groceries <br> throughout <span class="deliver">Nigeria</span></h2>
     
                             <p class="startShoppingParagraph">Get the freshest groceries delivered right to your home. Save time, skip <br> the lines, and enjoy the convenience of quick, efficient delivery.</p>
     
