@@ -23,7 +23,9 @@ const closeBtn = document.getElementById("closeBtn");
 const signOutBtn = document.getElementById("signOutBtn");
 const changeProfileBtn = document.getElementById("changeProfileBtn");
 const fileInput = document.getElementById("fileInput");
+const profileImg = document.getElementById("profileImg");
 const profilePic = document.getElementById("profilePic");
+const uploadStatus = document.getElementById('upload-status');
 const emailElement = document.getElementById("getEmail");
 const nameElement = document.getElementById("userName");
 const faqItems = document.querySelectorAll('.faq-item');
@@ -31,7 +33,7 @@ const searchInput = document.getElementById('searchInput');
 // console.log(searchInput);
 
 // importing db and auth
-import { db, doc, getDoc, setDoc, auth, signOut } from '../firebaseConfig.js';
+import { db, doc, getDoc, setDoc, auth, signOut, onAuthStateChanged } from '../firebaseConfig.js';
 
 // // adding the category buttons
 import freshProduce from "../components/button.js";
@@ -520,75 +522,109 @@ if (signOutBtn) {
 
 
 // Profile Picture Upload
-changeProfileBtn.onclick = () => fileInput.click();
+// Fetch and display the user's profile picture
+const fetchAndDisplayProfilePic = async (userId) => {
+    try {
+        const userRef = doc(db, 'users', userId); // Firestore document reference
+        const userDoc = await getDoc(userRef); // Fetch the user's document
 
-fileInput.onchange = async (event) => {
-    const file = event.target.files[0]; // Get the file
-    if (file) {
-        const reader = new FileReader();
+        if (userDoc.exists() && userDoc.data().profilePic) {
+            const profilePictureUrl = userDoc.data().profilePic;
 
-        // Temporarily display the selected file
-        reader.onload = (e) => {
-            profilePic.src = e.target.result; // Update the profile picture preview
-        };
-        reader.readAsDataURL(file);
-
-        // Prepare the form data for the image upload
-        const formData = new FormData();
-        // Wrap the file in an array and append it to the form data at index 0
-        formData.append('file[0]', file); // Append the file at index 0
-
-        try {
-            // Step 1: Send the file to the backend for processing
-            const response = await fetch('https://bretil-mart-server.onrender.com/upload', {
-                method: 'POST',
-                body: formData, // Attach the form data (including the file)
-            });
-
-            if (!response.ok) {
-                const errorData = await response.json();
-                console.error('Upload failed:', errorData);
-                alert(`Error: ${errorData.message || 'Unknown error'}`);
-                return; // Stop further execution
-            }
-
-            const data = await response.json(); // Parse the JSON response
-
-            if (data.fileUrl) {
-                // After successful upload, get the file URL from the backend
-                const profilePicUrl = data.fileUrl;
-
-                // Step 2: Get the authenticated user's ID from Firebase Auth
-                const user = firebase.auth().currentUser;
-                if (!user) {
-                    alert('No authenticated user found. Please log in.');
-                    return;
-                }
-                const userId = user.uid; // Get the unique user ID
-
-                // Step 3: Store the profile picture URL in Firestore
-                const userRef = firebase.firestore().collection('users').doc(userId);
-                await userRef.set({ profilePicUrl }, { merge: true });
-
-                // Step 4: Save the profile picture URL to sessionStorage
-                sessionStorage.setItem('profilePicUrl', profilePicUrl);
-
-                // Step 5: Update the profile picture on the UI with the uploaded file URL
-                profilePic.src = profilePicUrl;
-
-                console.log('Profile picture uploaded and saved successfully:', profilePicUrl);
-                alert('Profile picture updated successfully!');
-            } else {
-                alert('Failed to upload the profile picture.');
-            }
-        } catch (error) {
-            console.error('Error uploading the profile picture:', error);
-            alert('An error occurred while uploading the profile picture.');
+            // Update both profile image elements with the URL
+            profileImg.src = profilePictureUrl;
+            profilePic.src = profilePictureUrl;
+        } else {
+            // No profile picture in Firestore, fallback to default
+            profileImg.src = '../img/profile.svg';
+            profilePic.src = '../img/profile.svg';
         }
-    } else {
-        alert('No file selected. Please choose a profile picture to upload.');
+    } catch (error) {
+        console.error('Error fetching profile picture from Firestore:', error);
     }
 };
+
+// Clear profile picture from UI on sign-out
+// const handleSignOut = async () => {
+//     profileImg.src = '../img/profile.svg'; // Reset to default
+//     profilePic.src = '../img/profile.svg'; // Reset to default
+
+//     await signOut(auth); // Sign out the user
+// };
+
+// Listen for authentication state changes
+onAuthStateChanged(auth, (user) => {
+    if (user) {
+        // Fetch and display the user's profile picture when signed in
+        fetchAndDisplayProfilePic(user.uid);
+    } else {
+        // Reset profile picture to default when signed out
+        profileImg.src = '../img/profile.svg';
+        profilePic.src = '../img/profile.svg';
+    }
+});
+
+// Event Listener to open file picker
+changeProfileBtn.addEventListener('click', () => {
+    fileInput.click(); // Trigger the hidden file input
+});
+
+// Handle file input change
+fileInput.addEventListener('change', async () => {
+    const file = fileInput.files[0]; // Get the selected file
+
+    if (file) {
+        uploadStatus.textContent = 'Uploading...'; // Show status
+
+        // Prepare FormData for the upload
+        const formData = new FormData();
+        formData.append('images[]', file);
+
+        try {
+            // Send the image to the backend for upload
+            const response = await fetch('https://bretil-mart-server.onrender.com/upload', {
+                method: 'POST',
+                body: formData,
+            });
+
+            const data = await response.json(); // Parse the backend response
+            if (data.urls && data.urls[0]) {
+                const profilePictureUrl = data.urls[0]; // Extract uploaded picture URL
+
+                // Update both profile image elements in the UI
+                profileImg.src = profilePictureUrl;
+                profilePic.src = profilePictureUrl;
+
+                // Save the URL to Firestore under the current user's document
+                const user = auth.currentUser;
+                if (user) {
+                    const userRef = doc(db, 'users', user.uid);
+                    await setDoc(userRef, { profilePic: profilePictureUrl }, { merge: true });
+                
+                    // Update status immediately
+                    uploadStatus.textContent = 'Update successful!';
+                
+                    // Clear the status after 3 seconds
+                    setTimeout(() => {
+                        uploadStatus.textContent = ''; // Clear the message
+                    }, 3000);
+                } else {
+                    uploadStatus.textContent = 'No authenticated user found.';
+                }                
+            } else {
+                uploadStatus.textContent = 'Failed to upload profile picture.';
+            }
+        } catch (error) {
+            console.error('Error uploading profile picture:', error);
+            uploadStatus.textContent = 'Error uploading profile picture.';
+        }
+    } else {
+        uploadStatus.textContent = 'No file selected.';
+    }
+
+    // Reset file input to allow re-selection of the same file
+    fileInput.value = '';
+});
 
 
 // Update delivery location
@@ -823,6 +859,8 @@ function performProductSearch(query) {
             // Handle product selection
             productItem.addEventListener('click', () => {
                 // alert(`You selected: ${product.brand} - ${product.price}`);
+                sessionStorage.setItem('singleProduct', JSON.stringify(product));
+                window.location.href = '../PRODUCT/product.html'
                 saveRecentSearch(product.brand);
                 productList.style.display = 'none';
                 displayRecentSearches();

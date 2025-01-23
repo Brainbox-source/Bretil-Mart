@@ -5,13 +5,15 @@ import {
     createUserWithEmailAndPassword, 
     signInWithEmailAndPassword, 
     sendPasswordResetEmail,
-    signOut // Importing signOut for logout functionality
+    signOut,
+     onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js";
 import { 
     getFirestore, 
     doc, 
     setDoc, 
     collection, 
+    arrayUnion,
     addDoc, 
     getDocs, 
     updateDoc, 
@@ -49,10 +51,13 @@ export {
     signInWithEmailAndPassword,
     sendPasswordResetEmail,
     signOut, // Exporting signOut for logout functionality
+    onAuthStateChanged,
+    getAuth,
     db, 
     doc, 
     setDoc, 
     collection, 
+    arrayUnion,
     addDoc,
     getDocs,
     updateDoc,

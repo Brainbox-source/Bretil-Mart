@@ -934,6 +934,21 @@
       .utilityLink:nth-child(3) {
           padding: 0.8em 0;
       }
+
+      .arrow-left-con {
+        width: 40px;
+        height: 40px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.136);
+        border-radius: 50%;
+        /* background-color: ; */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        border: none;
+        cursor: pointer;
+        background-color: #fff;
+    }
   
       #productDropDownCon {
           width: 100vw;

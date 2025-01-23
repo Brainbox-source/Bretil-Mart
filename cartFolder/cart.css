@@ -155,12 +155,28 @@ a {
 
 .profile {
   background-color: darkorange;
-  border-radius: 50px;
-  padding: 0.5em 0.6em;
+  border-radius: 50%;
+  /* padding: 0.5em 0.6em; */
   border: none;
   cursor: pointer;
   position: relative;
+  object-fit: cover;
+  width: 36px;
+  height: 36px;
 }
+
+/* #upload-status {
+  border: 1px solid #000;
+} */
+
+/* By default, display the default profile image */
+#profileImg {
+  /* display: block; */
+  width: 100%;
+  height: 100%;
+  border-radius: 50px;
+}
+
 /* 
 .profile[data-tooltip]:hover::after {
   content: attr(data-tooltip); Use data attribute as tooltip content

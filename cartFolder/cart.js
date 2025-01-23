@@ -19,12 +19,14 @@ const signOutBtn = document.getElementById("signOutBtn");
 const changeProfileBtn = document.getElementById("changeProfileBtn");
 const fileInput = document.getElementById("fileInput");
 const profilePic = document.getElementById("profilePic");
+const profileImg = document.getElementById("profileImg");
+const uploadStatus = document.getElementById('upload-status');
 const emailElement = document.getElementById("getEmail");
 const nameElement = document.getElementById("userName");
 const searchInput = document.getElementById('searchInput');
 console.log(searchInput);
 
-import { db, doc, getDoc, setDoc, updateDoc, deleteDoc } from '../firebaseConfig.js';
+import { db, doc, getDoc, setDoc, arrayUnion, updateDoc, deleteDoc, onAuthStateChanged } from '../firebaseConfig.js';
 
 // // adding the category buttons
 import freshProduce from "../components/button.js";
@@ -245,17 +247,109 @@ if (signOutBtn) {
 
 
 // Profile Picture Upload
-// changeProfileBtn.onclick = () => fileInput.click();
-// fileInput.onchange = (event) => {
-//     const file = event.target.files[0];
-//     if (file) {
-//         const reader = new FileReader();
-//         reader.onload = (e) => {
-//             profilePic.src = e.target.result;
-//         };
-//         reader.readAsDataURL(file);
-//     }
+// Fetch and display the user's profile picture
+const fetchAndDisplayProfilePic = async (userId) => {
+    try {
+        const userRef = doc(db, 'users', userId); // Firestore document reference
+        const userDoc = await getDoc(userRef); // Fetch the user's document
+
+        if (userDoc.exists() && userDoc.data().profilePic) {
+            const profilePictureUrl = userDoc.data().profilePic;
+
+            // Update both profile image elements with the URL
+            profileImg.src = profilePictureUrl;
+            profilePic.src = profilePictureUrl;
+        } else {
+            // No profile picture in Firestore, fallback to default
+            profileImg.src = '../img/profile.svg';
+            profilePic.src = '../img/profile.svg';
+        }
+    } catch (error) {
+        console.error('Error fetching profile picture from Firestore:', error);
+    }
+};
+
+// Clear profile picture from UI on sign-out
+// const handleSignOut = async () => {
+//     profileImg.src = '../img/profile.svg'; // Reset to default
+//     profilePic.src = '../img/profile.svg'; // Reset to default
+
+//     await signOut(auth); // Sign out the user
 // };
+
+// Listen for authentication state changes
+onAuthStateChanged(auth, (user) => {
+    if (user) {
+        // Fetch and display the user's profile picture when signed in
+        fetchAndDisplayProfilePic(user.uid);
+    } else {
+        // Reset profile picture to default when signed out
+        profileImg.src = '../img/profile.svg';
+        profilePic.src = '../img/profile.svg';
+    }
+});
+
+// Event Listener to open file picker
+changeProfileBtn.addEventListener('click', () => {
+    fileInput.click(); // Trigger the hidden file input
+});
+
+// Handle file input change
+fileInput.addEventListener('change', async () => {
+    const file = fileInput.files[0]; // Get the selected file
+
+    if (file) {
+        uploadStatus.textContent = 'Uploading...'; // Show status
+
+        // Prepare FormData for the upload
+        const formData = new FormData();
+        formData.append('images[]', file);
+
+        try {
+            // Send the image to the backend for upload
+            const response = await fetch('https://bretil-mart-server.onrender.com/upload', {
+                method: 'POST',
+                body: formData,
+            });
+
+            const data = await response.json(); // Parse the backend response
+            if (data.urls && data.urls[0]) {
+                const profilePictureUrl = data.urls[0]; // Extract uploaded picture URL
+
+                // Update both profile image elements in the UI
+                profileImg.src = profilePictureUrl;
+                profilePic.src = profilePictureUrl;
+
+                // Save the URL to Firestore under the current user's document
+                const user = auth.currentUser;
+                if (user) {
+                    const userRef = doc(db, 'users', user.uid);
+                    await setDoc(userRef, { profilePic: profilePictureUrl }, { merge: true });
+                
+                    // Update status immediately
+                    uploadStatus.textContent = 'Update successful';
+                
+                    // Clear the status after 3 seconds
+                    setTimeout(() => {
+                        uploadStatus.textContent = ''; // Clear the message
+                    }, 3000);
+                } else {
+                    uploadStatus.textContent = 'No authenticated user found.';
+                }                
+            } else {
+                uploadStatus.textContent = 'Failed to upload profile picture.';
+            }
+        } catch (error) {
+            console.error('Error uploading profile picture:', error);
+            uploadStatus.textContent = 'Error uploading profile picture.';
+        }
+    } else {
+        uploadStatus.textContent = 'No file selected.';
+    }
+
+    // Reset file input to allow re-selection of the same file
+    fileInput.value = '';
+});
 
 // Update delivery location
 function updateDeliveryLocation(location) {
@@ -1174,7 +1268,8 @@ async function handleSuccessfulPayment(transactionReference, address, cartData, 
         subtotal: subtotal,
         deliveryFee: deliveryFee,
         totalAmount: totalAmount,
-        paymentMethod: "Card" // Example payment method
+        paymentMethod: "Card", // Example payment method
+        orderDateTime: new Date().toLocaleString(), // Add formatted Order Date and Time
     };
 
     try {
@@ -1184,11 +1279,43 @@ async function handleSuccessfulPayment(transactionReference, address, cartData, 
         // Update cart and Firestore
         await updateCartAndFirestore(transactionData.items);
 
+        // Save transaction history
+        const userUID = auth.currentUser.uid;
+        await saveTransactionHistory(userUID, transactionData);
+
         // Show confirmation modal
         showModal("Order placed successfully!");
     } catch (error) {
         console.error("Error handling payment success:", error);
         alert("An error occurred while processing your order. Please contact support.");
+    }
+}
+
+// Function to save transaction history to Firestore
+async function saveTransactionHistory(userUID, transactionData) {
+    try {
+        // Reference to the user's transaction history document
+        const transactionHistoryRef = doc(db, "transactionHistory", userUID);
+
+        // Create/Update transactionHistory with user's UID
+        await updateDoc(transactionHistoryRef, {
+            transactions: arrayUnion(transactionData),
+        }, { merge: true });
+
+        console.log("Transaction history updated successfully.");
+    } catch (error) {
+        // console.error("Error saving transaction history:", error);
+
+        // Handle if document does not exist (for the first-time write)
+        if (error.code === "not-found") {
+            const transactionHistoryRef = doc(db, "transactionHistory", userUID);
+            await setDoc(transactionHistoryRef, {
+                transactions: [transactionData],
+            });
+            console.log("Transaction history document created and updated successfully.");
+        } else {
+            throw new Error("Failed to save transaction history.");
+        }
     }
 }
 
@@ -1273,10 +1400,17 @@ async function generateReceipt(transactionData) {
         doc.text("Support Contact: bretilmart@gmail.com", margin, yPosition);
         doc.text("Call: 07037154085", margin, yPosition + lineHeight);
 
-        // Save or Download the Receipt
-        doc.save(`bretil_mart_order_receipt_${transactionData.transactionId}.pdf`);
+        // Generate Blob URL
+        const pdfBlob = doc.output("blob");
+        const blobUrl = URL.createObjectURL(pdfBlob);
 
-        console.log("Styled receipt generated successfully with green text.");
+        // Dynamically create a link for the user
+        const link = document.createElement("a");
+        link.href = blobUrl;
+        link.download = `bretil_mart_order_receipt_${transactionData.transactionId}.pdf`;
+        link.click();
+
+        console.log("Styled receipt generated successfully.");
     } catch (error) {
         console.error("Error generating styled receipt:", error);
         alert("Failed to generate styled receipt. Please try again.");

@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Document</title>
-        <link rel="stylesheet" href="product.css">
-        <script src="product.js" type="module" defer></script>
-        <script src="DISPLAYPRODUCT.js" type="module" defer></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="product.css">
+    <link rel="icon" href="../img/Blogo2.png">
+    <script src="product.js" type="module" defer></script>
+    <script src="DISPLAYPRODUCT.js" type="module" defer></script>
 </head>
 <body>
     
@@ -16,65 +17,14 @@
         <div class="breadcrumb" id="breadcrumb">
             <a href="#">Home</a> &gt;&gt; <a href="#">All Products</a> &gt;&gt; <span id="product-name">Product Name</span>
         </div>
+        
+        <h1>Product Details</h1>
+        <div id="productContainer">
+            <!-- Product details will be injected here dynamically -->
+        </div> 
 
-        <!-- Main Product Section -->
-        <div class="product-container">
-            <!-- Image Section -->
-            <div class="product-image">
-                <div class="badge">Limited Product</div>
-                <img id="mainImage" src="" alt="Product Image" class="main-image">
-                <div class="thumbnails" id="thumbnails"></div>
-            </div>
 
-            <!-- Details Section -->
-            <div class="product-details">
-                <h1 id="productTitle">Product Name</h1>
-                <p class="description" id="productDescription">Product description goes here.</p>
-                <div class="price-section">
-                    <span class="current-price" id="currentPrice">$0.00</span>
-                    <span class="old-price" id="oldPrice">$0.00</span>
-                    <div class="rating">
-                        <span>4.9 Rating</span>
-                        <span>(40 reviews)</span>
-                    </div>
-                </div>
-
-                <!-- Product Quantity and Color -->
-                <div class="product-quantity-color">
-                    <p>Quantity: <span id="quantity">N/A</span></p>
-                    <p>Color: <span id="color">No color specified</span></p>
-                </div>
-
-                <!-- Subscription Options (Optional, can be removed if not needed) -->
-                <div class="subscription-option best-value">
-                    <input type="radio" id="90-day" name="subscription" checked>
-                    <label for="90-day">
-                        <div class="plan-header">
-                            <h3>90-DAY SUBSCRIPTION</h3>
-                            <span class="price">$37/Month</span>
-                            <span class="billing-cycle">$122 Paid quarterly</span>
-                        </div>
-                        <ul>
-                            <li>Save with bigger discounts and better deals</li>
-                            <li>Fast, free, carbon-neutral shipping</li>
-                            <li>Cancel without fees or penalties</li>
-                        </ul>
-                        <br><br><br>
-                        <div class="plan-header">
-                            <h3>90-DAY SUBSCRIPTION</h3>
-                            <span class="price">$37/Month</span>
-                            <span class="billing-cycle">$122 Paid quarterly</span>
-                        </div>
-                        <ul>
-                            <li>Save with bigger discounts and better deals</li>
-                            <li>Fast, free, carbon-neutral shipping</li>
-                            <li>Cancel without fees or penalties</li>
-                        </ul>
-                    </label>
-                </div>
-            </div>
-        </div>
-    </div>
+        
     
 
 </body>
