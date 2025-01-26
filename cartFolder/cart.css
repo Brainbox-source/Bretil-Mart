@@ -100,9 +100,9 @@ a {
   border-radius: 2em;
 }
 
-.location-img {
+/* .location-img {
   display: none;
-}
+} */
 
 #searchForm {
   position: relative;
@@ -156,7 +156,7 @@ a {
 .profile {
   background-color: darkorange;
   border-radius: 50%;
-  /* padding: 0.5em 0.6em; */
+  padding: 0.25em;
   border: none;
   cursor: pointer;
   position: relative;
@@ -656,6 +656,40 @@ a {
   cursor: pointer;
 }
 
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 10px rgba(255, 121, 19, 0.5);
+  }
+  50% {
+    transform: scale(1.1);
+    box-shadow: 0 0 20px rgba(255, 121, 19, 0.7);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 10px rgba(255, 121, 19, 0.5);
+  }
+}
+
+#trackBtn {
+  background-color: rgb(255, 121, 19);
+  padding: 1.2em 2em;
+  border: none;
+  border-radius: 0.25em;
+  color: #fff;
+  font-weight: 700;
+  margin-top: 1em;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  animation: pulse 1.5s infinite ease-in-out;
+}
+
+#trackBtn:hover {
+  transform: scale(1.15);
+  box-shadow: 0 0 25px rgba(255, 121, 19, 1);
+}
+
+
 #deliveryPaymentAndOrderCon {
   /* border: 1px solid #000; */
   height: 520px;
@@ -1002,6 +1036,11 @@ a {
 .arrow-left-con {
   display: none;
 }
+
+#trackBtn {
+  display: none; /* Hide initially */
+}
+
 
 /* scrollbar */
 ::-webkit-scrollbar {

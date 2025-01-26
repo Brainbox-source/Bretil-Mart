@@ -6,7 +6,8 @@
     --DARKCHERRYWOOD: #4B0A10;
 }
 
-@media screen and (max-width: 350px) {    .advertisement,
+@media screen and (max-width: 350px) {    
+    .advertisement,
     .bretilMartCon,
     .location-img,
     .header-hr,

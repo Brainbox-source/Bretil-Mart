@@ -71,36 +71,36 @@ document.getElementById("loginForm").addEventListener("submit", (event) => {
 });
 
 // Google Login Handler
-document.getElementById("btn").addEventListener("click", () => {
-    const provider = new GoogleAuthProvider();
+// document.getElementById("btn").addEventListener("click", () => {
+//     const provider = new GoogleAuthProvider();
 
-    signInWithPopup(auth, provider)
-        .then((result) => {
-            const user = result.user;
-            const userDocRef = doc(db, "users", user.uid);
+//     signInWithPopup(auth, provider)
+//         .then((result) => {
+//             const user = result.user;
+//             const userDocRef = doc(db, "users", user.uid);
 
-            return getDoc(userDocRef)
-                .then((docSnapshot) => {
-                    if (!docSnapshot.exists()) {
-                        return setDoc(userDocRef, {
-                            firstName: user.displayName.split(" ")[0],
-                            lastName: user.displayName.split(" ")[1] || "",
-                            email: user.email,
-                            phone: "",
-                            userId: user.uid,
-                            rememberMe: true
-                        });
-                    }
-                });
-        })
-        .then(() => {
-            window.location.href = "../Home/index.html";
-        })
-        .catch((error) => {
-            console.error("Google login error:", error.message);
-            showErrorMessage("An error occurred during Google login. Please try again.");
-        });
-});
+//             return getDoc(userDocRef)
+//                 .then((docSnapshot) => {
+//                     if (!docSnapshot.exists()) {
+//                         return setDoc(userDocRef, {
+//                             firstName: user.displayName.split(" ")[0],
+//                             lastName: user.displayName.split(" ")[1] || "",
+//                             email: user.email,
+//                             phone: "",
+//                             userId: user.uid,
+//                             rememberMe: true
+//                         });
+//                     }
+//                 });
+//         })
+//         .then(() => {
+//             window.location.href = "../Home/index.html";
+//         })
+//         .catch((error) => {
+//             console.error("Google login error:", error.message);
+//             showErrorMessage("An error occurred during Google login. Please try again.");
+//         });
+// });
 
 // Helper Function: Validate Email
 function validateEmail(email) {

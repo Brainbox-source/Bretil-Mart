@@ -1,0 +1,68 @@
+@media screen and (max-width: 920px) {
+   /* Container for the entire content */
+.container {
+    /* border: 1px solid #000; */
+    padding-left: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    overflow: hidden;
+  }
+
+  /* Breadcrumb Section */
+.breadcrumb {
+    margin-bottom: none;
+    /* border: 1px solid #000; */
+    text-overflow: ellipsis;
+    overflow: hidden;
+    width: 100%;
+    white-space: nowrap;
+  }
+  
+  #mainProductCon {
+    /* border: 1px solid #00f; */
+    height: 93vh;
+    display: block;
+  }
+  
+  #productImageCon {
+    /* border: 1px solid #0f0; */
+    width: auto;
+    /* background-color: #dcdcdc16; */
+    height: auto;
+    overflow: none;
+    margin: 0 auto 1em auto;
+    place-content: normal;
+  }
+  
+  #productDetailsCon {
+    /* border: 1px solid #f00; */
+    width: 100%;
+    height: auto;
+    text-align: center;
+    font-size: 0.8em;
+  }
+
+  .product-image {
+    width: 100%; /* Image controls its own width */
+    height: auto; /* Image controls its own height */
+    object-fit: contain; /* Ensures the image fits within its container without cropping */
+    /* border: 1px solid #000; Optional border for the image */
+    display: block; /* Ensures no extra space below the image */
+    max-width: 100%; /* Prevents the image from overflowing the container */
+    margin: auto;
+  }
+  
+  .quantity-selector {
+    width: 40%;
+  }
+  
+  /* Add to Cart button */
+  .add-to-cart-btn {
+    width: 60%;
+  }
+
+  /* Modal Content */
+.product-added-modal-content {
+    gap: 2em;
+  }
+}

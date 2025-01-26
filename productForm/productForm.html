@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bretil Mart Product Form</title>
+    <link rel="icon" href="../img/Blogo2.png">
+    <script src="script.js" defer type="module"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* style.css */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            text-align: center;
+            color: #2d6a4f; /* Dark Green */
+            font-size: 2.5rem;
+            margin-top: 40px;
+        }
+
+        form {
+            max-width: 700px;
+            margin: 40px auto;
+            padding: 30px;
+            border-radius: 10px;
+            background-color: white;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            border: 2px solid #2d6a4f; /* Dark Green border */
+        }
+
+        label {
+            display: block;
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        input,
+        select,
+        #btn {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 1rem;
+            color: #555;
+        }
+
+        input[type="file"] {
+            padding: 5px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+        }
+
+        select {
+            background-color: #fff;
+            cursor: pointer;
+        }
+
+        #btn {
+            background-color: #f77f00; /* Dark Orange */
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            border: none;
+            padding: 14px;
+        }
+
+        #btn:hover {
+            background-color: #e46f00; /* Slightly darker Orange */
+        }
+
+        option {
+            font-size: 1rem;
+        }
+
+        .form-section {
+            margin-bottom: 25px;
+        }
+
+        .form-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .form-footer {
+            text-align: center;
+            font-size: 0.9rem;
+            color: #888;
+        }
+
+        .form-footer a {
+            text-decoration: none;
+            color: #f77f00; /* Dark Orange */
+        }
+
+        .form-footer a:hover {
+            text-decoration: underline;
+        }
+
+        .form-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .form-header h2 {
+            font-size: 1.6rem;
+            color: #333;
+        }
+
+        /* Additional styles */
+        input[type="number"] {
+            text-align: right;
+        }
+
+        select[multiple] {
+            height: auto;
+        }
+
+        /* Form heading */
+        .form-header h2 {
+            color: #2d6a4f; /* Dark Green */
+        }
+
+        /* Modal Wrapper */
+        .product-added-modal {
+            display: none; /* Hidden by default */
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            /* height: 10%; */
+            overflow: auto;
+            /* place-content: center; */
+            /* padding-top: 60px; */
+        }
+
+        /* Modal Content */
+        .product-added-modal-content {
+            background-color: rgb(255, 136, 0);
+            /* border-radius: 2em; */
+            margin: 0 auto;
+            padding: 0.4em 0;
+            /* border: 1px solid #888; */
+            /* max-width: 450px; */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /* flex-direction: row-reverse; */
+            gap: 6em;
+            color: var(--GREEN);
+            font-weight: 800;
+        }
+
+        /* Apply fade-in animation */
+        .product-added-modal-content {
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        /* Hover effect for Close button */
+        #closeModalBtn:hover {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+        }
+
+        /* Close button positioning */
+        #closeModalBtn {
+        /* font-size: 18px; */
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: var(--GREEN);
+        /* float: right; */
+        font-size: 28px;
+        font-weight: bold;
+        }
+
+        #loading {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            backdrop-filter: blur(0.1em);
+            background-color: #00000027;
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+            }
+
+            .spinner {
+            border: 4px solid darkgreen;
+            border-top: 4px solid darkorange;
+            border-radius: 50%;
+            width: 3.5em;
+            height: 3.5em;
+            animation: spin 1s linear infinite;
+            }
+
+            @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @media screen and (max-width: 768px) {
+            /* Modal Content */
+            .product-added-modal-content {
+                gap: 2em;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Bretil Mart Product Submission Form</h1>
+
+    <!-- Form that submits data to the backend -->
+    <form id="productForm">
+        <div class="form-header">
+            <h2>Enter Product Details</h2>
+        </div>
+
+        <div class="form-section">
+            <label for="images">Product Images:</label>
+            <input type="file" id="images" name="images[]" accept="image/*" multiple required>
+        </div>
+
+        <div class="form-section">
+            <label for="productName">Product Name:</label>
+            <input type="text" id="productName" name="productName" required>
+        </div>
+
+        <div class="form-section">
+            <label for="category">Category:</label>
+            <select id="category" name="category" required>
+                <option value="" selected disabled>Select product category</option>
+                <option value="fresh produce">Fresh Produce</option>
+                <option value="baked goods">Baked Goods</option>
+                <option value="diary products">Diary Products</option>
+                <option value="meat & seafood">Meat & Seafood</option>
+                <option value="canned goods">Canned Goods</option>
+                <option value="frozen foods">Frozen Foods</option>
+                <option value="grains & pasta">Grains & Pasta</option>
+                <option value="snacks">Snacks</option>
+                <option value="beverages">Beverages</option>
+                <option value="condiments & sauces">Condiments & Sauces</option>
+                <option value="spices & herbs">Spices & Herbs</option>
+                <option value="sweets & deserts">Sweets & Deserts</option>
+            </select>
+        </div>
+
+        <div class="form-section">
+            <label for="price">Price ($):</label>
+            <input type="number" id="price" name="price" step="0.01" required>
+        </div>
+
+        <div class="form-section">
+            <label for="quantity">Quantity:</label>
+            <input type="number" id="quantity" name="quantity" min="1" required>
+        </div>
+
+        <div class="form-section">
+            <label for="color">Color:</label>
+            <select id="color" name="color" multiple>
+                <option value="red">Red</option>
+                <option value="blue">Blue</option>
+                <option value="green">Green</option>
+                <option value="yellow">Yellow</option>
+                <option value="black">Black</option>
+                <option value="white">White</option>
+                <option value="brown">Brown</option>
+                <option value="cripps pink">Cripps Pink</option>
+                <!-- Add more colors as needed -->
+            </select>
+        </div>
+
+        <div class="form-section">
+            <label for="brand">Brand:</label>
+            <input type="text" id="brand" name="brand" required>
+        </div>
+
+        <div class="form-section">
+            <button id="btn" type="submit">Submit Product</button>
+        </div>
+
+        <div class="form-footer">
+            <p>By submitting this form, you agree to our <a href="../authentication/signUp/terms.html">Terms and Conditions</a>.</p>
+        </div>
+    </form>
+
+    <div id="productAddedModal" class="product-added-modal">
+        <div class="product-added-modal-content">
+            <!-- <h2>Product Added to Cart</h2> -->
+            <p></p> <!-- This will display the product name/message dynamically -->
+            <button id="closeModalBtn">×</button>
+        </div>
+    </div>  
+
+                <!-- Loading indicator container -->
+                <div id="loading" class="loadingIndicator">
+                    <div class="spinner"></div>
+                </div>
+</body>
+
+</html>

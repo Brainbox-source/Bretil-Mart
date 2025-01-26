@@ -1339,59 +1339,6 @@ faqItems.forEach(item => {
     });
 });
 
-
-// // Function to create and show a dynamic modal with a message
-// function showCustomModal(message) {
-//     // Check if modal already exists
-//     let modal = document.getElementById('dynamic-custom-modal');
-//     if (!modal) {
-//         // Create the modal if it doesn't exist
-//         modal = document.createElement('div');
-//         modal.id = 'dynamic-custom-modal';
-//         modal.classList.add('custom-modal');
-
-//         // Create modal content container
-//         const modalContent = document.createElement('div');
-//         modalContent.classList.add('custom-modal-content');
-
-//         // Create the close button
-//         const closeBtn = document.createElement('span');
-//         closeBtn.classList.add('close-btn');
-//         closeBtn.innerHTML = '&times;';
-
-//         // Create the modal message paragraph
-//         const modalMessage = document.createElement('p');
-//         modalMessage.id = 'custom-modal-message';
-
-//         // Append close button and message to modal content
-//         modalContent.appendChild(closeBtn);
-//         modalContent.appendChild(modalMessage);
-
-//         // Append modal content to modal
-//         modal.appendChild(modalContent);
-
-//         // Append modal to body
-//         document.body.appendChild(modal);
-
-//         // Add close functionality to close button
-//         closeBtn.onclick = function () {
-//             modal.style.display = 'none';
-//         };
-
-//         // Close the modal if the user clicks outside of it
-//         window.onclick = function (event) {
-//             if (event.target === modal) {
-//                 modal.style.display = 'none';
-//             }
-//         };
-//     }
-
-//     // Set the modal message and display it
-//     const modalMessage = document.getElementById('custom-modal-message');
-//     modalMessage.textContent = message;
-//     modal.style.display = 'block';
-// }
-
 // Function to show the modal
 function showModal(message) {
     const modal = document.getElementById("productAddedModal");
@@ -1605,52 +1552,8 @@ function loadCartFromLocalStorage() {
     const cartData = JSON.parse(localStorage.getItem("cart")) || [];
     updateCartItemCount(cartData);
 }
-
-// // Add event listeners for the cart buttons (if necessary)
-// function attachCartButtonsWithFlyEffect() {
-//     document.querySelectorAll('.add-to-cart-btn, .add-button').forEach(button => {
-//         button.addEventListener('click', (event) => {
-//             const productId = button.getAttribute('data-id');
-//             const productName = button.getAttribute('data-name');
-//             const productPrice = button.getAttribute('data-price');
-
-//             // Add product to cart
-//             addToCart(productId, productName, productPrice, 1);
-//         });
-//     });
-// }
-
-// // Ensure the buttons are attached when the page loads
-// document.addEventListener('DOMContentLoaded', attachCartButtonsWithFlyEffect);
-
-
-// // Function to clear the cart after checkout
-// async function clearCartAfterCheckout() {
-//     const user = auth.currentUser;
-
-//     if (!user) {
-//         console.log("User is not logged in.");
-//         return;
-//     }
-
-//     const cartRef = doc(db, "carts", user.uid);
-
-//     try {
-//         await deleteDoc(cartRef);
-//         localStorage.removeItem("cart");
-//         updateCartItemCount([]);
-//         console.log("Cart cleared after checkout.");
-//     } catch (error) {
-//         console.error("Error clearing cart after checkout:", error);
-//     }
-// }
-
 // Load the cart from Firestore or localStorage on page load
 window.addEventListener('load', loadCart);
-
-
-
-
   
 // Attach   to buttons with '+' as text content
 function attachCartButtons() {
@@ -1733,41 +1636,3 @@ document.addEventListener('click', (e) => {
     hamburgerMenu.classList.remove('hamburger-active'); // Optional, reset hamburger icon
   }
 });
-
-
-
-// function handleClick(event) {
-//   const button = event.target;
-//   const productId = button.getAttribute('data-id');
-//   const productName = button.getAttribute('data-name');
-//   const productPriceAttr = button.getAttribute('data-price');
-
-//   // Ensure productPriceAttr exists before trying to parse it
-//   if (!productPriceAttr) {
-//     console.error('Missing data-price attribute on button:', button);
-//     return;
-//   }
-
-//   const productPrice = parseFloat(productPriceAttr.replace(/[^0-9.]/g, ''));
-//   const quantityInput = button.closest('.quantity-add-cart-container')?.querySelector('.quantity-input');
-//   const quantity = quantityInput ? parseInt(quantityInput.value) : 1;
-
-//   if (productId && productName && !isNaN(productPrice)) {
-//     addToCart(productId, productName, productPrice, quantity);
-//   } else {
-//     console.error('Missing product details on button:', button);
-//     console.error('Ensure your button has data-id, data-name, and data-price attributes.');
-//   }
-// }
-
-  
-
-// Ensure cart buttons are attached when products are loaded
-// document.addEventListener('DOMContentLoaded', attachCartButtons);
-
-
-// api key
-// 782373725154486
-
-// api secret 
-// 4gD3zr00kcNM4v_pqxpbvMdW7D4

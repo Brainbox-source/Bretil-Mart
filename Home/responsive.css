@@ -620,7 +620,7 @@
 
     #bestSellingProductsLeftCon {
         /* display: grid; */
-        grid-template-columns: repeat(1, 1fr);
+        grid-template-columns: repeat(2, 1fr);
     }
 
     .best-selling-products-con {
@@ -629,6 +629,12 @@
         /* display: grid; */
         grid-template-columns: repeat(1, 1fr);
         /* gap: 1.5em; */
+    }
+
+    .best-selling-products-con .limited-product-card img {
+        width: 100%;
+        height: 300px;
+        /* height: ; */
     }
 
     .quantity-selector {
@@ -683,6 +689,10 @@
         padding: 0.25em 0;
         gap: 1em;
         text-align: center;
+    }
+
+    .mobileServiceDescription {
+        display: block;
     }
 }
 
@@ -1354,6 +1364,10 @@
         padding: 0.25em 0;
         gap: 6em;
         text-align: center;
+    }
+
+    .mobileServiceDescription {
+        display: block;
     }
 }
 

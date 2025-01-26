@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="../img/Blogo2.png">
+    <script src="track.js" defer type="module"></script>
+    <title>Track Your Delivery</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        #locationParagraph {
+            display: none;
+        }
+
+        /* scrollbar */
+        ::-webkit-scrollbar {
+            width: 0px;
+        }
+    </style>
+</head>
+<body>
+    <p id="locationParagraph"></p>
+
+    <div id="map" style="width: 100%; height: 100vh;"></div>
+</body>
+</html>

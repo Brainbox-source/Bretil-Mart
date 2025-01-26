@@ -153,7 +153,7 @@ a {
 .profile {
     background-color: darkorange;
     border-radius: 50%;
-    /* padding: 0.5em 0.6em; */
+    padding: 0.25em;
     border: none;
     cursor: pointer;
     position: relative;
@@ -410,7 +410,7 @@ a {
 }
 
 .mobileServiceDescription {
-    /* display: none; */
+    display: none;
 }
 
 .man-with-basket {
@@ -719,6 +719,7 @@ a {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 1em;
+    overflow: auto;
 }
 
 .limited-product-card {
@@ -734,8 +735,10 @@ a {
 }
 
 .limited-product-card img {
-    /* border: 1px solid #fff; */
-    width: 70%;
+    /* border: 1px solid #f00; */
+    /* width: auto; */
+    height: 200px;
+    /* object-fit: contain; */
     margin: 1.5em 0 1em 0;
     display: block;  /* Makes the image a block element */
     margin-left: auto;  /* Centers the image horizontally */
@@ -746,7 +749,13 @@ a {
     color: var(--GREEN);
     font-weight: 700;
     font-size: 1.2em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+    white-space: nowrap;
+    max-width: 200px;
 }
+
 
 .limited-product-card .price {
     font-size: 1.4em;
@@ -1212,7 +1221,20 @@ a {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 1.5em;
+    overflow: auto;
 }
+
+.best-selling-products-con .limited-product-card {
+    /* border: 1px solid #000; */
+    height: 100%; /* Fixed height */
+}
+
+.best-selling-products-con .limited-product-card img {
+    /* width: 80%; */
+    height: 330px;
+    /* height: ; */
+}
+
 
 #bestSellingProductsLeftCon ,
 #bestSellingProductsRightCon {
@@ -1224,6 +1246,7 @@ a {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 15px;
+    overflow: auto;
     /* background-color: red; */
 }
 
@@ -1255,7 +1278,8 @@ a {
 
 /* Product image styling */
 .best-selling-product-card img {
-    width: 75%;
+    /* width: 75%; */
+    height: 180px;
     margin: 1.5em 0 1em 0;
     display: block;  /* Makes the image a block element */
     margin-left: auto;  /* Centers the image horizontally */
@@ -1275,6 +1299,11 @@ a {
     color: var(--GREEN);
     font-weight: 700;
     margin-bottom: 0.8em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+    max-width: 200px;
+    white-space: nowrap;
 }
 
 /* Product price styling */
@@ -1523,6 +1552,7 @@ a {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 15px;
+  overflow: auto;
   /* border: 1px solid #000; */
   /* padding: 20px; */
 }
@@ -1558,7 +1588,8 @@ a {
 
 .item-box img {
     /* height: auto; */
-    width: 70%;
+    /* width: 70%; */
+    height: 200px;
     margin: 1.5em 0 1em 0;
     display: block;  /* Makes the image a block element */
     margin-left: auto;  /* Centers the image horizontally */
@@ -1569,6 +1600,11 @@ a {
   color: var(--GREEN);
   font-weight: 700;
   font-size: 1.2em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+  white-space: nowrap;
+  max-width: 200px;
 }
 
 .item-price-container p {

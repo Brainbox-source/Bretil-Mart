@@ -413,45 +413,6 @@ async function fetchCountryFromCoordinates(latitude, longitude) {
 // Initialize location detection on page load
 document.addEventListener("DOMContentLoaded", detectUserLocation);
 
-// automatic scrolling for searchCatogoriesCardsCon
-// document.addEventListener("DOMContentLoaded", () => {
-//     const container = document.querySelector(".searchCatogoriesCardsCon");
-//     const scrollSpeed = 1; // Pixels to scroll per tick
-//     let scrollInterval; // Variable to hold the scroll interval
-
-//     // Duplicate the content for seamless scrolling
-//     const duplicateContent = () => {
-//         container.innerHTML += container.innerHTML;
-//     };
-
-//     // Start auto-scrolling
-//     const startScrolling = () => {
-//         scrollInterval = setInterval(() => {
-//             container.scrollLeft += scrollSpeed;
-
-//             // Reset the scroll position seamlessly when reaching halfway
-//             if (container.scrollLeft >= container.scrollWidth / 2) {
-//                 container.scrollLeft = 0;
-//             }
-//         }, 15); // Adjust the interval for smoothness
-//     };
-
-//     // Stop scrolling on hover
-//     const stopScrolling = () => {
-//         clearInterval(scrollInterval);
-//     };
-
-//     // Duplicate the content on page load
-//     duplicateContent();
-
-//     // Start auto-scrolling
-//     startScrolling();
-
-//     // Add hover listeners
-//     container.addEventListener("mouseenter", stopScrolling);
-//     container.addEventListener("mouseleave", startScrolling);
-// });
-
 // Product Search Functionality with Click-Away Feature
 // Function to save recent searches
 function saveRecentSearch(query) {
@@ -582,7 +543,9 @@ function performProductSearch(query) {
 
             // Handle product selection
             productItem.addEventListener('click', () => {
-                alert(`You selected: ${product.brand} - ${product.price}`);
+                // alert(`You selected: ${product.brand} - ${product.price}`);
+                sessionStorage.setItem('singleProduct', JSON.stringify(product));
+                window.location.href = '../PRODUCT/product.html'
                 saveRecentSearch(product.brand);
                 productList.style.display = 'none';
                 displayRecentSearches();
@@ -700,100 +663,6 @@ function updateCartItemCount(cartData) {
         cartItemCountElement.textContent = totalItems;
     }
 }
-
-// async function addToCart(productId, productName, productPrice, quantity) {
-//     const loader = document.getElementById("loader"); // Assuming loader has this ID
-
-//     // Check if loader exists before trying to manipulate its style
-//     if (loader) {   
-//         loader.style.display = "block"; // Show the loader before starting the cart update
-//     }
-
-//     try {
-//         const user = auth.currentUser;
-
-//         if (!user) {
-//             console.log("User is not logged in. Redirect to login page.");
-//             return;
-//         }
-
-//         // Reference to the user's cart in Firestore
-//         const cartRef = doc(db, "carts", user.uid);
-
-//         // Get the current cart
-//         const cartDoc = await getDoc(cartRef);
-
-//         let cartData = cartDoc.exists() ? cartDoc.data().items : [];
-
-//         // Get the product details from session storage
-//         const products = JSON.parse(sessionStorage.getItem('products')) || [];
-//         const product = products.find(item => item.id === productId);
-
-//         if (!product) {
-//             console.error('Product not found!');
-//             return;
-//         }
-
-//         // Check if the quantity to add exceeds the available stock
-//         if (quantity > product.quantity) {
-//             showModal(`Sorry! Only ${product.quantity} of this product is available.`);
-//             return;
-//         }
-
-//         // Check if product already exists in the cart
-//         const productIndex = cartData.findIndex(item => item.id === productId);
-
-//         if (productIndex > -1) {
-//             // Product exists, update quantity
-//             const currentQuantityInCart = cartData[productIndex].quantity;
-//             const newQuantity = currentQuantityInCart + quantity;
-
-//             if (newQuantity > product.quantity) {
-//                 showModal(`You can only add ${product.quantity - currentQuantityInCart} more of this product.`);
-//                 return;
-//             }
-
-//             cartData[productIndex].quantity = newQuantity;
-//         } else {
-//             // Product doesn't exist, add new product to the cart
-//             cartData.push({
-//                 id: productId,
-//                 name: productName,
-//                 price: `${productPrice.replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`,
-//                 quantity: quantity,
-//                 picture: product.pictures && product.pictures.length > 0 ? product.pictures[0] : 'default-image.jpg' // Add product picture
-//             });
-//         }
-
-//         // Update Firestore with the new cart data
-//         await setDoc(cartRef, { items: cartData });
-
-//         // Save to localStorage for faster UI updates
-//         localStorage.setItem("cart", JSON.stringify(cartData));
-
-//         // Update the cart item count in the UI
-//         updateCartItemCount(cartData);
-
-//         // Show modal that the product has been added
-//         showModal("Product Added Successfully!");
-
-//         console.log("Product added to cart!", cartData);
-//     } catch (error) {
-//         console.error("Error adding product to cart:", error);
-
-//         // Hide the loader in case of error
-//         if (loader) {
-//             loader.style.display = "none";
-//         }
-//     } finally {
-//         // Ensure the loader is hidden in case of any issues
-//         if (loader) {
-//             loader.style.display = "none"; // Hide the loading indicator
-//         }
-
-//         toggleLoading(false); // If you're using a custom function for this
-//     }
-// }
 
 // Real-time listener to sync Firestore changes with localStorage
 function setupCartSyncPoll() {
@@ -1211,7 +1080,7 @@ async function initiatePayment() {
 
     const cartData = JSON.parse(localStorage.getItem("cart")) || [];
     if (cartData.length === 0) {
-        alert("Your cart is empty. Please add items to proceed.");
+        showModal("Your cart is empty. Please add items to proceed.");
         return;
     }
 
@@ -1283,8 +1152,21 @@ async function handleSuccessfulPayment(transactionReference, address, cartData, 
         const userUID = auth.currentUser.uid;
         await saveTransactionHistory(userUID, transactionData);
 
+        // Store the delivery address in sessionStorage
+        sessionStorage.setItem("deliveryAddress", address);
+
         // Show confirmation modal
         showModal("Order placed successfully!");
+
+        // Show the 'Track Order' button after successful payment
+        document.getElementById("trackBtn").style.display = "block"; // Display the button
+        document.getElementById("startShoppingBtn").style.display = "none"; // Display the button
+
+        // Make the redirect function available after successful payment
+        window.redirectToTrackOrder = function () {
+            window.location.href = "../trackFolder/trackDelivery.html"; // Replace with your tracking page path
+        };
+
     } catch (error) {
         console.error("Error handling payment success:", error);
         alert("An error occurred while processing your order. Please contact support.");
@@ -1516,90 +1398,3 @@ if (arrowLeftCon) {
 } else {
   console.error('Arrow left container not found.');
 }   
-
-// async function clearCartAfterCheckout() {
-//     const user = auth.currentUser;
-
-//     if (!user) {
-//         console.log("User is not logged in.");
-//         return;
-//     }
-
-//     const cartRef = doc(db, "carts", user.uid);
-
-//     try {
-//         await deleteDoc(cartRef);
-//         localStorage.removeItem("cart");
-//         updateCartItemCount([]);
-//         console.log("Cart cleared after checkout.");
-//     } catch (error) {
-//         console.error("Error clearing cart after checkout:", error);
-//     }
-// }
-
-// function addQuantitySelectorAndCartButton(container) {
-//     // Create the main container for the quantity selector and add-to-cart button
-//     const mainContainer = document.createElement('div');
-//     mainContainer.classList.add('quantity-add-cart-container');
-
-//     // Quantity selector container
-//     const quantityContainer = document.createElement('div');
-//     quantityContainer.classList.add('quantity-selector');
-
-//     // Minus button
-//     const minusButton = document.createElement('button');
-//     minusButton.textContent = '-';
-//     minusButton.classList.add('quantity-btn');
-//     minusButton.addEventListener('click', () => {
-//         const quantityInput = quantityContainer.querySelector('.quantity-input');
-//         const currentValue = parseInt(quantityInput.value);
-//         quantityInput.value = Math.max(1, currentValue - 1);
-//     });
-//     quantityContainer.appendChild(minusButton);
-
-//     // Quantity input
-//     const quantityInput = document.createElement('input');
-//     quantityInput.type = 'number';
-//     quantityInput.value = 1;
-//     quantityInput.min = 1;
-//     quantityInput.classList.add('quantity-input');
-//     quantityContainer.appendChild(quantityInput);
-
-//     // Plus button
-//     const plusButton = document.createElement('button');
-//     plusButton.textContent = '+';
-//     plusButton.classList.add('quantity-btn');
-//     plusButton.addEventListener('click', () => {
-//         const quantityInput = quantityContainer.querySelector('.quantity-input');
-//         const currentValue = parseInt(quantityInput.value);
-//         quantityInput.value = currentValue + 1;
-//     });
-//     quantityContainer.appendChild(plusButton);
-
-//     // Add to Cart button
-//     const addToCartButton = document.createElement('button');
-//     addToCartButton.textContent = 'Add to Cart';
-//     addToCartButton.classList.add('add-to-cart-btn');
-//     addToCartButton.addEventListener('click', () => {
-//         const productId = container.getAttribute('data-id');
-//         const productName = container.getAttribute('data-name');
-//         const productPrice = container.getAttribute('data-price');
-//         const quantity = parseInt(quantityInput.value);
-
-//         if (productId && productName && !isNaN(quantity) && quantity > 0) {
-//             toggleLoading(true); // Show the loading indicator
-//             addToCart(productId, productName, productPrice, quantity);
-//             quantityInput.value = 1;
-//         } else {
-//             console.error('Error adding to cart. Missing product details or invalid quantity.');
-//         }
-//     });
-
-//     // Append both containers to the main container
-//     mainContainer.appendChild(quantityContainer);
-//     mainContainer.appendChild(addToCartButton);
-
-//     // Append the main container to the product card
-//     container.appendChild(mainContainer);
-// }
-

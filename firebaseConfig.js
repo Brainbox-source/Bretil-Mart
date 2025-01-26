@@ -6,7 +6,7 @@ import {
     signInWithEmailAndPassword, 
     sendPasswordResetEmail,
     signOut,
-     onAuthStateChanged
+    onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js";
 import { 
     getFirestore, 
@@ -22,6 +22,16 @@ import {
     where, 
     getDoc 
 } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js";
+
+// Import Realtime Database
+import { 
+    getDatabase, 
+    ref, 
+    onValue, 
+    set, 
+    update 
+} from "https://www.gstatic.com/firebasejs/11.0.2/firebase-database.js";
+
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -44,6 +54,9 @@ const analytics = getAnalytics(app);
 const db = getFirestore(app);
 const auth = getAuth(app);
 
+const realtimeDB = getDatabase(app);
+const database = getDatabase(app);
+
 // Exporting all necessary Firebase utilities for use in other parts of the application
 export {
     auth,
@@ -64,5 +77,8 @@ export {
     deleteDoc,
     query, 
     where,
-    getDoc
+    getDoc,
+    database,
+    ref,
+    onValue
 };

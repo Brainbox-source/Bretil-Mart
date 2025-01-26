@@ -1,32 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title></title>
     <link rel="stylesheet" href="product.css">
+    <link rel="stylesheet" href="productResponsive.css">
     <link rel="icon" href="../img/Blogo2.png">
     <script src="product.js" type="module" defer></script>
     <script src="DISPLAYPRODUCT.js" type="module" defer></script>
 </head>
+
 <body>
-    
-    
+
     <div class="container">
         <!-- Breadcrumb -->
         <div class="breadcrumb" id="breadcrumb">
-            <a href="#">Home</a> &gt;&gt; <a href="#">All Products</a> &gt;&gt; <span id="product-name">Product Name</span>
+            <a href="../Home/index.html">Home</a> <span>&gt;&gt;</span> <a>All Products</a> <span>&gt;&gt;</span> <span id="productName">Product Name</span>
         </div>
         
-        <h1>Product Details</h1>
-        <div id="productContainer">
-            <!-- Product details will be injected here dynamically -->
-        </div> 
-
-
-        
+        <div id="mainProductCon">
+            <div id="productImageCon">
+                <div id="productContainer">
+                    <!-- Product details will be injected here dynamically -->
+                </div>
+            </div>
     
+            <div id="productDetailsCon">
+                <div id="productVideoContainer" class="product-video-container">
+                    <video id="productVideo" autoplay loop>
+                      <source src="" type="video/mp4" />
+                      Your browser does not support the video tag.
+                    </video>
+                  </div>                  
+            </div>
+        </div>
+    </div>
 
+    <div id="productAddedModal" class="product-added-modal">
+        <div class="product-added-modal-content">
+            <!-- <h2>Product Added to Cart</h2> -->
+            <p></p> <!-- This will display the product name/message dynamically -->
+            <button id="closeModalBtn">×</button>
+        </div>
+    </div>  
+
+                <!-- Loading indicator container -->
+                <div id="loading" class="loadingIndicator">
+                    <div class="spinner"></div>
+                </div>
 </body>
 </html>
 
