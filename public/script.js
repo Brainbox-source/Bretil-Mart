@@ -17,7 +17,7 @@ auth.onAuthStateChanged((user) => {
                     const userData = docSnapshot.data();
                     if (userData.rememberMe) {
                         console.log("User is remembered. Redirecting to Home.");
-                        window.location.href = "../Home/index.html";
+                        window.location.href = "./Home/index.html";
                     }
                 }
             })
@@ -58,7 +58,7 @@ document.getElementById("loginForm").addEventListener("submit", (event) => {
             if (userDoc.exists()) {
                 const userData = userDoc.data();
                 sessionStorage.setItem("loggedInUser", JSON.stringify(userData));
-                window.location.href = "../Home/index.html";
+                window.location.href = "./Home/index.html";
             } else {
                 throw new Error("User data not found in Firestore.");
             }
