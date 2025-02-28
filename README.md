@@ -27,5 +27,4 @@ For questions or support, reach out to me:
 
 - **Email**: leviprecious324@gmail.com
 - **GitHub**: [@Levi Precious](https://github.com/Brainbox-source)
-- ![GitHub Logo](https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png)
 
