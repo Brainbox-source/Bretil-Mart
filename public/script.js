@@ -5,7 +5,7 @@ import {
 import { 
     doc, getDoc, setDoc, collection, query, where, getDocs 
 } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js";
-import { auth, db } from "../firebaseConfig.js"; // Firebase configuration file
+import { auth, db } from "./firebaseConfig.js"; // Firebase configuration file
 
 // Handle Authentication State
 auth.onAuthStateChanged((user) => {

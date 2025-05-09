@@ -233,7 +233,7 @@ if (signOutBtn) {
                 sessionStorage.clear();
 
                 // Redirect to the login page or homepage
-                window.location.href = "../public/index.html"; // Update this path based on your project structure
+                window.location.href = "../../index.html"; // Update this path based on your project structure
             })
             .catch((error) => {
                 console.error("Error during sign-out:", error.message);

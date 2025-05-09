@@ -1,134 +1,221 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <!-- Meta tags for character encoding and responsive design -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-<head>
-  <!-- Meta tags for character encoding and responsive design -->
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Title of the page as seen in the browser tab -->
+    <title>Login - Bretil Mart. Delivering The Future</title>
 
-  <!-- Title of the page as seen in the browser tab -->
-  <title>Login - Bretil Mart. Delivering The Future</title>
+    <!-- Favicon link to display the logo on the browser tab -->
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="img/apple-touch-icon.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="img/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="img/favicon-16x16.png"
+    />
+    <link rel="manifest" href="img/site.webmanifest" />
+    <!-- <link rel="icon" href="img/Blogo2.png" /> -->
+    <!-- Link to the title icon -->
 
-  <!-- Favicon link to display the logo on the browser tab -->
-  <link rel="icon" href="img/Blogo2.png"> <!-- Link to the title icon -->
+    <!-- Link to bootdrtapcdn - fontawesome -->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
 
-  <!-- Link to bootdrtapcdn - fontawesome -->
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Link to external stylesheet for more visual appeal -->
+    <link rel="stylesheet" href="styles.css" />
 
-  <!-- Link to external stylesheet for more visual appeal -->
-  <link rel="stylesheet" href="styles.css">
+    <!-- Link to external stylesheet for responsiveness -->
+    <link rel="stylesheet" href="responsive.css" />
 
-  <!-- Link to external stylesheet for responsiveness -->
-  <link rel="stylesheet" href="responsive.css">
+    <!-- External JavaScript file for handling form authentication -->
+  </head>
 
-  <!-- External JavaScript file for handling form authentication -->
-</head>
-
-<body>
-  <main>
-    <!-- Container for the log In Images -->
-    <div class="deliveryPicsContainer">
-      <div class="slideShowContainer">
-        <div class="mySlides fade">
-          <img src="./img/man-taking-care-home-delivering-groceries_52683-102842.jpg" class="slideShowImg" alt="">
-          <img src="./img/man-taking-care-home-delivering-groceries_52683-102845.jpg" class="slideShowImg" alt="">
-          <img src="./img/man-taking-care-home-delivering-groceries_52683-102840.jpg" class="slideShowImg" alt="">
-          <img src="./img/man-taking-care-home-delivering-groceries_52683-102843.jpg" class="slideShowImg" alt="">
-          <img src="./img/delivery-man-giving-groceries-order-customer_23-2149950064.avif" class="slideShowImg" alt="">
-          <img src="./img/man-taking-care-home-delivering-groceries_52683-10284799.jpg" class="slideShowImg" alt="">
+  <body>
+    <main>
+      <!-- Container for the log In Images -->
+      <div class="deliveryPicsContainer">
+        <div class="slideShowContainer">
+          <div class="mySlides fade">
+            <img
+              src="./img/man-taking-care-home-delivering-groceries_52683-102842.jpg"
+              class="slideShowImg"
+              alt=""
+            />
+            <img
+              src="./img/man-taking-care-home-delivering-groceries_52683-102845.jpg"
+              class="slideShowImg"
+              alt=""
+            />
+            <img
+              src="./img/man-taking-care-home-delivering-groceries_52683-102840.jpg"
+              class="slideShowImg"
+              alt=""
+            />
+            <img
+              src="./img/man-taking-care-home-delivering-groceries_52683-102843.jpg"
+              class="slideShowImg"
+              alt=""
+            />
+            <img
+              src="./img/delivery-man-giving-groceries-order-customer_23-2149950064.avif"
+              class="slideShowImg"
+              alt=""
+            />
+            <img
+              src="./img/man-taking-care-home-delivering-groceries_52683-10284799.jpg"
+              class="slideShowImg"
+              alt=""
+            />
+          </div>
         </div>
       </div>
-    </div>
 
-    <!-- Container for the log In Images for mobile screen -->
-    <div class="mobileDeliveryPicsContainer">
-      <div class="mobileSlideShowContainer">
-        <div class="myMobileSlides">
-          <img src="./img/fueling-health.png" class="mobileSlideShowImg active" alt="">
-          <img src="./img/strengthening.png" class="mobileSlideShowImg" alt="">
-          <img src="./img/healthy.png" class="mobileSlideShowImg" alt="">
+      <!-- Container for the log In Images for mobile screen -->
+      <div class="mobileDeliveryPicsContainer">
+        <div class="mobileSlideShowContainer">
+          <div class="myMobileSlides">
+            <img
+              src="./img/fueling-health.png"
+              class="mobileSlideShowImg active"
+              alt=""
+            />
+            <img
+              src="./img/strengthening.png"
+              class="mobileSlideShowImg"
+              alt=""
+            />
+            <img src="./img/healthy.png" class="mobileSlideShowImg" alt="" />
+          </div>
         </div>
       </div>
-    </div>
 
-    <!-- Main container for the log In page -->
-    <div class="loginContainer">
+      <!-- Main container for the log In page -->
+      <div class="loginContainer">
+        <!-- Section for displaying a welcome message and logo -->
+        <div class="welcomeBackContainer">
+          <img src="./img/Blogo2.png" class="bertilLogoImg" alt="Logo" />
+          <!-- Logo image for the website -->
+          <h1 class="welcomeBackHeading">Welcome back!</h1>
+          <!-- Heading to greet returning users -->
+          <p class="logInParagraph">Log In to your account.</p>
+          <!-- Instruction text for logging in -->
+        </div>
 
-      <!-- Section for displaying a welcome message and logo -->
-      <div class="welcomeBackContainer">
-        <img src="./img/Blogo2.png" class="bertilLogoImg" alt="Logo"> <!-- Logo image for the website -->
-        <h1 class="welcomeBackHeading">Welcome back!</h1> <!-- Heading to greet returning users -->
-        <p class="logInParagraph">Log In to your account.</p> <!-- Instruction text for logging in -->
-      </div>
-
-      <!-- Form container for the login credentials -->
-      <form id="loginForm">
-        <div class="logInCredentials">
+        <!-- Form container for the login credentials -->
+        <form id="loginForm">
+          <div class="logInCredentials">
             <div class="inputField emailAndPassword">
-                <label for="email">Email</label>
-                <div class="inputContainer">
-                  <input type="email" id="email" name="email" placeholder="Email address" required>
-                  <i class="fa fa-envelope-o"></i>
-                </div>
-            </div> 
-
-            <div class="inputField emailAndPassword">
-                <label for="password">Password</label>
-                <div class="inputContainer">
-                  <input type="password" id="password" name="password" placeholder="Password" required>
-                  <i class="fa fa-key" aria-hidden="true"></i>
-                  <span id="togglePassword" class="eye-icon"><i class="fa fa-eye-slash" aria-hidden="true"></i></span>
-                </div>
+              <label for="email">Email</label>
+              <div class="inputContainer">
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  placeholder="Email address"
+                  required
+                />
+                <i class="fa fa-envelope-o"></i>
+              </div>
             </div>
-        </div>
-    
-        <!-- Loading indicator container -->
-        <div id="loading" class="loadingIndicator">
+
+            <div class="inputField emailAndPassword">
+              <label for="password">Password</label>
+              <div class="inputContainer">
+                <input
+                  type="password"
+                  id="password"
+                  name="password"
+                  placeholder="Password"
+                  required
+                />
+                <i class="fa fa-key" aria-hidden="true"></i>
+                <span id="togglePassword" class="eye-icon"
+                  ><i class="fa fa-eye-slash" aria-hidden="true"></i
+                ></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Loading indicator container -->
+          <div id="loading" class="loadingIndicator">
             <div class="spinner"></div>
-        </div>
-    
-        <div class="accountOptions">
+          </div>
+
+          <div class="accountOptions">
             <div class="inputField rememberMe">
-                <input type="checkbox" id="remember" name="remember">
-                <label for="remember" class="rememberMe">Remember me</label>
+              <input type="checkbox" id="remember" name="remember" />
+              <label for="remember" class="rememberMe">Remember me</label>
             </div>
-    
+
             <div class="forgotPassword">
-                <a href="../authentication/forgetPassword/index.html" class="forgotPasswordLink">Forgot password?</a>
+              <a
+                href="../authentication/forgetPassword/index.html"
+                class="forgotPasswordLink"
+                >Forgot password?</a
+              >
             </div>
-        </div>
-    
-        <button type="submit" class="loginBtn">Log In</button>
-    
-        <div class="createAnAccountContainer">
-            <p class="dontHaveAnAccount">Don't have an account? <a href="../authentication/signUp/index.html" class="signUpLink">Sign Up</a></p>
-        </div>
-    
-        <div class="alternativeLogin">
+          </div>
+
+          <button type="submit" class="loginBtn">Log In</button>
+
+          <div class="createAnAccountContainer">
+            <p class="dontHaveAnAccount">
+              Don't have an account?
+              <a href="../authentication/signUp/index.html" class="signUpLink"
+                >Sign Up</a
+              >
+            </p>
+          </div>
+
+          <div class="alternativeLogin">
             <div class="orOption">
-                <hr><span>OR</span><hr>
+              <hr />
+              <span>OR</span>
+              <hr />
             </div>
             <button type="button" id="btn">
-                <img src="./img/google.svg" alt="Google Login"> Continue with Google
+              <img src="./img/google.svg" alt="Google Login" /> Continue with
+              Google
             </button>
+          </div>
+        </form>
+
+        <!-- Error message container -->
+        <div
+          id="errorMessageContainer"
+          class="error-message-container"
+          style="display: none"
+        >
+          <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+          <span id="errorMessage"></span>
         </div>
-    </form> 
-    
-      <!-- Error message container -->
-    <div id="errorMessageContainer" class="error-message-container" style="display: none;">
-      <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
-      <span id="errorMessage"></span>
-    </div>
 
-    <div id="googleErrorMessageContainer" class="google-error-message-container" style="display: none;">
-      <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
-      <span id="googleErrorMessage"></span>
-    </div> 
+        <div
+          id="googleErrorMessageContainer"
+          class="google-error-message-container"
+          style="display: none"
+        >
+          <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+          <span id="googleErrorMessage"></span>
+        </div>
+      </div>
+    </main>
 
-    </div>
-  </main>
-
-  <script src="../public/script.js" type="module"></script>
-</body>
-
+    <script src="script.js" type="module"></script>
+  </body>
 </html>
